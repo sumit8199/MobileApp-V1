@@ -1,0 +1,70 @@
+// Color Tokens derived from your brand configuration
+$green-brand: #1a4329;
+$green-light: #e8f5e9; // Fallback value for GREEN_LIGHT
+$gold-brand: #d4af37;
+$text-muted: #9ca3af;
+
+:host {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-card-container {
+  border-radius: 16px; // rounded-2xl
+  padding: 14px; // p-3.5
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #ffffff;
+  border: 1px solid rgba(26, 67, 41, 0.08);
+
+  // Icon Wrapper Box
+  .icon-box {
+    padding: 6px; // p-1.5
+    border-radius: 12px; // rounded-xl
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $green-light;
+
+    ion-icon, svg {
+      font-size: 15px;
+    }
+  }
+
+  // Value Presentation
+  .stat-value {
+    font-size: 26px; // text-[26px]
+    font-weight: 700;
+    margin-top: 8px; // mt-2
+    line-height: 1; // leading-none
+    margin-bottom: 0;
+    color: $green-brand;
+    font-family: 'Playfair Display', serif;
+  }
+
+  // Label Description
+  .stat-label {
+    font-size: 11px; // text-[11px]
+    font-weight: 500;
+    margin-top: 4px; // mt-1
+    margin-bottom: 0;
+    color: $text-muted;
+  }
+
+  // Modifier state: When the stat card is marked as Gold theme
+  &.is-gold {
+    background-color: rgba($gold-brand, 0.09); // ${GOLD}18
+    border-color: rgba($gold-brand, 0.25); // ${GOLD}40
+
+    .icon-box {
+      background-color: rgba($gold-brand, 0.15); // ${GOLD}25
+    }
+
+    .stat-value {
+      color: #9a7a00;
+    }
+  }
+}

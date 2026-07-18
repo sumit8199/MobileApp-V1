@@ -1,0 +1,43 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 2</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="dashboard">
+    <div class="calendar-wrapper">
+      <ion-datetime
+        presentation="date"
+        [(ngModel)]="datetime"
+        (ionChange)="onDateSelected($event)"
+      >
+      </ion-datetime>
+    </div>
+    <div class="legend-container">
+      <ion-chip class="chip-pushya">
+        <div class="dot"></div>
+        <ion-label>Pushya Session</ion-label>
+      </ion-chip>
+
+      <ion-chip class="chip-selected">
+        <div class="dot"></div>
+        <ion-label>Selected Date</ion-label>
+      </ion-chip>
+
+      <ion-chip class="chip-today">
+        <div class="dot"></div>
+        <ion-label>Today's Date</ion-label>
+      </ion-chip>
+    </div>
+    <app-calender-details
+      [selectedDate]="selectedDate"
+      [isSelectedPushya]="isSelectedPushya"
+      [isSelectedPast]="isSelectedPast"
+      [patients]="patients"
+      (close)="selectedDate = null"
+    ></app-calender-details>
+  </div>
+</ion-content>

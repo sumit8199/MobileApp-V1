@@ -1,0 +1,89 @@
+@if (selectedDate()) {
+  <div class="details-card">
+    <!-- Header -->
+
+    <div class="details-header">
+      <div>
+        <p class="header-label">
+          @if (isSelectedPushya()) {
+            {{ isSelectedPast() ? "Session History" : "Upcoming Session" }}
+          } @else {
+            Date Details
+          }
+        </p>
+
+        <p class="header-date">
+          {{ formatDate(selectedDate()) }}
+        </p>
+      </div>
+
+      <div class="header-actions">
+        @if (isSelectedPushya()) {
+          <span class="pushya-badge">
+            <ion-icon name="star"></ion-icon>
+
+            Pushya
+          </span>
+        }
+
+        <button class="close-btn" (click)="onClose()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    @if (!isSelectedPushya()) {
+      <div class="empty-state">
+        <ion-icon name="calendar-outline" size="large"> </ion-icon>
+
+        <p>No session on this date</p>
+
+        <span>Select a gold-marked Pushya Nakshatra day</span>
+      </div>
+    } @else {
+      <div>
+        <!-- Column Header -->
+
+        <div class="table-header">
+          <span>Patient</span>
+
+          <span>Stage 1</span>
+
+          <span>Stage 2</span>
+        </div>
+
+        @for (patient of patients(); track patient.id) {
+          <div class="patient-row">
+            <div class="patient">
+              <!-- PatientAvatar Component -->
+
+              <div class="avatar"></div>
+
+              <div>
+                <p class="name">
+                  {{ patient.name }}
+                </p>
+
+                <p class="parent">
+                  {{ patient.parentName }}
+                </p>
+              </div>
+            </div>
+
+            @if (selectedDate()) {
+              <div class="status">
+                {{ patient.history?.[selectedDate()!]?.stage1Status ?? "—" }}
+              </div>
+            }
+
+            @if (selectedDate()) {
+              <div class="status">
+                {{ patient.history?.[selectedDate()!]?.stage2Status ?? "—" }}
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

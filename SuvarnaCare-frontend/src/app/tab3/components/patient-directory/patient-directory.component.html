@@ -1,0 +1,43 @@
+<div class="directory-container">
+  
+  <!-- Subheader Context Stats Layer -->
+  <div class="directory-header">
+    <div class="title-stack">
+      <h2 class="section-title">Patient Directory</h2>
+      <p class="subtitle">{{ allCount() }} registered · next {{ formatDate(nextPushya()) }}</p>
+    </div>
+  </div>
+
+  <!-- Search Filter Panel Elements -->
+  <div class="search-bar-frame">
+    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+    <input 
+      type="text" 
+      placeholder="Search name, parent or phone…" 
+      [ngModel]="search()" 
+      (ngModelChange)="search.set($event)"
+      class="search-input" />
+    @if (search()) {
+      <button (click)="search.set('')" class="clear-search-btn">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </button>
+    }
+  </div>
+
+  <!-- List Representation View Panels -->
+  @if (patients().length === 0) {
+    <div class="empty-state-card">
+      <ion-icon name="people-outline"></ion-icon>
+      <p>No patients found</p>
+    </div>
+  } @else {
+    <div class="cards-stack-list">
+      @for (patientItem of patients(); track patientItem.id) {
+        <app-patient-card 
+          [patient]="patientItem" 
+          [nextPushya]="nextPushya()">
+        </app-patient-card>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,250 @@
+// Style Tokens matching your design system
+$green-brand: #1a4329;
+$green-light: #e8f5e9;
+$gold-brand: #d4af37;
+$border-color: rgba(26, 67, 41, 0.08);
+$text-gray: #9ca3af;
+$whatsapp-green: #25d366;
+$bg-light-gray: #f3f4f6;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.patient-card-container {
+  background-color: #ffffff;
+  border: 1px solid $border-color;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+
+  // Clickable Primary Header Area
+  .card-trigger-panel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+
+    .avatar-mock-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: $green-light;
+      color: $green-brand;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+    }
+
+    .meta-profile-summary {
+      flex: 1;
+      min-width: 0;
+      
+      .patient-name {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+        color: $green-brand;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      .patient-details {
+        font-size: 11px;
+        color: $text-gray;
+        margin: 2px 0 0 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    // WhatsApp Message Status Indicators Stack
+    .status-badge-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-right: 6px;
+
+      .mini-indicator {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #e5e7eb;
+        transition: background-color 0.2s ease;
+        
+        &.active { 
+          background-color: $whatsapp-green; 
+        }
+      }
+    }
+
+    .chevron-arrow {
+      font-size: 16px;
+      color: $text-gray;
+      transition: transform 0.2s ease;
+      
+      &.rotated { 
+        transform: rotate(90deg); 
+      }
+    }
+    
+    &:active {
+      background-color: rgba($green-light, 0.3);
+    }
+  }
+
+  // Collapsible Information Drawer Element
+  .drawer-expanded-content {
+    border-top: 1px solid rgba(26, 67, 41, 0.06);
+    background-color: #fafbfc;
+    
+    // Core details layout grid
+    .info-details-grid {
+      padding: 14px 16px 10px 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 16px;
+
+      .grid-cell {
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-size: 10px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+          color: $text-gray;
+        }
+        
+        p {
+          font-size: 12px;
+          font-weight: 600;
+          margin: 3px 0 0 0;
+          color: $green-brand;
+        }
+      }
+    }
+
+    // Historical Logs Nested Layout
+    .history-log-timeline {
+      padding: 0 16px 16px 16px;
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .timeline-title {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin: 0 0 2px 0;
+        color: $text-gray;
+      }
+
+      .history-nested-row-item {
+        border: 1px solid rgba(26, 67, 41, 0.08);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
+
+        .history-item-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 12px;
+          background-color: rgba($gold-brand, 0.07);
+
+          &.is-past {
+            background-color: $green-light;
+            
+            .time-label-stack {
+              ion-icon { color: $green-brand; }
+              .date-text { color: $green-brand; }
+            }
+            .status-marker { 
+              color: $green-brand; 
+              opacity: 0.7;
+            }
+          }
+
+          .time-label-stack {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            
+            ion-icon { 
+              font-size: 12px; 
+              color: $gold-brand; 
+            }
+            .date-text { 
+              font-size: 11px; 
+              font-weight: 700; 
+              color: #9a7a00; 
+            }
+          }
+          
+          .status-marker { 
+            font-size: 9px; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            color: #9a7a00; 
+            letter-spacing: 0.02em;
+          }
+        }
+
+        .history-item-body {
+          display: flex;
+          padding: 10px 12px;
+          background-color: #ffffff;
+          align-items: center;
+
+          .stage-metric {
+            flex: 1;
+            
+            .stage-label { 
+              font-size: 9px; 
+              font-weight: 700; 
+              text-transform: uppercase; 
+              color: $text-gray; 
+              margin: 0; 
+              letter-spacing: 0.01em;
+            }
+            
+            .stage-status {
+              font-size: 11px;
+              font-weight: 500;
+              color: $text-gray;
+              margin: 4px 0 0 0;
+              
+              &.status-read { 
+                color: $whatsapp-green; 
+                font-weight: 600;
+              }
+            }
+          }
+
+          .stage-divider { 
+            width: 1px; 
+            background-color: rgba(26, 67, 41, 0.06); 
+            align-self: stretch; 
+            margin: 0 14px; 
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+<div class="patient-card-container">
+  
+  <!-- Clickable Primary Row Element -->
+  <button class="card-trigger-panel" (click)="toggleExpand()">
+    <div class="avatar-mock-circle">
+      {{ patient().name.substring(0, 2).toUpperCase() }}
+    </div>
+    
+    <div class="meta-profile-summary">
+      <p class="patient-name">{{ patient().name }}</p>
+      <p class="patient-details">{{ patient().age }} · {{ patient().parentName }}</p>
+    </div>
+
+    <!-- Active Indicator Node States -->
+    @if (nextRecord()) {
+      <div class="status-badge-stack">
+        <span class="mini-indicator" [class.active]="nextRecord()?.stage1Status === 'read'"></span>
+        <span class="mini-indicator" [class.active]="nextRecord()?.stage2Status === 'read'"></span>
+      </div>
+    }
+
+    <ion-icon 
+      class="chevron-arrow" 
+      [class.rotated]="expanded()" 
+      name="chevron-forward-outline">
+    </ion-icon>
+  </button>
+
+  <!-- Expanded Information Drawer Element -->
+  @if (expanded()) {
+    <div class="drawer-expanded-content">
+      
+      <!-- Metadata Grid Blocks -->
+      <div class="info-details-grid">
+        <div class="grid-cell">
+          <label>Phone</label>
+          <p>+91 {{ patient().phone }}</p>
+        </div>
+        <div class="grid-cell">
+          <label>Registered</label>
+          <p>{{ formatDate(patient().registrationDate) }}</p>
+        </div>
+        <div class="grid-cell">
+          <label>Next Session</label>
+          <p>{{ formatDate(nextPushya()) }}</p>
+        </div>
+        <div class="grid-cell">
+          <label>Sessions</label>
+          <p>{{ sessionDates().length }} assigned</p>
+        </div>
+      </div>
+
+      <!-- Historical Log Timelines Layer -->
+      <div class="history-log-timeline">
+        <p class="timeline-title">WhatsApp Message History</p>
+        
+        @for (sessionDate of sessionDates(); track sessionDate) {
+          @let isPastDate = isPast(sessionDate);
+          @let currentRecord = patient().history[sessionDate];
+          
+          <div class="history-nested-row-item">
+            <div class="history-item-header" [class.is-past]="isPastDate">
+              <div class="time-label-stack">
+                <ion-icon [name]="isPastDate ? 'time-outline' : 'flash-outline'"></ion-icon>
+                <span class="date-text">{{ formatDate(sessionDate) }}</span>
+              </div>
+              <span class="status-marker">{{ isPastDate ? 'Completed' : 'Upcoming' }}</span>
+            </div>
+
+            <div class="history-item-body">
+              <div class="stage-metric">
+                <p class="stage-label">Stage 1 · Pre-notify</p>
+                <p class="stage-status" [class.status-read]="currentRecord?.stage1Status === 'read'">
+                  {{ currentRecord?.stage1Status }} {{ currentRecord?.stage1At || '' }}
+                </p>
+              </div>
+              <div class="stage-divider"></div>
+              <div class="stage-metric">
+                <p class="stage-label">Stage 2 · Day-of</p>
+                <p class="stage-status" [class.status-read]="currentRecord?.stage2Status === 'read'">
+                  {{ currentRecord?.stage2Status }} {{ currentRecord?.stage2At || '' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+  }
+</div>

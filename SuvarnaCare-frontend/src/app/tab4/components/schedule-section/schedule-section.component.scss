@@ -1,0 +1,224 @@
+$green-brand: #1a4329;
+$green-light: #e8f5e9;
+$gold-brand: #d4af37;
+$border-color: rgba(26, 67, 41, 0.08);
+$text-gray: #9ca3af;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.schedule-card-container {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid $border-color;
+  overflow: hidden;
+
+  // Header layout
+  .header-toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background-color: $green-light;
+    border: none;
+    outline: none;
+    transition: background-color 0.25s ease, color 0.25s ease;
+
+    &.is-open {
+      background-color: $green-brand;
+      
+      .title-stack .section-title { color: #ffffff; }
+      .title-stack .subtitle { color: rgba(#ffffff, 0.55); }
+      .chevron-indicator { color: rgba(#ffffff, 0.7); }
+      .icon-frame { background-color: rgba(#ffffff, 0.15); ion-icon { color: #ffffff; } }
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .icon-frame {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $green-light;
+      
+      ion-icon {
+        font-size: 14px;
+        color: $green-brand;
+      }
+    }
+
+    .title-stack {
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+        color: $green-brand;
+      }
+      .subtitle {
+        font-size: 10px;
+        margin: 2px 0 0 0;
+        color: $text-gray;
+      }
+    }
+
+    .chevron-indicator {
+      font-size: 18px;
+      color: $text-gray;
+    }
+  }
+
+  // Row Listings Panel Inner Elements
+  .schedule-rows-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(26, 67, 41, 0.07);
+    
+    .schedule-row-item {
+      padding: 12px 16px;
+      
+      &:not(:last-of-type) {
+        border-bottom: 1px solid rgba(26, 67, 41, 0.06);
+      }
+
+      .row-meta-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+
+        .status-tags {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+
+          .date-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            color: $gold-brand;
+
+            &.is-past { color: $text-gray; }
+          }
+
+          .status-pill {
+            font-size: 9px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 9999px;
+            background-color: rgba($gold-brand, 0.12);
+            color: #9a7a00;
+
+            &.is-past {
+              background-color: #f3f4f6;
+              color: $text-gray;
+            }
+          }
+        }
+
+        .action-btn {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 11px;
+          padding: 4px 10px;
+          border-radius: 8px;
+          border: none;
+          font-weight: 600;
+          
+          &.edit-btn {
+            background-color: $green-light;
+            color: $green-brand;
+            
+            .success-icon { color: #22c55e; }
+          }
+          &.save-btn {
+            background-color: $green-brand;
+            color: #ffffff;
+          }
+          &:active { opacity: 0.7; }
+        }
+      }
+
+      .row-body {
+        .date-input-field {
+          width: 100%;
+          border-radius: 12px;
+          padding: 8px 12px;
+          font-size: 14px;
+          font-weight: 600;
+          outline: none;
+          background-color: $green-light;
+          border: 1.5px solid $green-brand;
+          color: $green-brand;
+        }
+
+        .date-display-box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .main-date-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: $green-brand;
+            margin: 0;
+
+            &.is-past { color: $text-gray; }
+          }
+
+          .stages-text {
+            text-align: right;
+            p {
+              font-size: 10px;
+              color: $text-gray;
+              margin: 0;
+            }
+          }
+        }
+
+        .enrollment-footer {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-top: 8px;
+          color: $text-gray;
+          
+          ion-icon { font-size: 10px; }
+          span { font-size: 10px; }
+        }
+      }
+    }
+
+    .add-month-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 14px 0;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: $green-brand;
+      border-top: 1px solid rgba(26, 67, 41, 0.06);
+
+      ion-icon { font-size: 16px; }
+      &:active { opacity: 0.7; }
+    }
+  }
+}

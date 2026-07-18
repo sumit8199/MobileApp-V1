@@ -1,0 +1,17 @@
+<div class="hero">
+  <app-avatar [initials]="initials" [size]="64"> </app-avatar>
+  <h2>{{ doctor().name }}</h2>
+  <p>{{ doctor().qualification }}</p>
+</div>
+
+<div class="stats">
+  @for (stat of statistics(); track stat.label) {
+    <app-stat-card
+      [label]="stat.label"
+      [value]="stat.value"
+      [icon]="stat.icon"
+      [gold]="stat.gold ?? false"
+    >
+    </app-stat-card>
+  }
+</div>

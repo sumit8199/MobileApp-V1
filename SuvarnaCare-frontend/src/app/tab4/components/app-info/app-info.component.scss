@@ -1,0 +1,51 @@
+// Design Tokens derived from your React design layout
+$green-brand: #1a4329;
+$green-light: #e8f5e9;
+$gold-brand: #d4af37;
+$text-gray: #9ca3af;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.app-info-container {
+  background-color: $green-light;
+  border-radius: 16px; // rounded-2xl
+  padding: 16px; // p-4
+  text-align: center;
+  box-sizing: border-box;
+
+  .icon-badge {
+    width: 32px; // w-8
+    height: 32px; // h-8
+    border-radius: 12px; // rounded-xl
+    margin-left: auto; // mx-auto
+    margin-right: auto;
+    margin-bottom: 8px; // mb-2
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $gold-brand;
+
+    ion-icon {
+      font-size: 15px; // size={15}
+      color: #ffffff; // color="white"
+    }
+  }
+
+  .app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; // text-sm
+    font-weight: 700; // font-bold
+    color: $green-brand;
+    margin: 0;
+  }
+
+  .app-subtitle {
+    font-size: 11px; // text-[11px]
+    margin-top: 2px; // mt-0.5
+    margin-bottom: 0;
+    color: $text-gray;
+  }
+}

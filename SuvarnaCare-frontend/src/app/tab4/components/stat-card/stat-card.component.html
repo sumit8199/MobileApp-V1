@@ -1,0 +1,17 @@
+<div class="stat-card-container" [class.is-gold]="gold()">
+  <!-- Icon Wrapper -->
+  <div class="icon-box">
+    <!-- Ionicons implementation for modern Ionic applications -->
+    <ion-icon [name]="icon()"></ion-icon>
+  </div>
+
+  <!-- Value -->
+  <p class="stat-value">
+    {{ value() }}
+  </p>
+
+  <!-- Label -->
+  <p class="stat-label">
+    {{ label() }}
+  </p>
+</div>

@@ -1,0 +1,108 @@
+<div class="form-container">
+  
+  <!-- Header Navbar Block -->
+  <div class="form-header">
+    <button (click)="closeForm.emit()" class="close-btn" aria-label="Close dialog">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+    <div class="header-titles">
+      <h2 class="title">Register New Patient</h2>
+      <p class="subtitle">Will be auto-enrolled in upcoming sessions</p>
+    </div>
+  </div>
+
+  <!-- Main Scrollable Input Layout Body -->
+  <div class="form-body">
+    
+    <!-- Full Name Input Group -->
+    <div class="form-field-group">
+      <label class="field-label">Child's Full Name</label>
+      <input 
+        type="text" 
+        placeholder="e.g., Arjun Sharma" 
+        [class.has-error]="errors().name"
+        [ngModel]="form().name"
+        (ngModelChange)="updateField('name', $event)"
+        class="text-input" />
+      @if (errors().name) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().name }}</div>
+      }
+    </div>
+
+    <!-- Age Input Group -->
+    <div class="form-field-group">
+      <label class="field-label">Age</label>
+      <input 
+        type="text" 
+        placeholder="e.g., 2 years, 8 months" 
+        [class.has-error]="errors().age"
+        [ngModel]="form().age"
+        (ngModelChange)="updateField('age', $event)"
+        class="text-input" />
+      @if (errors().age) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().age }}</div>
+      }
+    </div>
+
+    <!-- Parent / Guardian Name Input Group -->
+    <div class="form-field-group">
+      <label class="field-label">Parent / Guardian Name</label>
+      <input 
+        type="text" 
+        placeholder="e.g., Vikram Sharma" 
+        [class.has-error]="errors().parentName"
+        [ngModel]="form().parentName"
+        (ngModelChange)="updateField('parentName', $event)"
+        class="text-input" />
+      @if (errors().parentName) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().parentName }}</div>
+      }
+    </div>
+
+    <!-- Phone Layout Field Group -->
+    <div class="form-field-group">
+      <label class="field-label">WhatsApp Number</label>
+      <div class="tel-input-wrapper">
+        <span class="country-prefix">+91</span>
+        <input 
+          type="tel" 
+          placeholder="10-digit mobile number" 
+          [class.has-error]="errors().phone"
+          [value]="form().phone"
+          (input)="onPhoneInput($event)"
+          class="text-input tel-field" />
+      </div>
+      @if (errors().phone) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().phone }}</div>
+      }
+    </div>
+
+    <!-- Date Selection Group -->
+    <div class="form-field-group">
+      <label class="field-label">Registration Date</label>
+      <input 
+        type="date" 
+        [class.has-error]="errors().registrationDate"
+        [ngModel]="form().registrationDate"
+        (ngModelChange)="updateField('registrationDate', $event)"
+        class="text-input" />
+      @if (errors().registrationDate) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().registrationDate }}</div>
+      }
+    </div>
+
+    <!-- Automation Informational Feature Callout Card -->
+    <div class="automation-notice">
+      <ion-icon name="flash" class="notice-icon"></ion-icon>
+      <p class="notice-text">
+        Patient will be <span class="highlight">automatically enrolled</span> and receive WhatsApp reminders for all upcoming sessions. Next session: <span class="highlight">{{ formatDate(nextPushya()) }}</span>.
+      </p>
+    </div>
+
+    <!-- Submission Action CTA -->
+    <button (click)="submitForm()" class="submit-action-btn">
+      <ion-icon name="add-outline"></ion-icon> Register Patient
+    </button>
+  </div>
+
+</div>

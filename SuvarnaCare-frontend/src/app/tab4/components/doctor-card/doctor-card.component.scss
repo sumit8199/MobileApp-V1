@@ -1,0 +1,135 @@
+// Color Tokens derived from your brand configuration
+$green-brand: #1a4329;       // Dark green background
+$gold-brand: #d4af37;        // Accent Gold
+$white: #ffffff;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.doctor-hero-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 20px 32px 20px; // pt-6 pb-8 px-5
+  background-color: $green-brand;
+  border-radius: 24px; // Custom curve matching application aesthetic
+  
+  // Decorative Background Circles
+  .circle-top-right {
+    position: absolute;
+    top: -24px; // -top-6
+    right: -24px; // -right-6
+    width: 128px; // w-32
+    height: 128px; // h-32
+    border-radius: 50%;
+    opacity: 0.10;
+    background-color: $gold-brand;
+    pointer-events: none;
+  }
+
+  .circle-bottom-left {
+    position: absolute;
+    bottom: 0;
+    left: 80px; // left-20
+    width: 96px; // w-24
+    height: 96px; // h-24
+    border-radius: 50%;
+    opacity: 0.05;
+    background-color: $gold-brand;
+    pointer-events: none;
+  }
+
+  // Profile Header Row Layout
+  .profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px; // gap-4
+    z-index: 2;
+
+    .avatar-block {
+      width: 64px; // w-16
+      height: 64px; // h-16
+      border-radius: 16px; // rounded-2xl
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px; // text-xl
+      flex-shrink: 0;
+      background-color: $gold-brand;
+      color: $green-brand;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .meta-block {
+      .doc-name {
+        color: $white;
+        font-weight: 700;
+        font-size: 18px; // text-[18px]
+        leading-comment: tight;
+        margin: 0;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .doc-degree {
+        font-size: 14px; // text-sm
+        margin-top: 2px; // mt-0.5
+        color: rgba($white, 0.65);
+        margin-bottom: 0;
+      }
+
+      .specialty-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px; // gap-1.5
+        margin-top: 6px; // mt-1.5
+
+        ion-icon, svg {
+          font-size: 11px;
+        }
+
+        span {
+          font-size: 11px; // text-[11px]
+          font-weight: 600;
+          color: $gold-brand;
+        }
+      }
+    }
+  }
+
+  // Row containing all the mini statistics metrics
+  .stats-row {
+    position: relative;
+    margin-top: 16px; // mt-4
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // grid-cols-3
+    gap: 12px; // gap-3
+    z-index: 2;
+
+    .stat-pill {
+      border-radius: 12px; // rounded-xl
+      padding-top: 10px; // py-2.5
+      padding-bottom: 10px;
+      text-align: center;
+      background-color: rgba($white, 0.1);
+
+      .stat-value {
+        color: $white;
+        font-weight: 700;
+        font-size: 18px; // text-lg
+        line-height: 1; // leading-none
+        margin: 0;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .stat-label {
+        font-size: 10px; // text-[10px]
+        margin-top: 2px; // mt-0.5
+        color: rgba($white, 0.5);
+        margin-bottom: 0;
+      }
+    }
+  }
+}

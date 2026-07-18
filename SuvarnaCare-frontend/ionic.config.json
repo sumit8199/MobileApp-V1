@@ -1,0 +1,7 @@
+{
+  "name": "SuvarnaCare-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

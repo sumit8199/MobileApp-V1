@@ -1,0 +1,52 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tab 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="dashboard">
+    <div class="card-grid">
+      <app-card [icon]="peopleOutline" label="Total Patients" value="5">
+      </app-card>
+
+      <app-card
+        [icon]="starOutline"
+        label="Days to Pushya"
+        value="10"
+        [gold]="true"
+      >
+      </app-card>
+
+      <app-card [icon]="checkmarkDoneOutline" label="Messages Read" value="0/5">
+      </app-card>
+
+      <app-card
+        [icon]="calendarClearOutline"
+        label="Next Session"
+        value="18 Jul"
+      >
+      </app-card>
+    </div>
+    <app-schedule-section
+      [stage]="1"
+      label="Pre-Notification · Stage 1"
+      [fireDate]="stage1Date"
+      [pushyaDate]="nextPushya"
+      [patients]="patients"
+    >
+    </app-schedule-section>
+
+    <app-schedule-section
+      [stage]="2"
+      label="Day-of Notification · Stage 2"
+      [fireDate]="nextPushya"
+      [pushyaDate]="nextPushya"
+      [patients]="patients"
+    >
+    </app-schedule-section>
+  </div>
+</ion-content>
+8

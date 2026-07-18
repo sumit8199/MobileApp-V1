@@ -1,0 +1,45 @@
+<section>
+  <!-- Header -->
+
+  <div
+    class="header"
+    [style.background]="isStage1 ? GOLD + '12' : GREEN_LIGHT"
+    [style.border-color]="isStage1 ? GOLD + '35' : 'rgba(26,67,41,0.12)'"
+  >
+    <ion-icon name="flash"> </ion-icon>
+
+    <p class="title" [style.color]="isStage1 ? '#9A7A00' : GREEN">
+      {{ label() }}
+    </p>
+
+    <span class="date"> Auto · {{ formatDate(fireDate()) }} </span>
+  </div>
+
+  <!-- List -->
+
+  <div class="body">
+    @for (patient of patients(); track patient.id) {
+      <div class="patient">
+        <!-- Replace with your PatientAvatar component -->
+
+        <div class="avatar"></div>
+
+        <div class="info">
+          <p class="name">
+            {{ patient.name }}
+          </p>
+
+          <p class="phone">
+            {{ patient.parentName }} · +91 {{ patient.phone }}
+          </p>
+        </div>
+
+        <!-- Replace with WaStatusBadge -->
+
+        <div class="status">
+          {{ patient.history?.[pushyaDate()]?.[stageKey] ?? "scheduled" }}
+        </div>
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,44 @@
+<div class="info-card-container">
+  <!-- Header Title -->
+  <div class="info-card-header">
+    <p class="header-title">Clinic Information</p>
+  </div>
+
+  <!-- Content Rows -->
+  <div class="info-rows-list">
+    
+    <!-- Clinic Location Row -->
+    <div class="info-row">
+      <div class="icon-wrapper">
+        <ion-icon name="pin-outline"></ion-icon>
+      </div>
+      <div class="text-content">
+        <p class="row-label">Clinic</p>
+        <p class="row-value">{{ doctor().clinic }}</p>
+      </div>
+    </div>
+
+    <!-- Contact Phone Row -->
+    <div class="info-row">
+      <div class="icon-wrapper">
+        <ion-icon name="call-outline"></ion-icon>
+      </div>
+      <div class="text-content">
+        <p class="row-label">Contact</p>
+        <p class="row-value">{{ doctor().phone }}</p>
+      </div>
+    </div>
+
+    <!-- Registration Code Row -->
+    <div class="info-row">
+      <div class="icon-wrapper">
+        <ion-icon name="document-text-outline"></ion-icon>
+      </div>
+      <div class="text-content">
+        <p class="row-label">Reg. No.</p>
+        <p class="row-value">{{ doctor().registration }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>

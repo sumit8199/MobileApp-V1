@@ -1,0 +1,125 @@
+.dashboard {
+  padding: 20px 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.calendar-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+ion-datetime {
+  width: 100%;
+  max-width: 100%;
+}
+/*
+* Custom Datetime Day Parts
+* -------------------------------------------
+*/
+
+ion-datetime::part(calendar-day) {
+  color: #da5296;
+}
+
+ion-datetime::part(calendar-day today) {
+  color: #8462d1;
+}
+
+ion-datetime::part(calendar-day):focus {
+  background-color: rgb(154 209 98 / 0.2);
+  box-shadow: 0px 0px 0px 4px rgb(154 209 98 / 0.2);
+}
+
+/*
+* Custom Material Design Datetime Day Parts
+* -------------------------------------------
+*/
+
+ion-datetime.md::part(calendar-day active),
+ion-datetime.md::part(calendar-day active):focus {
+  background-color: #9ad162;
+  border-color: #9ad162;
+  color: #fff;
+}
+
+ion-datetime.md::part(calendar-day today) {
+  border-color: #8462d1;
+}
+
+/*
+* Custom iOS Datetime Day Parts
+* -------------------------------------------
+*/
+
+ion-datetime.ios::part(calendar-day active),
+ion-datetime.ios::part(calendar-day active):focus {
+  background-color: rgb(154 209 98 / 0.2);
+  color: #9ad162;
+}
+
+/* --- Existing Calendar Styles Remain Unchanged --- */
+ion-datetime::part(calendar-day) {
+  color: #da5296;
+}
+ion-datetime::part(calendar-day today) {
+  color: #8462d1;
+}
+ion-datetime::part(calendar-day):focus {
+  background-color: rgb(154 209 98 / 0.2);
+  box-shadow: 0px 0px 0px 4px rgb(154 209 98 / 0.2);
+}
+ion-datetime.md::part(calendar-day active),
+ion-datetime.md::part(calendar-day active):focus {
+  background-color: #9ad162;
+  border-color: #9ad162;
+  color: #fff;
+}
+ion-datetime.md::part(calendar-day today) {
+  border-color: #8462d1;
+}
+ion-datetime.ios::part(calendar-day active),
+ion-datetime.ios::part(calendar-day active):focus {
+  background-color: rgb(154 209 98 / 0.2);
+  color: #9ad162;
+}
+
+/* --- Chips Legend Layout Styles --- */
+.legend-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+ion-chip {
+  --background: #f4f5f8;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+/* Common Dot Indicator Base */
+ion-chip .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* Color Mappings matching your layout theme */
+.chip-pushya .dot {
+  background-color: #da5296;
+}
+
+.chip-selected .dot {
+  background-color: #9ad162;
+}
+
+.chip-today .dot {
+  background-color: #8462d1;
+}

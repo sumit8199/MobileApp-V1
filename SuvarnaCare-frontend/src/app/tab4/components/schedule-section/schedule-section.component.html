@@ -1,0 +1,101 @@
+  <div class="schedule-card-container">
+    
+    <!-- Accordion Toggle Header Trigger Button -->
+    <button 
+      class="header-toggle-btn" 
+      [class.is-open]="scheduleOpen()" 
+      (click)="toggleSchedule()">
+      
+      <div class="header-left">
+        <div class="icon-frame">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+        <div class="title-stack">
+          <p class="section-title">Pushyamrut Schedule</p>
+          <p class="subtitle">
+            {{ upcomingDatesCount() }} upcoming · {{ pastDatesCount() }} past
+          </p>
+        </div>
+      </div>
+      
+      <ion-icon 
+        class="chevron-indicator" 
+        [name]="scheduleOpen() ? 'chevron-down-outline' : 'chevron-forward-outline'">
+      </ion-icon>
+    </button>
+
+    <!-- Accordion Expandable Target Content Pane -->
+    @if (scheduleOpen()) {
+      <div class="schedule-rows-wrapper">
+        
+        @for (date of dates(); track $index) {
+          <div class="schedule-row-item">
+            
+            <!-- Metadata status subheader block -->
+            <div class="row-meta-header">
+              <div class="status-tags">
+                <span class="date-label" [class.is-past]="isPast(date)">
+                  {{ getMonthYearLabel(date) }}
+                </span>
+                <span class="status-pill" [class.is-past]="isPast(date)">
+                  {{ isPast(date) ? 'Past' : 'Upcoming' }}
+                </span>
+              </div>
+
+              <!-- Context Actions Control Row Toggle -->
+              @if (!isPast(date)) {
+                @if (editingIdx() === $index) {
+                  <button class="action-btn save-btn" (click)="saveEditing($index)">
+                    <ion-icon name="checkmark-outline"></ion-icon> Save
+                  </button>
+                } @else {
+                  <button class="action-btn edit-btn" (click)="editingIdx.set($index)">
+                    @if (savedIdx() === $index) {
+                      <ion-icon name="checkmark-outline" class="success-icon"></ion-icon> Saved
+                    } @else {
+                      <ion-icon name="pencil-outline"></ion-icon> Edit
+                    }
+                  </button>
+                }
+              }
+            </div>
+
+            <!-- Data Input Fields Elements Display -->
+            <div class="row-body">
+              @if (editingIdx() === $index) {
+                <input 
+                  type="date" 
+                  [ngModel]="date" 
+                  (ngModelChange)="handleDateChange($index, $event)"
+                  class="date-input-field" 
+                  autofocus />
+              } @else {
+                <div class="date-display-box">
+                  <p class="main-date-text" [class.is-past]="isPast(date)">
+                    {{ formatDate(date) }}
+                  </p>
+                  <div class="stages-text">
+                    <p>Stage 1: {{ getOffsetDateLabel(date, -3) }}</p>
+                    <p>Stage 2: {{ getOffsetDateLabel(date, 0) }}</p>
+                  </div>
+                </div>
+              }
+
+              <!-- Enrollment Counter Footer Layer -->
+              <div class="enrollment-footer">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>{{ getEnrolledCount(date) }} patients enrolled</span>
+              </div>
+            </div>
+
+          </div>
+        }
+
+        <!-- Addition Control Button Component Link -->
+        <button class="add-month-btn" (click)="addNextMonth()">
+          <ion-icon name="add-outline"></ion-icon> Add Next Month
+        </button>
+
+      </div>
+    }
+  </div>

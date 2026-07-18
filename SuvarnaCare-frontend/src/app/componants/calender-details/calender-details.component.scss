@@ -1,0 +1,164 @@
+.details-card {
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(26, 67, 41, .1);
+  background: white;
+}
+
+/* Header */
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  background: #1A4329;
+}
+
+.header-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .15em;
+
+  color: rgba(255,255,255,.45);
+}
+
+.header-date {
+  margin-top: 4px;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  color: white;
+
+  font-family: "Playfair Display", serif;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pushya-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  background: #D4AF37;
+  color: #1A4329;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.close-btn {
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.15);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+/* Empty */
+
+.empty-state {
+  padding: 40px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  color: #9CA3AF;
+
+  p {
+    font-weight: 600;
+  }
+
+  span {
+    font-size: 11px;
+    color: #D1D5DB;
+  }
+}
+
+/* Table */
+
+.table-header,
+.patient-row {
+  display: grid;
+  grid-template-columns: 1fr 64px 64px;
+  column-gap: 12px;
+  align-items: center;
+}
+
+.table-header {
+  padding: 10px 16px;
+
+  border-bottom: 1px solid rgba(26,67,41,.06);
+
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #9CA3AF;
+}
+
+.patient-row {
+  padding: 14px 16px;
+
+  border-bottom: 1px solid rgba(26,67,41,.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+
+  background: #ddd;
+}
+
+.name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1A4329;
+}
+
+.parent {
+  font-size: 10px;
+  color: #9CA3AF;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+
+  font-size: 11px;
+}
