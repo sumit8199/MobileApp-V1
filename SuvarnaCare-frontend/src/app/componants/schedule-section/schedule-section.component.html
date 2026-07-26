@@ -1,135 +1,45 @@
-<ion-card class="schedule-card">
+<section>
   <!-- Header -->
+
   <div
-    class="schedule-header"
-    [class.open]="scheduleOpen"
-    (click)="toggleSchedule()"
+    class="header"
+    [style.background]="isStage1 ? GOLD + '12' : GREEN_LIGHT"
+    [style.border-color]="isStage1 ? GOLD + '35' : 'rgba(26,67,41,0.12)'"
   >
-    <div class="header-left">
-      <div class="icon-box">
-        <ion-icon name="calendar-outline" class="calendar-icon"> </ion-icon>
-      </div>
+    <ion-icon name="flash"> </ion-icon>
 
-      <div>
-        <h3>Pushyamrut Schedule</h3>
+    <p class="title" [style.color]="isStage1 ? '#9A7A00' : GREEN">
+      {{ label() }}
+    </p>
 
-        <p>{{ upcomingDates.length }} upcoming · {{ pastDates.length }} past</p>
-      </div>
-    </div>
-
-    <ion-icon
-      [name]="scheduleOpen ? 'chevron-down-outline' : 'chevron-forward-outline'"
-    >
-    </ion-icon>
+    <span class="date"> Auto · {{ formatDate(fireDate()) }} </span>
   </div>
 
-  @if (scheduleOpen) {
-    <div class="schedule-list">
-      @for (date of pushyaDates; track $index) {
-        <div class="schedule-item">
-          <!-- Month Header -->
+  <!-- List -->
 
-          <div class="month-header">
-            <div class="month-left">
-              <span class="month-name" [class.past]="isPast(date)">
-                {{ getMonthName(date) }}
-                {{ getYear(date) }}
-              </span>
+  <div class="body">
+    @for (patient of patients(); track patient.id) {
+      <div class="patient">
+        <!-- Replace with your PatientAvatar component -->
 
-              <span class="status" [class.past]="isPast(date)">
-                {{ isPast(date) ? "Past" : "Upcoming" }}
-              </span>
-            </div>
+        <div class="avatar"></div>
 
-            @if (!isPast(date)) {
-              @if (editingIdx === $index) {
-                <ion-button
-                  size="small"
-                  fill="solid"
-                  color="success"
-                  (click)="handleSave($index); $event.stopPropagation()"
-                >
-                  <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+        <div class="info">
+          <p class="name">
+            {{ patient.name }}
+          </p>
 
-                  Save
-                </ion-button>
-              } @else {
-                <ion-button
-                  size="small"
-                  fill="outline"
-                  color="success"
-                  (click)="setEditing($index); $event.stopPropagation()"
-                >
-                  <ion-icon
-                    slot="start"
-                    [name]="
-                      savedIdx === $index
-                        ? 'checkmark-outline'
-                        : 'create-outline'
-                    "
-                  >
-                  </ion-icon>
-
-                  {{ savedIdx === $index ? "Saved" : "Edit" }}
-                </ion-button>
-              }
-            }
-          </div>
-
-          <!-- Date -->
-
-          <div class="date-section">
-            @if (editingIdx === $index) {
-              <ion-input
-                type="date"
-                fill="outline"
-                [(ngModel)]="pushyaDates[$index]"
-              >
-              </ion-input>
-            } @else {
-              <div class="date-row">
-                <div>
-                  <h4 [class.past]="isPast(date)">
-                    {{ formatDate(date) }}
-                  </h4>
-                </div>
-
-                <div class="stage-info">
-                  <small>
-                    Stage 1 :
-                    {{ formatDate(offsetDate(date, -3)).split(",")[0] }}
-                  </small>
-
-                  <small>
-                    Stage 2 :
-                    {{ formatDate(date).split(",")[0] }}
-                  </small>
-                </div>
-              </div>
-            }
-
-            <div class="patient-count">
-              <ion-icon name="people-outline"></ion-icon>
-
-              <span>
-                {{ getPatientCount(date) }}
-                patients enrolled
-              </span>
-            </div>
-          </div>
+          <p class="phone">
+            {{ patient.parentName }} · +91 {{ patient.phone }}
+          </p>
         </div>
-      }
 
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="add-btn"
-        (click)="addNextMonth()"
-      >
-        <ion-icon slot="start" name="add-outline"></ion-icon>
+        <!-- Replace with WaStatusBadge -->
 
-        Add Next Month
-      </ion-button>
-    </div>
-  }
-</ion-card>
+        <div class="status">
+          {{ patient.history?.[pushyaDate()]?.[stageKey] ?? "scheduled" }}
+        </div>
+      </div>
+    }
+  </div>
+</section>
