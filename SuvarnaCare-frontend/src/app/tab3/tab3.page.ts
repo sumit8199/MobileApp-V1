@@ -28,7 +28,6 @@ import { Patient, PatientDirectoryComponent } from './components/patient-directo
     IonFab,
     IonIcon,
     HeaderComponent,
-    IonSearchbar,
     AddPatientComponent,
     PatientDirectoryComponent,
   ],

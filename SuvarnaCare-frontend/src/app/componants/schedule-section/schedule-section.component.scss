@@ -1,80 +1,170 @@
-.header {
+$green: #1a4329;
+$green-light: #eef8ef;
+$gold: #d4af37;
+
+.schedule-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(26, 67, 41, .08);
+  box-shadow: none;
+}
+
+.schedule-header {
   display: flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 10px 16px;
-
-  border: 1px solid;
-  border-radius: 20px 20px 0 0;
-}
-
-.title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.date {
-  margin-left: auto;
-
-  padding: 2px 8px;
-
-  border-radius: 20px;
-
-  font-size: 10px;
-  font-weight: 600;
-
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.body {
-  background: white;
-
-  border: 1px solid rgba(26, 67, 41, 0.08);
-  border-top: none;
-
-  border-radius: 0 0 20px 20px;
-}
-
-.patient {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
 
-  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  background: $green-light;
+  transition: .25s;
 
-  padding: 14px 16px;
+  &.open {
+    background: $green;
 
-  border-bottom: 1px solid rgba(26, 67, 41, 0.05);
+    h3,
+    p,
+    ion-icon {
+      color: white;
+    }
 
-  &:last-child {
-    border-bottom: none;
+    .icon-box {
+      background: rgba(255,255,255,.15);
+
+      ion-icon {
+        color: white;
+      }
+    }
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 15px;
+    color: $green;
+    font-family: "Playfair Display";
+  }
+
+  p {
+    margin-top: 2px;
+    font-size: 11px;
+    color: #888;
   }
 }
 
-.avatar {
+.icon-box {
   width: 34px;
   height: 34px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
 
-  border-radius: 50%;
-
-  background: #ddd;
+  ion-icon {
+    color: $green;
+    font-size: 18px;
+  }
 }
 
-.info {
-  flex: 1;
+.schedule-list {
+  border-top: 1px solid rgba(26,67,41,.08);
 }
 
-.name {
-  font-weight: 600;
+.schedule-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(26,67,41,.08);
 }
 
-.phone {
+.month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.month-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.month-name {
   font-size: 11px;
-  color: #9ca3af;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: $gold;
+
+  &.past {
+    color: #999;
+  }
 }
 
 .status {
-  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  background: rgba($gold,.15);
+  color: #8c6d00;
+
+  &.past {
+    background: #eee;
+    color: #999;
+  }
+}
+
+.date-section {
+  margin-top: 14px;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.date-row h4 {
+  margin: 0;
+  font-size: 20px;
+  color: $green;
+  font-family: "Playfair Display";
+
+  &.past {
+    color: #999;
+  }
+}
+
+.stage-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  small {
+    color: #999;
+    font-size: 11px;
+  }
+}
+
+.patient-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-top: 12px;
+
+  color: #888;
+  font-size: 11px;
+
+  ion-icon {
+    font-size: 14px;
+  }
+}
+
+.add-btn {
+  --color: #1a4329;
+  font-weight: 600;
 }

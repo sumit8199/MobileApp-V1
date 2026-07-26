@@ -8,7 +8,15 @@ $screen-padding: 16px;
 
 ion-content {
   --background: #{$bg-light};
-  
+
+  .dashboard {
+    padding: 20px 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .page-container {
     padding: $screen-padding;
     display: flex;

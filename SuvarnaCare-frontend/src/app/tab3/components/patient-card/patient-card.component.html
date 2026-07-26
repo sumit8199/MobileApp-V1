@@ -14,8 +14,8 @@
     <!-- Active Indicator Node States -->
     @if (nextRecord()) {
       <div class="status-badge-stack">
-        <span class="mini-indicator" [class.active]="nextRecord()?.stage1Status === 'read'"></span>
-        <span class="mini-indicator" [class.active]="nextRecord()?.stage2Status === 'read'"></span>
+        <span class="mini-indicator" [class.active]="nextRecord().stage1Status === 'read'"></span>
+        <span class="mini-indicator" [class.active]="nextRecord().stage2Status === 'read'"></span>
       </div>
     }
 

@@ -1,37 +1,15 @@
 <app-header></app-header>
 
-<ion-content fullscreen>
-
-  <!-- Doctor Hero -->
-
-  <app-doctor-card
-
-      [doctor]="doctor"
-      [statistics]="statistics">
-
-  </app-doctor-card>
-
-
-  <!-- Clinic Information -->
-
-  <app-clinic-info
-
-      [doctor]="doctor">
-
-  </app-clinic-info>
-
-
-  <!-- Schedule -->
-
-  <app-schedule-section>
-
-  </app-schedule-section>
-
-
-  <!-- Version -->
-
-  <app-app-info>
-
-  </app-app-info>
-
+<ion-content>
+  <div class="dashboard">
+    <!-- Doctor Hero -->
+    <app-doctor-card [doctor]="doctor" [statistics]="statistics">
+    </app-doctor-card>
+    <!-- Clinic Information -->
+    <app-clinic-info [doctor]="doctor"> </app-clinic-info>
+    <!-- Schedule -->
+    <app-schedule-section> </app-schedule-section>
+    <!-- Version -->
+    <app-app-info> </app-app-info>
+  </div>
 </ion-content>
