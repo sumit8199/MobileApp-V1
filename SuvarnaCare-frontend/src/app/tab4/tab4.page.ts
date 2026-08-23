@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { HeaderComponent } from '../componants/header/header.component';
 import { DoctorCardComponent } from './components/doctor-card/doctor-card.component';
-import { ScheduleSectionComponent } from '../componants/schedule-section/schedule-section.component';
 import { ClinicInfoComponent } from './components/clinic-info/clinic-info.component';
 import { AppInfoComponent } from './components/app-info/app-info.component';
+import { ScheduleSectionComponent } from '../tab4/components/schedule-section/schedule-section.component';
 
 @Component({
   selector: 'app-tab4',
