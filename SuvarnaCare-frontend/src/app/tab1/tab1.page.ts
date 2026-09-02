@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, computed } from '@angular/core';
+import { Component, OnInit, inject, computed, signal } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -6,7 +6,7 @@ import {
   IonContent,
   ViewWillEnter,
 } from '@ionic/angular/standalone';
-import { CardComponent } from '../componants/card/card.component';
+import { CardComponent } from './components/card/card.component';
 import { addIcons } from 'ionicons';
 import {
   peopleOutline,
@@ -16,8 +16,8 @@ import {
   leafOutline,
   notificationsOutline,
 } from 'ionicons/icons';
-import { ScheduleSectionComponent } from '../componants/schedule-section/schedule-section.component';
-import { HeaderComponent } from '../componants/header/header.component';
+import { ScheduleSectionComponent } from './components/schedule-section/schedule-section.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { PatientApiService, ReminderApiService, SqlConnectionService } from '@core/services';
 
 @Component({

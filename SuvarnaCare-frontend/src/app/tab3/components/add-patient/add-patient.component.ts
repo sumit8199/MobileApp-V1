@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, input, OnInit, output, signal, effect, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonIcon } from '@ionic/angular/standalone';
+import { IonIcon, ToastController } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   addOutline,
@@ -10,9 +10,12 @@ import {
   flash,
   calendarOutline,
   happyOutline,
+  checkmarkOutline,
+  createOutline,
 } from 'ionicons/icons';
-import { PatientForm, FormErrors } from '@core/interfaces';
+import { Patient, PatientForm, FormErrors } from '@core/interfaces';
 import { calculateAge } from '@core/dto';
+import { PatientApiService } from '@core/services';
 
 @Component({
   selector: 'app-add-patient',
@@ -22,16 +25,21 @@ import { calculateAge } from '@core/dto';
   imports: [CommonModule, FormsModule, IonIcon],
 })
 export class AddPatientComponent implements OnInit {
+  private patientApiService = inject(PatientApiService);
+  private toastCtrl = inject(ToastController);
+
+  // When patient is provided, component switches to Edit mode; otherwise Add mode
+  readonly patient = input<Patient | null>(null);
   readonly nextPushya = input.required<string>();
 
   // Output Events
   readonly closeForm = output<void>();
-  readonly registerPatient = output<PatientForm>();
+  readonly patientSaved = output<Patient>();
 
-  // Form errors state
+  // Form state
+  public isSubmitting = signal<boolean>(false);
   public formErrors = signal<FormErrors>({});
 
-  // Local form state with birthDate
   public form = signal<PatientForm>({
     name: '',
     birthDate: '',
@@ -39,6 +47,9 @@ export class AddPatientComponent implements OnInit {
     phone: '',
     registrationDate: new Date().toISOString().split('T')[0],
   });
+
+  // Edit Mode Flag
+  readonly isEditMode = computed(() => !!this.patient());
 
   // Maximum selectable birth date is today
   readonly todayDate = new Date().toISOString().split('T')[0];
@@ -58,10 +69,47 @@ export class AddPatientComponent implements OnInit {
       addOutline,
       calendarOutline,
       happyOutline,
+      checkmarkOutline,
+      createOutline,
+    });
+
+    // Populate or reset form when patient input changes
+    effect(() => {
+      const p = this.patient();
+      if (p) {
+        this.form.set({
+          name: p.name || '',
+          birthDate: p.birthDate || '',
+          parentName: p.parentName || '',
+          phone: (p.phone || '').replace(/\D/g, '').slice(0, 10),
+          registrationDate: p.registrationDate || new Date().toISOString().split('T')[0],
+        });
+      } else {
+        this.form.set({
+          name: '',
+          birthDate: '',
+          parentName: '',
+          phone: '',
+          registrationDate: new Date().toISOString().split('T')[0],
+        });
+      }
+      this.formErrors.set({});
+      this.isSubmitting.set(false);
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const p = this.patient();
+    if (p) {
+      this.form.set({
+        name: p.name || '',
+        birthDate: p.birthDate || '',
+        parentName: p.parentName || '',
+        phone: (p.phone || '').replace(/\D/g, '').slice(0, 10),
+        registrationDate: p.registrationDate || new Date().toISOString().split('T')[0],
+      });
+    }
+  }
 
   public onPhoneInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -127,6 +175,64 @@ export class AddPatientComponent implements OnInit {
     }
 
     this.formErrors.set({});
-    this.registerPatient.emit(data);
+    this.isSubmitting.set(true);
+
+    if (this.isEditMode()) {
+      // Execute Edit / Update API
+      const patientId = this.patient()!.id;
+      this.patientApiService.updatePatient(patientId, data).subscribe({
+        next: async (updatedPatient) => {
+          this.isSubmitting.set(false);
+          const toast = await this.toastCtrl.create({
+            message: `Patient ${updatedPatient?.name || data.name} updated successfully.`,
+            duration: 2500,
+            position: 'top',
+            color: 'success',
+            icon: 'checkmark-circle',
+          });
+          await toast.present();
+          if (updatedPatient) {
+            this.patientSaved.emit(updatedPatient);
+          }
+          this.closeForm.emit();
+        },
+        error: async (err) => {
+          this.isSubmitting.set(false);
+          const toast = await this.toastCtrl.create({
+            message: `Failed to update patient: ${err?.message || 'Error'}`,
+            duration: 3000,
+            position: 'top',
+            color: 'danger',
+          });
+          await toast.present();
+        },
+      });
+    } else {
+      // Execute Add / Register API
+      this.patientApiService.createPatient(data, this.nextPushya()).subscribe({
+        next: async (newPatient) => {
+          this.isSubmitting.set(false);
+          const toast = await this.toastCtrl.create({
+            message: `Patient ${newPatient.name} registered successfully.`,
+            duration: 2500,
+            position: 'top',
+            color: 'success',
+          });
+          await toast.present();
+          this.patientSaved.emit(newPatient);
+          this.closeForm.emit();
+        },
+        error: async (err) => {
+          this.isSubmitting.set(false);
+          const toast = await this.toastCtrl.create({
+            message: `Failed to register patient: ${err?.message || 'Error'}`,
+            duration: 3000,
+            position: 'top',
+            color: 'danger',
+          });
+          await toast.present();
+        },
+      });
+    }
   }
 }

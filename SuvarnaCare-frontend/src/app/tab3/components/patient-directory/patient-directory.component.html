@@ -35,7 +35,9 @@
       @for (patientItem of pagedPatients(); track patientItem.id) {
         <app-patient-card 
           [patient]="patientItem" 
-          [nextPushya]="nextPushya()">
+          [nextPushya]="nextPushya()"
+          (editPatient)="onEdit($event)"
+          (deletePatient)="onDelete($event)">
         </app-patient-card>
       }
     </div>

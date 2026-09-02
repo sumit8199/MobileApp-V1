@@ -28,6 +28,30 @@
   @if (expanded()) {
     <div class="drawer-expanded-content">
       
+      <!-- Patient Action Toolbar: Edit & Delete -->
+      <div class="card-action-bar">
+        <button
+          type="button"
+          class="card-action-btn edit-action-btn"
+          (click)="onEdit($event)"
+          title="Edit patient details"
+        >
+          <ion-icon name="create-outline"></ion-icon>
+          <span>Edit Details</span>
+        </button>
+
+        <button
+          type="button"
+          class="card-action-btn delete-action-btn"
+          (click)="onDelete($event)"
+          [disabled]="isDeleting()"
+          title="Delete patient record"
+        >
+          <ion-icon name="trash-outline"></ion-icon>
+          <span>{{ isDeleting() ? 'Deleting...' : 'Delete' }}</span>
+        </button>
+      </div>
+
       <!-- Metadata Grid Blocks -->
       <div class="info-details-grid">
         <div class="grid-cell">

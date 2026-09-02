@@ -1,6 +1,5 @@
-// Color Tokens derived from your brand configuration
 $green-brand: #1a4329;
-$green-light: #e8f5e9; // Fallback value for GREEN_LIGHT
+$green-light: #e8f5e9;
 $gold-brand: #d4af37;
 $text-muted: #9ca3af;
 
@@ -11,60 +10,89 @@ $text-muted: #9ca3af;
 }
 
 .stat-card-container {
-  border-radius: 16px; // rounded-2xl
-  padding: 14px; // p-3.5
+  border-radius: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #ffffff;
-  border: 1px solid rgba(26, 67, 41, 0.08);
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 
-  // Icon Wrapper Box
   .icon-box {
-    padding: 6px; // p-1.5
-    border-radius: 12px; // rounded-xl
+    padding: 6px;
+    border-radius: 12px;
     width: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $green-light;
+    background-color: var(--brand-green-bg);
+    color: var(--brand-green);
 
     ion-icon, svg {
       font-size: 15px;
     }
   }
 
-  // Value Presentation
   .stat-value {
-    font-size: 26px; // text-[26px]
+    font-size: 26px;
     font-weight: 700;
-    margin-top: 8px; // mt-2
-    line-height: 1; // leading-none
+    margin-top: 8px;
+    line-height: 1;
     margin-bottom: 0;
-    color: $green-brand;
+    color: var(--brand-green-text);
     font-family: 'Playfair Display', serif;
   }
 
-  // Label Description
   .stat-label {
-    font-size: 11px; // text-[11px]
+    font-size: 11px;
     font-weight: 500;
-    margin-top: 4px; // mt-1
+    margin-top: 4px;
     margin-bottom: 0;
-    color: $text-muted;
+    color: var(--text-muted);
   }
 
-  // Modifier state: When the stat card is marked as Gold theme
   &.is-gold {
-    background-color: rgba($gold-brand, 0.09); // ${GOLD}18
-    border-color: rgba($gold-brand, 0.25); // ${GOLD}40
+    background-color: var(--brand-gold-bg);
+    border-color: rgba(200, 161, 59, 0.3);
 
     .icon-box {
-      background-color: rgba($gold-brand, 0.15); // ${GOLD}25
+      background-color: rgba(200, 161, 59, 0.2);
+      color: var(--brand-gold);
     }
 
     .stat-value {
-      color: #9a7a00;
+      color: var(--brand-gold-text);
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .stat-card-container {
+    background-color: #18221b;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    .icon-box {
+      background-color: rgba(45, 106, 79, 0.3);
+      color: #34d399;
+    }
+
+    .stat-value {
+      color: #6ee7b7;
+    }
+
+    &.is-gold {
+      background-color: #1e2418;
+      border-color: rgba(223, 185, 86, 0.35);
+
+      .icon-box {
+        background-color: rgba(223, 185, 86, 0.2);
+        color: #dfb956;
+      }
+
+      .stat-value {
+        color: #f3d47d;
+      }
     }
   }
 }

@@ -6,38 +6,40 @@
       <ion-icon name="close-outline"></ion-icon>
     </button>
     <div class="header-titles">
-      <h2 class="title">Register New Patient</h2>
-      <p class="subtitle">Will be auto-enrolled in upcoming sessions</p>
+      <h2 class="title">{{ isEditMode() ? 'Edit Patient Details' : 'Register New Patient' }}</h2>
+      <p class="subtitle">{{ isEditMode() ? 'Updating record for ' + (patient()?.name || 'patient') : 'Will be auto-enrolled in upcoming sessions' }}</p>
     </div>
   </div>
 
   <!-- Main Scrollable Input Layout Body -->
-  <div class="form-body">
+  <form class="form-body" (ngSubmit)="submitForm()">
     
     <!-- Full Name Input Group -->
     <div class="form-field-group">
-      <label class="field-label">Child's Full Name</label>
+      <label class="field-label">Child's Full Name *</label>
       <input 
         type="text" 
         placeholder="e.g., Arjun Sharma" 
         [class.has-error]="formErrors().name"
         [ngModel]="form().name"
         (ngModelChange)="updateField('name', $event)"
+        name="name"
         class="text-input" />
       @if (formErrors().name) {
         <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().name }}</div>
       }
     </div>
 
-    <!-- Date of Birth Input Group (Replacing static age) -->
+    <!-- Date of Birth Input Group -->
     <div class="form-field-group">
-      <label class="field-label">Child's Date of Birth (DOB)</label>
+      <label class="field-label">Child's Date of Birth (DOB) *</label>
       <input 
         type="date" 
         [max]="todayDate"
         [class.has-error]="formErrors().birthDate"
         [ngModel]="form().birthDate"
         (ngModelChange)="updateField('birthDate', $event)"
+        name="birthDate"
         class="text-input" />
       @if (formErrors().birthDate) {
         <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().birthDate }}</div>
@@ -54,13 +56,14 @@
 
     <!-- Parent / Guardian Name Input Group -->
     <div class="form-field-group">
-      <label class="field-label">Parent / Guardian Name</label>
+      <label class="field-label">Parent / Guardian Name *</label>
       <input 
         type="text" 
         placeholder="e.g., Vikram Sharma" 
         [class.has-error]="formErrors().parentName"
         [ngModel]="form().parentName"
         (ngModelChange)="updateField('parentName', $event)"
+        name="parentName"
         class="text-input" />
       @if (formErrors().parentName) {
         <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().parentName }}</div>
@@ -69,7 +72,7 @@
 
     <!-- Phone Layout Field Group -->
     <div class="form-field-group">
-      <label class="field-label">WhatsApp Number</label>
+      <label class="field-label">WhatsApp Number *</label>
       <div class="tel-input-wrapper">
         <span class="country-prefix">+91</span>
         <input 
@@ -78,6 +81,8 @@
           [class.has-error]="formErrors().phone"
           [value]="form().phone"
           (input)="onPhoneInput($event)"
+          maxlength="10"
+          name="phone"
           class="text-input tel-field" />
       </div>
       @if (formErrors().phone) {
@@ -93,24 +98,42 @@
         [class.has-error]="formErrors().registrationDate"
         [ngModel]="form().registrationDate"
         (ngModelChange)="updateField('registrationDate', $event)"
+        name="registrationDate"
         class="text-input" />
       @if (formErrors().registrationDate) {
         <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().registrationDate }}</div>
       }
     </div>
 
-    <!-- Automation Informational Feature Callout Card -->
-    <div class="automation-notice">
-      <ion-icon name="flash" class="notice-icon"></ion-icon>
-      <p class="notice-text">
-        Patient will be <span class="highlight">automatically enrolled</span> and receive WhatsApp reminders for all upcoming sessions. Next session: <span class="highlight">{{ formatDate(nextPushya()) }}</span>.
-      </p>
-    </div>
+    <!-- Automation Informational Feature Callout Card (Add mode only) -->
+    @if (!isEditMode()) {
+      <div class="automation-notice">
+        <ion-icon name="flash" class="notice-icon"></ion-icon>
+        <p class="notice-text">
+          Patient will be <span class="highlight">automatically enrolled</span> and receive WhatsApp reminders for all upcoming sessions. Next session: <span class="highlight">{{ formatDate(nextPushya()) }}</span>.
+        </p>
+      </div>
+    }
 
-    <!-- Submission Action CTA -->
-    <button (click)="submitForm()" class="submit-action-btn">
-      <ion-icon name="add-outline"></ion-icon> Register Patient
-    </button>
-  </div>
+    <!-- Action Buttons -->
+    @if (isEditMode()) {
+      <div class="form-actions-row">
+        <button type="button" class="cancel-action-btn" (click)="closeForm.emit()">
+          Cancel
+        </button>
+        
+        <button type="submit" class="submit-action-btn primary-save-btn" [disabled]="isSubmitting()">
+          <ion-icon name="checkmark-outline"></ion-icon>
+          <span>{{ isSubmitting() ? 'Saving Changes...' : 'Save Changes' }}</span>
+        </button>
+      </div>
+    } @else {
+      <button type="submit" class="submit-action-btn" [disabled]="isSubmitting()">
+        <ion-icon name="add-outline"></ion-icon>
+        <span>{{ isSubmitting() ? 'Registering...' : 'Register Patient' }}</span>
+      </button>
+    }
+
+  </form>
 
 </div>

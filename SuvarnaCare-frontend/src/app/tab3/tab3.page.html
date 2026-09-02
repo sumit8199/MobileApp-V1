@@ -1,43 +1,40 @@
 <app-header></app-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <!-- Pull-to-refresh to fetch latest patients directly from GET /api/patients -->
   <ion-refresher slot="fixed" (ionRefresh)="fetchPatients($event)">
     <ion-refresher-content pullingText="Pull to refresh patients..." refreshingSpinner="circles">
     </ion-refresher-content>
   </ion-refresher>
 
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  @if (showAddPatient()) {
-    <!-- Deferrable View: Lazy-loads Add Patient Form on demand -->
-    @defer (when showAddPatient()) {
+  @if (isFormOpen()) {
+    <!-- Deferrable View: Lazy-loads Add/Edit Patient Form on demand -->
+    @defer (when isFormOpen()) {
       <app-add-patient
+        [patient]="selectedPatientForEdit()"
         [nextPushya]="nextPushyaDate()"
         (closeForm)="closeForm()"
-        (registerPatient)="handleRegisterPatient($event)"
+        (patientSaved)="onPatientSaved($event)"
       ></app-add-patient>
     }
   } @else {
-    <!-- Patient Directory with GET integration -->
+    <!-- Patient Directory with GET, Edit & Delete integration -->
     <app-patient-directory
       [patients]="filteredPatients()"
       [allCount]="patients().length"
       [nextPushya]="nextPushyaDate()"
       [search]="searchQuery()"
       (searchChange)="onSearchChange($event)"
-      (openAddForm)="addItem()"
+      (openAddForm)="openAddForm()"
+      (editPatient)="openEditForm($event)"
+      (deletePatient)="handleDeletePatient($event)"
     ></app-patient-directory>
   }
 
-  <!-- Floating Action Button -->
-  @if (!showAddPatient()) {
+  <!-- Floating Action Button for quick Add Patient -->
+  @if (!isFormOpen()) {
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="addItem()">
+      <ion-fab-button (click)="openAddForm()" aria-label="Register new patient">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>

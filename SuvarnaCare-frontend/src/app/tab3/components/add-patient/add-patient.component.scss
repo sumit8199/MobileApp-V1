@@ -11,31 +11,32 @@ $error-red: #ef4444;
 }
 
 .form-container {
-  background-color: #f9fafb; // BG fallback representation
+  background-color: var(--app-bg);
   display: flex;
   flex-direction: column;
   height: 100%;
 
   .form-header {
-    background-color: $green-light;
-    border-bottom: 1px solid rgba(26, 67, 41, 0.1);
-    padding: 20px 20px 16px 20px; // px-5 pt-5 pb-4
+    background-color: var(--brand-green-bg);
+    border-bottom: 1px solid var(--card-border);
+    padding: 20px 20px 16px 20px;
     display: flex;
     align-items: center;
-    gap: 12px; // gap-3
+    gap: 12px;
 
     .close-btn {
       width: 36px;
       height: 36px;
-      border-radius: 12px; // rounded-xl
+      border-radius: 12px;
       background-color: rgba(26, 67, 41, 0.1);
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: $green-brand;
+      color: var(--brand-green);
       font-size: 17px;
+      transition: all 0.2s ease;
 
       &:active { opacity: 0.7; }
     }
@@ -43,54 +44,54 @@ $error-red: #ef4444;
     .header-titles {
       .title {
         font-family: 'Playfair Display', serif;
-        font-size: 16px; // text-base
+        font-size: 16px;
         font-weight: 700;
         line-height: 1.25;
         margin: 0;
-        color: $green-brand;
+        color: var(--brand-green);
       }
       .subtitle {
-        font-size: 11px; // text-[11px]
-        margin-top: 2px; // mt-0.5
+        font-size: 11px;
+        margin-top: 2px;
         margin-bottom: 0;
-        color: $text-gray;
+        color: var(--text-muted);
       }
     }
   }
 
   .form-body {
-    padding: 20px 16px; // px-4 py-5
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
-    gap: 16px; // space-y-4
+    gap: 16px;
 
     .form-field-group {
       display: flex;
       flex-direction: column;
-      gap: 6px; // space-y-1.5 context matching FormField
+      gap: 6px;
 
       .field-label {
-        font-size: 11px; // text-[11px]
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        color: $green-brand;
+        color: var(--brand-green);
       }
 
       .text-input {
         width: 100%;
-        border-radius: 12px; // rounded-xl
-        padding: 12px 16px; // px-4 py-3
-        font-size: 14px; // text-sm
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 14px;
         outline: none;
         box-sizing: border-box;
-        background-color: #ffffff;
-        color: $text-dark;
-        border: 1.5px solid rgba(26, 67, 41, 0.15);
+        background-color: var(--input-bg);
+        color: var(--text-primary);
+        border: 1.5px solid var(--input-border);
         transition: border-color 0.2s ease;
 
         &:focus {
-          border-color: $green-brand;
+          border-color: var(--brand-green);
         }
 
         &.has-error {
@@ -100,18 +101,19 @@ $error-red: #ef4444;
 
       .tel-input-wrapper {
         display: flex;
-        gap: 8px; // gap-2
+        gap: 8px;
 
         .country-prefix {
           display: flex;
           align-items: center;
-          padding: 0 12px; // px-3
-          border-radius: 12px; // rounded-xl
+          padding: 0 12px;
+          border-radius: 12px;
           font-size: 14px;
           font-weight: 600;
-          background-color: $green-light;
-          color: $green-brand;
+          background-color: var(--brand-green-bg);
+          color: var(--brand-green);
           user-select: none;
+          border: 1.5px solid var(--input-border);
         }
 
         .tel-field {
@@ -136,8 +138,8 @@ $error-red: #ef4444;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background-color: $green-light;
-        color: $green-brand;
+        background-color: var(--brand-green-bg);
+        color: var(--brand-green);
         border: 1px solid rgba(26, 67, 41, 0.2);
         border-radius: 8px;
         padding: 4px 10px;
@@ -150,60 +152,201 @@ $error-red: #ef4444;
         }
 
         strong {
-          color: $green-brand;
+          color: var(--brand-green);
           font-weight: 700;
         }
       }
     }
 
     .automation-notice {
-      background-color: $green-light;
-      border-radius: 12px; // rounded-xl
-      padding: 14px; // p-3.5
+      background-color: var(--brand-green-bg);
+      border-radius: 12px;
+      padding: 14px;
       display: flex;
       align-items: start;
-      gap: 10px; // gap-2.5
+      gap: 10px;
+      border: 1px solid var(--card-border);
 
       .notice-icon {
         font-size: 14px;
-        color: $green-brand;
+        color: var(--brand-green);
         flex-shrink: 0;
-        margin-top: 2px; // mt-0.5
+        margin-top: 2px;
       }
 
       .notice-text {
-        font-size: 12px; // text-[12px]
+        font-size: 12px;
         line-height: 1.4;
         margin: 0;
-        color: #374151;
+        color: var(--text-secondary);
 
         .highlight {
-          color: $green-brand;
+          color: var(--brand-green);
           font-weight: 700;
         }
       }
     }
 
+    .form-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+
+      .cancel-action-btn {
+        flex: 1;
+        padding: 14px 0;
+        border-radius: 12px;
+        background-color: transparent;
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 14px;
+        border: 1.5px solid var(--input-border);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        &:active { opacity: 0.7; }
+      }
+
+      .submit-action-btn {
+        flex: 2;
+        margin-top: 0;
+      }
+    }
+
     .submit-action-btn {
       width: 100%;
-      padding: 16px 0; // py-4
-      border-radius: 12px; // rounded-xl
+      padding: 16px 0;
+      border-radius: 12px;
       background-color: $green-brand;
       color: #ffffff;
       font-weight: 700;
-      font-size: 14px; // text-sm
+      font-size: 14px;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px; // gap-2
+      gap: 8px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(26, 67, 41, 0.2);
+      transition: all 0.2s ease;
 
       ion-icon {
         font-size: 18px;
       }
 
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
       &:active { opacity: 0.8; }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .form-container {
+    background-color: #101612;
+
+    .form-header {
+      background-color: #142419;
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+
+      .close-btn {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #dfb956;
+      }
+
+      .header-titles {
+        .title {
+          color: #dfb956;
+        }
+        .subtitle {
+          color: #94a3b8;
+        }
+      }
+    }
+
+    .form-body {
+      .form-field-group {
+        .field-label {
+          color: #dfb956;
+        }
+
+        .text-input {
+          background-color: #18221b;
+          color: #f3f4f6;
+          border-color: rgba(255, 255, 255, 0.12);
+
+          &:focus {
+            border-color: #dfb956;
+            background-color: #1e2920;
+          }
+        }
+
+        .tel-input-wrapper .country-prefix {
+          background-color: #1e2920;
+          color: #34d399;
+          border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .age-preview-badge {
+          background-color: rgba(45, 106, 79, 0.25);
+          color: #6ee7b7;
+          border-color: rgba(52, 211, 153, 0.3);
+
+          strong {
+            color: #34d399;
+          }
+        }
+      }
+
+      .automation-notice {
+        background-color: #18221b;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        .notice-icon {
+          color: #dfb956;
+        }
+
+        .notice-text {
+          color: #cbd5e1;
+
+          .highlight {
+            color: #dfb956;
+          }
+        }
+      }
+
+      .form-actions-row {
+        .cancel-action-btn {
+          border-color: rgba(255, 255, 255, 0.15);
+          color: #cbd5e1;
+
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+          }
+        }
+      }
+
+      .submit-action-btn {
+        background-color: #dfb956;
+        color: #101612;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+
+        &:active {
+          opacity: 0.9;
+        }
+      }
     }
   }
 }

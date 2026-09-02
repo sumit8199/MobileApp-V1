@@ -8,6 +8,8 @@ import {
   reloadOutline,
   chevronBackOutline,
   chevronForwardOutline,
+  createOutline,
+  trashOutline,
 } from 'ionicons/icons';
 import { IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
@@ -31,6 +33,8 @@ export class PatientDirectoryComponent implements OnInit {
   // Event emitters to notify parent page
   readonly searchChange = output<string>();
   readonly openAddForm = output<void>();
+  readonly editPatient = output<Patient>();
+  readonly deletePatient = output<string>();
 
   // Pagination state
   public currentPage = signal<number>(1);
@@ -70,6 +74,8 @@ export class PatientDirectoryComponent implements OnInit {
       reloadOutline,
       chevronBackOutline,
       chevronForwardOutline,
+      createOutline,
+      trashOutline,
     });
   }
 
@@ -83,6 +89,14 @@ export class PatientDirectoryComponent implements OnInit {
   public clearSearch(): void {
     this.currentPage.set(1);
     this.searchChange.emit('');
+  }
+
+  public onEdit(patient: Patient): void {
+    this.editPatient.emit(patient);
+  }
+
+  public onDelete(patientId: string): void {
+    this.deletePatient.emit(patientId);
   }
 
   public goToPage(page: number): void {

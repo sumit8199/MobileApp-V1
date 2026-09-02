@@ -1,6 +1,5 @@
-// Color Tokens derived from your brand configuration
-$green-brand: #1a4329; // Dark green background
-$gold-brand: #d4af37; // Accent Gold
+$green-brand: #1a4329;
+$gold-brand: #d4af37;
 $white: #ffffff;
 
 :host {
@@ -101,5 +100,19 @@ $white: #ffffff;
   app-stat-card {
     flex: 1;
     min-width: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .doctor-hero-card {
+    background: linear-gradient(135deg, #143324, #1b4332);
+    border: 1px solid rgba(223, 185, 86, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+    .meta-block .specialty-badge span {
+      background: rgba(223, 185, 86, 0.2);
+      color: #dfb956;
+      border-color: rgba(223, 185, 86, 0.4);
+    }
   }
 }

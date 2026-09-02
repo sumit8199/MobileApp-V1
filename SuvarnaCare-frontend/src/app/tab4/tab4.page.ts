@@ -14,11 +14,11 @@ import {
   shieldCheckmarkOutline,
   mailOutline,
 } from 'ionicons/icons';
-import { HeaderComponent } from '../componants/header/header.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { DoctorCardComponent } from './components/doctor-card/doctor-card.component';
 import { ClinicInfoComponent } from './components/clinic-info/clinic-info.component';
 import { AppInfoComponent } from './components/app-info/app-info.component';
-import { ScheduleSectionComponent } from '../tab4/components/schedule-section/schedule-section.component';
+import { ScheduleSectionComponent } from './components/schedule-section/schedule-section.component';
 import { PatientApiService, ReminderApiService, AuthService } from '@core/services';
 
 @Component({

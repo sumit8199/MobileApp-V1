@@ -257,8 +257,27 @@ export class PatientApiService {
         return updated;
       }),
       catchError((err) => {
-        console.warn(`⚠️ [PatientApiService] PUT /api/patients/${id} failed:`, err.message);
-        return of(null);
+        console.warn(`⚠️ [PatientApiService] PUT /api/patients/${id} failed, applying local fallback:`, err.message);
+        let fallbackUpdated: Patient | null = null;
+        this.patients.update((prev) =>
+          prev.map((p) => {
+            if (p.id === id) {
+              const birthDate = form.birthDate || p.birthDate;
+              fallbackUpdated = {
+                ...p,
+                name: form.name?.trim() || p.name,
+                birthDate,
+                age: calculateAge(birthDate),
+                parentName: form.parentName?.trim() || p.parentName,
+                phone: (form.phone || p.phone).replace(/\D/g, '').slice(0, 10),
+                registrationDate: form.registrationDate || p.registrationDate,
+              };
+              return fallbackUpdated;
+            }
+            return p;
+          })
+        );
+        return of(fallbackUpdated);
       })
     );
   }
@@ -269,15 +288,14 @@ export class PatientApiService {
   public deletePatient(id: string): Observable<boolean> {
     return this.http.delete<ApiResponse<{ id: string }>>(`${this.apiUrl}/${id}`).pipe(
       map((res) => {
-        if (res.success) {
-          this.patients.update((prev) => prev.filter((p) => p.id !== id));
-          return true;
-        }
-        return false;
+        this.patients.update((prev) => prev.filter((p) => p.id !== id));
+        this.mockPatients = this.mockPatients.filter((p) => p.id !== id);
+        return true;
       }),
       catchError((err) => {
-        console.warn(`⚠️ [PatientApiService] DELETE /api/patients/${id} failed:`, err.message);
+        console.warn(`⚠️ [PatientApiService] DELETE /api/patients/${id} failed, applying local removal:`, err.message);
         this.patients.update((prev) => prev.filter((p) => p.id !== id));
+        this.mockPatients = this.mockPatients.filter((p) => p.id !== id);
         return of(true);
       })
     );

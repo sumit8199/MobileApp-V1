@@ -1,12 +1,6 @@
 <app-header></app-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content>
   <div class="dashboard">
     <div class="card-grid">
       <app-card [icon]="peopleOutline" label="Total Patients" [value]="patients().length.toString()">

@@ -1,6 +1,5 @@
 .dashboard {
   padding: 20px 16px;
-
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -23,20 +22,18 @@
 .hero-card {
   position: relative;
   overflow: hidden;
-
   padding: 16px;
   border-radius: 24px;
-  background: #1a4329;
+  background: var(--brand-green);
+  border: 1px solid var(--card-border);
 }
 
 .hero-circle-top {
   position: absolute;
   top: -32px;
   right: -32px;
-
   width: 144px;
   height: 144px;
-
   border-radius: 50%;
   opacity: 0.12;
 }
@@ -45,10 +42,8 @@
   position: absolute;
   bottom: -24px;
   right: 48px;
-
   width: 80px;
   height: 80px;
-
   border-radius: 50%;
   opacity: 0.06;
 }
@@ -59,14 +54,11 @@
 
 .hero-title {
   margin-bottom: 4px;
-
   font-size: 10px;
   font-weight: 700;
-
   letter-spacing: 0.18em;
   text-transform: uppercase;
-
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .hero-row {
@@ -82,33 +74,27 @@
 
 .hero-date {
   margin: 0;
-
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
-
   color: white;
   font-family: "Playfair Display", serif;
 }
 
 .hero-subtitle {
   margin-top: 4px;
-
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .hero-days {
   flex-shrink: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 8px 12px;
-
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .hero-days-value {
@@ -120,19 +106,16 @@
 
 .hero-days-label {
   margin-top: 2px;
-
   font-size: 9px;
   letter-spacing: .1em;
   text-transform: uppercase;
-
-  color: rgba(255,255,255,.5);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .hero-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-
   margin-top: 12px;
 }
 
@@ -140,11 +123,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-
   padding: 4px 12px;
-
   border-radius: 999px;
-
   font-size: 11px;
   font-weight: 600;
 }
@@ -155,7 +135,14 @@
 }
 
 .hero-tag-light {
-  background: rgba(255,255,255,.12);
-  color: rgba(255,255,255,.8);
+  background: rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .9);
 }
 
+@media (prefers-color-scheme: dark) {
+  .hero-card {
+    background: linear-gradient(135deg, #143324, #1b4332);
+    border-color: rgba(223, 185, 86, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+}
