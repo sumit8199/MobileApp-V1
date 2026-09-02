@@ -1,0 +1,168 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="auth-wrapper">
+    
+    <!-- Top Decorative Ayurvedic Elements -->
+    <div class="decorative-blob blob-1"></div>
+    <div class="decorative-blob blob-2"></div>
+
+    <div class="auth-container">
+      
+      <!-- Brand Header -->
+      <div class="brand-hero">
+        <div class="brand-logo-glow">
+          <div class="logo-box">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+        </div>
+        <h1 class="brand-title">SuvarnaCare</h1>
+        <p class="brand-tagline">Ayurvedic Child Wellness & Pushya Nakshatra System</p>
+      </div>
+
+      <!-- Auth Card -->
+      <div class="auth-card">
+        
+        <div class="card-header">
+          <div class="header-icon-pill">
+            <ion-icon name="medkit-outline"></ion-icon>
+            <span>Doctor & Clinic Portal</span>
+          </div>
+          <h2>Sign In to Your Account</h2>
+          <p>Manage patient records, Pushya schedules, and SMS notifications</p>
+        </div>
+
+        <!-- Feedback Alert Messages -->
+        @if (errorMessage()) {
+          <div class="alert-box error-alert">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        @if (successMessage()) {
+          <div class="alert-box success-alert">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>{{ successMessage() }}</span>
+          </div>
+        }
+
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          
+          <!-- Email / Phone Input -->
+          <div class="form-group">
+            <label for="emailOrPhone">Email or Registered Phone</label>
+            <div class="input-container" [class.has-error]="emailOrPhoneControl?.invalid && emailOrPhoneControl?.touched">
+              <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+              <input
+                id="emailOrPhone"
+                type="text"
+                formControlName="emailOrPhone"
+                placeholder="doctor@suvarnacare.com or 9876500000"
+                autocomplete="username"
+              />
+            </div>
+            @if (emailOrPhoneControl?.invalid && emailOrPhoneControl?.touched) {
+              <span class="field-error">Please enter your email or registered phone number</span>
+            }
+          </div>
+
+          <!-- Password Input -->
+          <div class="form-group">
+            <div class="label-row">
+              <label for="password">Password</label>
+            </div>
+            <div class="input-container" [class.has-error]="passwordControl?.invalid && passwordControl?.touched">
+              <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility()"
+                tabindex="-1"
+                aria-label="Toggle password visibility"
+              >
+                <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+            @if (passwordControl?.invalid && passwordControl?.touched) {
+              <span class="field-error">Password is required (at least 6 characters)</span>
+            }
+          </div>
+
+          <!-- Options Row -->
+          <div class="form-options">
+            <label class="remember-me-label">
+              <ion-checkbox formControlName="rememberMe" justify="start" class="custom-checkbox"></ion-checkbox>
+              <span>Remember me</span>
+            </label>
+            <span class="storage-badge" title="Credentials safely cached in local storage">
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+              Local Storage
+            </span>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="isSubmitting() || loginForm.invalid"
+          >
+            @if (isSubmitting()) {
+              <ion-spinner name="crescent" class="btn-spinner"></ion-spinner>
+              <span>Authenticating...</span>
+            } @else {
+              <span>Sign In</span>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            }
+          </button>
+
+        </form>
+
+        <!-- Quick Demo Account Fill -->
+        <div class="demo-account-section">
+          <div class="divider">
+            <span>OR TEST WITH DEMO</span>
+          </div>
+          <button type="button" class="demo-btn" (click)="fillDemoCredentials()">
+            <div class="demo-avatar">MV</div>
+            <div class="demo-text">
+              <strong>1-Click Quick Demo Login</strong>
+              <small>Dr. Meera Vaidya (Suvarna Prashan Specialist)</small>
+            </div>
+            <ion-icon name="sparkles-outline" class="sparkle-icon"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Footer / Register Link -->
+        <div class="card-footer">
+          <p>Don't have a registered clinic account?</p>
+          <a routerLink="/register" class="register-link">
+            <span>Register New Clinic / Doctor</span>
+            <ion-icon name="person-add-outline"></ion-icon>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Trust Badges Footer -->
+      <div class="trust-footer">
+        <div class="trust-item">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <span>Offline & Local Storage Ready</span>
+        </div>
+        <div class="trust-dot">•</div>
+        <div class="trust-item">
+          <ion-icon name="leaf-outline"></ion-icon>
+          <span>Ayurvedic Standards</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

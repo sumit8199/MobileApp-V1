@@ -1,8 +1,9 @@
-import 'dotenv/config'
+import 'dotenv/config';
+import type { Config } from '@jest/types';
 
-const isCI = process.env.CI === 'true'
+const isCI = process.env.CI === 'true';
 
-export default {
+const config: Config.InitialOptions = {
   verbose: true,
   collectCoverage: false,
   resetModules: true,
@@ -25,4 +26,6 @@ export default {
   coveragePathIgnorePatterns: ['<rootDir>/dist/', '/node_modules/', '<rootDir>/scripts', '<rootDir>/tools'],
   coverageProvider: 'v8',
   coverageReporters: isCI ? ['json'] : ['text'],
-}
+};
+
+export default config;

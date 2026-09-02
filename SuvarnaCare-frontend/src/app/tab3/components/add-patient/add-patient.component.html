@@ -20,27 +20,35 @@
       <input 
         type="text" 
         placeholder="e.g., Arjun Sharma" 
-        [class.has-error]="errors().name"
+        [class.has-error]="formErrors().name"
         [ngModel]="form().name"
         (ngModelChange)="updateField('name', $event)"
         class="text-input" />
-      @if (errors().name) {
-        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().name }}</div>
+      @if (formErrors().name) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().name }}</div>
       }
     </div>
 
-    <!-- Age Input Group -->
+    <!-- Date of Birth Input Group (Replacing static age) -->
     <div class="form-field-group">
-      <label class="field-label">Age</label>
+      <label class="field-label">Child's Date of Birth (DOB)</label>
       <input 
-        type="text" 
-        placeholder="e.g., 2 years, 8 months" 
-        [class.has-error]="errors().age"
-        [ngModel]="form().age"
-        (ngModelChange)="updateField('age', $event)"
+        type="date" 
+        [max]="todayDate"
+        [class.has-error]="formErrors().birthDate"
+        [ngModel]="form().birthDate"
+        (ngModelChange)="updateField('birthDate', $event)"
         class="text-input" />
-      @if (errors().age) {
-        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().age }}</div>
+      @if (formErrors().birthDate) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().birthDate }}</div>
+      }
+
+      <!-- Real-time Calculated Age Live Indicator Badge -->
+      @if (calculatedAge()) {
+        <div class="age-preview-badge">
+          <ion-icon name="happy-outline"></ion-icon>
+          <span>Calculated Age: <strong>{{ calculatedAge() }}</strong></span>
+        </div>
       }
     </div>
 
@@ -50,12 +58,12 @@
       <input 
         type="text" 
         placeholder="e.g., Vikram Sharma" 
-        [class.has-error]="errors().parentName"
+        [class.has-error]="formErrors().parentName"
         [ngModel]="form().parentName"
         (ngModelChange)="updateField('parentName', $event)"
         class="text-input" />
-      @if (errors().parentName) {
-        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().parentName }}</div>
+      @if (formErrors().parentName) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().parentName }}</div>
       }
     </div>
 
@@ -67,13 +75,13 @@
         <input 
           type="tel" 
           placeholder="10-digit mobile number" 
-          [class.has-error]="errors().phone"
+          [class.has-error]="formErrors().phone"
           [value]="form().phone"
           (input)="onPhoneInput($event)"
           class="text-input tel-field" />
       </div>
-      @if (errors().phone) {
-        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().phone }}</div>
+      @if (formErrors().phone) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().phone }}</div>
       }
     </div>
 
@@ -82,12 +90,12 @@
       <label class="field-label">Registration Date</label>
       <input 
         type="date" 
-        [class.has-error]="errors().registrationDate"
+        [class.has-error]="formErrors().registrationDate"
         [ngModel]="form().registrationDate"
         (ngModelChange)="updateField('registrationDate', $event)"
         class="text-input" />
-      @if (errors().registrationDate) {
-        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ errors().registrationDate }}</div>
+      @if (formErrors().registrationDate) {
+        <div class="error-msg"><ion-icon name="alert-circle-outline"></ion-icon>{{ formErrors().registrationDate }}</div>
       }
     </div>
 

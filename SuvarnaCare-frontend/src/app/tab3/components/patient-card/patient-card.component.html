@@ -11,13 +11,11 @@
       <p class="patient-details">{{ patient().age }} · {{ patient().parentName }}</p>
     </div>
 
-    <!-- Active Indicator Node States -->
-    @if (nextRecord()) {
-      <div class="status-badge-stack">
-        <span class="mini-indicator" [class.active]="nextRecord().stage1Status === 'read'"></span>
-        <span class="mini-indicator" [class.active]="nextRecord().stage2Status === 'read'"></span>
-      </div>
-    }
+    <!-- Attendance Status Badge / Pill -->
+    <div class="attendance-pill" [class.visited]="isVisitedForNextPushya()">
+      <ion-icon [name]="isVisitedForNextPushya() ? 'checkmark-circle' : 'time-outline'"></ion-icon>
+      <span>{{ isVisitedForNextPushya() ? 'Visited' : 'Pending' }}</span>
+    </div>
 
     <ion-icon 
       class="chevron-arrow" 
@@ -33,6 +31,14 @@
       <!-- Metadata Grid Blocks -->
       <div class="info-details-grid">
         <div class="grid-cell">
+          <label>Date of Birth</label>
+          <p>{{ formatDate(patient().birthDate) || '—' }}</p>
+        </div>
+        <div class="grid-cell">
+          <label>Current Age</label>
+          <p>{{ patient().age || '—' }}</p>
+        </div>
+        <div class="grid-cell">
           <label>Phone</label>
           <p>+91 {{ patient().phone }}</p>
         </div>
@@ -40,47 +46,44 @@
           <label>Registered</label>
           <p>{{ formatDate(patient().registrationDate) }}</p>
         </div>
-        <div class="grid-cell">
-          <label>Next Session</label>
-          <p>{{ formatDate(nextPushya()) }}</p>
-        </div>
-        <div class="grid-cell">
-          <label>Sessions</label>
-          <p>{{ sessionDates().length }} assigned</p>
-        </div>
       </div>
 
-      <!-- Historical Log Timelines Layer -->
+      <!-- Historical Attendance Log Timeline Layer -->
       <div class="history-log-timeline">
-        <p class="timeline-title">WhatsApp Message History</p>
+        <p class="timeline-title">Pushyamrut Attendance History</p>
         
-        @for (sessionDate of sessionDates(); track sessionDate) {
+        @for (sessionDate of allSessionDates(); track sessionDate) {
           @let isPastDate = isPast(sessionDate);
-          @let currentRecord = patient().history[sessionDate];
+          @let isVisited = isSessionVisited(sessionDate);
+          @let visitTime = getSessionVisitTime(sessionDate);
           
           <div class="history-nested-row-item">
-            <div class="history-item-header" [class.is-past]="isPastDate">
+            <div class="history-item-header" [class.is-visited]="isVisited" [class.is-past]="isPastDate && !isVisited">
               <div class="time-label-stack">
-                <ion-icon [name]="isPastDate ? 'time-outline' : 'flash-outline'"></ion-icon>
+                <ion-icon [name]="isVisited ? 'checkmark-circle' : (isPastDate ? 'time-outline' : 'flash-outline')"></ion-icon>
                 <span class="date-text">{{ formatDate(sessionDate) }}</span>
               </div>
-              <span class="status-marker">{{ isPastDate ? 'Completed' : 'Upcoming' }}</span>
+              <span class="status-marker" [class.visited]="isVisited">
+                {{ isVisited ? 'Visited ✓' : (isPastDate ? 'Past' : 'Upcoming') }}
+              </span>
             </div>
 
             <div class="history-item-body">
-              <div class="stage-metric">
-                <p class="stage-label">Stage 1 · Pre-notify</p>
-                <p class="stage-status" [class.status-read]="currentRecord?.stage1Status === 'read'">
-                  {{ currentRecord?.stage1Status }} {{ currentRecord?.stage1At || '' }}
+              <div class="attendance-info">
+                <p class="attendance-status-text" [class.is-visited]="isVisited">
+                  {{ isVisited ? 'Visited at ' + (visitTime || '10:00 AM') : 'Pending / Not Visited' }}
                 </p>
               </div>
-              <div class="stage-divider"></div>
-              <div class="stage-metric">
-                <p class="stage-label">Stage 2 · Day-of</p>
-                <p class="stage-status" [class.status-read]="currentRecord?.stage2Status === 'read'">
-                  {{ currentRecord?.stage2Status }} {{ currentRecord?.stage2At || '' }}
-                </p>
-              </div>
+
+              <button
+                type="button"
+                class="visit-toggle-btn"
+                [class.visited]="isVisited"
+                (click)="toggleVisit(sessionDate, $event)"
+                title="Click to toggle visit status">
+                <ion-icon [name]="isVisited ? 'checkmark-circle-outline' : 'medkit-outline'"></ion-icon>
+                <span>{{ isVisited ? 'Visited ✓' : 'Mark Visited' }}</span>
+              </button>
             </div>
           </div>
         }

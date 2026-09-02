@@ -8,17 +8,17 @@
     </div>
   </div>
 
-  <!-- Search Filter Panel Elements -->
+  <!-- Search Filter Panel Elements with direct GET binding -->
   <div class="search-bar-frame">
     <ion-icon name="search-outline" class="search-icon"></ion-icon>
     <input 
       type="text" 
       placeholder="Search name, parent or phone…" 
       [ngModel]="search()" 
-      (ngModelChange)="search.set($event)"
+      (ngModelChange)="onInput($event)"
       class="search-input" />
     @if (search()) {
-      <button (click)="search.set('')" class="clear-search-btn">
+      <button (click)="clearSearch()" class="clear-search-btn" aria-label="Clear search">
         <ion-icon name="close-circle-outline"></ion-icon>
       </button>
     }
@@ -32,12 +32,56 @@
     </div>
   } @else {
     <div class="cards-stack-list">
-      @for (patientItem of patients(); track patientItem.id) {
+      @for (patientItem of pagedPatients(); track patientItem.id) {
         <app-patient-card 
           [patient]="patientItem" 
           [nextPushya]="nextPushya()">
         </app-patient-card>
       }
     </div>
+
+    <!-- Pagination Footer -->
+    @if (totalPages() > 1) {
+      <div class="pagination-footer">
+        <span class="pagination-info">
+          Showing {{ startIndex() }}–{{ endIndex() }} of {{ patients().length }} patients
+        </span>
+
+        <div class="pagination-controls">
+          <button
+            type="button"
+            class="page-nav-btn"
+            [disabled]="currentPage() === 1"
+            (click)="prevPage()"
+            aria-label="Previous page"
+          >
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+
+          <div class="page-numbers">
+            @for (page of pagesArray(); track page) {
+              <button
+                type="button"
+                class="page-number-btn"
+                [class.active]="currentPage() === page"
+                (click)="goToPage(page)"
+              >
+                {{ page }}
+              </button>
+            }
+          </div>
+
+          <button
+            type="button"
+            class="page-nav-btn"
+            [disabled]="currentPage() === totalPages()"
+            (click)="nextPage()"
+            aria-label="Next page"
+          >
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    }
   }
 </div>

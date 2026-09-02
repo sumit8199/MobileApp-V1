@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, computed } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonIcon,
-  IonButton,
+  ViewWillEnter,
 } from '@ionic/angular/standalone';
 import { CardComponent } from '../componants/card/card.component';
 import { addIcons } from 'ionicons';
@@ -14,11 +13,12 @@ import {
   starOutline,
   calendarClearOutline,
   checkmarkDoneOutline,
-  leafOutline, 
-  notificationsOutline
+  leafOutline,
+  notificationsOutline,
 } from 'ionicons/icons';
 import { ScheduleSectionComponent } from '../componants/schedule-section/schedule-section.component';
 import { HeaderComponent } from '../componants/header/header.component';
+import { PatientApiService, ReminderApiService, SqlConnectionService } from '@core/services';
 
 @Component({
   selector: 'app-tab1',
@@ -31,105 +31,72 @@ import { HeaderComponent } from '../componants/header/header.component';
     IonContent,
     CardComponent,
     ScheduleSectionComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit, ViewWillEnter {
+  private patientApiService = inject(PatientApiService);
+  private reminderApiService = inject(ReminderApiService);
+  private sqlConnectionService = inject(SqlConnectionService);
+
   peopleOutline = peopleOutline;
   starOutline = starOutline;
   calendarClearOutline = calendarClearOutline;
   checkmarkDoneOutline = checkmarkDoneOutline;
-  stage1Date = '';
-  nextPushya = '';
 
-  patients = [
-    {
-      id: '1',
-      name: 'Arjun Sharma',
-      age: '2 yrs',
-      parentName: 'Vikram Sharma',
-      phone: '9876543210',
-      registrationDate: '2026-02-15',
-      history: {
-        '2026-06-21': {
-          stage1Status: 'read',
-          stage1At: 'Jun 18, 9:02 AM',
-          stage2Status: 'read',
-          stage2At: 'Jun 21, 7:30 AM',
-        },
-        '2026-07-18': { stage1Status: 'scheduled', stage2Status: 'scheduled' },
-      },
-    },
-    {
-      id: '2',
-      name: 'Priya Patel',
-      age: '18 mo',
-      parentName: 'Suresh Patel',
-      phone: '9876543211',
-      registrationDate: '2026-04-10',
-      history: {
-        '2026-06-21': {
-          stage1Status: 'read',
-          stage1At: 'Jun 18, 9:02 AM',
-          stage2Status: 'delivered',
-          stage2At: 'Jun 21, 7:30 AM',
-        },
-        '2026-07-18': { stage1Status: 'scheduled', stage2Status: 'scheduled' },
-      },
-    },
-    {
-      id: '3',
-      name: 'Kavya Nair',
-      age: '3 yrs',
-      parentName: 'Rajan Nair',
-      phone: '9876543212',
-      registrationDate: '2026-03-20',
-      history: {
-        '2026-06-21': {
-          stage1Status: 'delivered',
-          stage1At: 'Jun 18, 9:02 AM',
-          stage2Status: 'sent',
-          stage2At: 'Jun 21, 7:30 AM',
-        },
-        '2026-07-18': { stage1Status: 'scheduled', stage2Status: 'scheduled' },
-      },
-    },
-    {
-      id: '4',
-      name: 'Rohan Desai',
-      age: '8 mo',
-      parentName: 'Amit Desai',
-      phone: '9876543213',
-      registrationDate: '2026-05-05',
-      history: {
-        '2026-06-21': {
-          stage1Status: 'read',
-          stage1At: 'Jun 18, 9:03 AM',
-          stage2Status: 'read',
-          stage2At: 'Jun 21, 7:31 AM',
-        },
-        '2026-07-18': { stage1Status: 'scheduled', stage2Status: 'scheduled' },
-      },
-    },
-    {
-      id: '5',
-      name: 'Ananya Joshi',
-      age: '2.5 yrs',
-      parentName: 'Deepak Joshi',
-      phone: '9876543214',
-      registrationDate: '2026-06-12',
-      history: {
-        '2026-06-21': {
-          stage1Status: 'sent',
-          stage1At: 'Jun 18, 9:03 AM',
-          stage2Status: 'sent',
-          stage2At: 'Jun 21, 7:31 AM',
-        },
-        '2026-07-18': { stage1Status: 'scheduled', stage2Status: 'scheduled' },
-      },
-    },
-  ];
+  // Reactive State Signals
+  public patients = this.patientApiService.patients;
+  public pushyaDates = this.reminderApiService.pushyaDates;
+  public stats = this.reminderApiService.statistics;
+  public dbStatus = this.sqlConnectionService.connectionStatus;
+
+  // Next Pushya details computed dynamically
+  public nextPushya = computed(() => {
+    const list = this.pushyaDates();
+    return list.length > 0 ? list[0].pushyaDate : '2026-07-18';
+  });
+
+  public stage1Date = computed(() => {
+    const list = this.pushyaDates();
+    return list.length > 0 ? list[0].stage1FireDate : '2026-07-15';
+  });
+
+  public daysToPushya = computed(() => {
+    const target = new Date(this.nextPushya());
+    const today = new Date();
+    const diff = Math.ceil((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    return diff > 0 ? diff.toString() : '0';
+  });
+
+  public nextSessionDisplay = computed(() => {
+    const dateStr = this.nextPushya();
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return '18 Jul';
+    return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+  });
+
+  public messagesReadDisplay = computed(() => {
+    const total = this.patients().length;
+    const read = this.stats().totalRead;
+    return `${read}/${total}`;
+  });
+
   constructor() {
-    addIcons({ peopleOutline, leafOutline, notificationsOutline});
+    addIcons({ peopleOutline, leafOutline, notificationsOutline, starOutline, calendarClearOutline, checkmarkDoneOutline });
+  }
+
+  ngOnInit(): void {
+    this.refreshData();
+  }
+
+  ionViewWillEnter(): void {
+    this.refreshData();
+  }
+
+  private refreshData(): void {
+    this.patientApiService.loadPatients().subscribe();
+    this.reminderApiService.loadPushyaDates().subscribe();
+    this.reminderApiService.loadStatistics().subscribe();
+    this.sqlConnectionService.checkConnections().subscribe();
   }
 }

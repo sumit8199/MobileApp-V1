@@ -1,0 +1,1151 @@
+{
+  "pushyaDates": [
+    {
+      "pushyaDate": "2026-06-21",
+      "stage1FireDate": "2026-06-18",
+      "stage2FireDate": "2026-06-21",
+      "label": "Ashadha Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-07-18",
+      "stage1FireDate": "2026-07-15",
+      "stage2FireDate": "2026-07-18",
+      "label": "Shravana Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-08-14",
+      "stage1FireDate": "2026-08-11",
+      "stage2FireDate": "2026-08-14",
+      "label": "Bhadrapada Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-09-10",
+      "stage1FireDate": "2026-09-07",
+      "stage2FireDate": "2026-09-10",
+      "label": "Ashwina Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-10-07",
+      "stage1FireDate": "2026-10-04",
+      "stage2FireDate": "2026-10-07",
+      "label": "Kartika Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-11-03",
+      "stage1FireDate": "2026-10-31",
+      "stage2FireDate": "2026-11-03",
+      "label": "Margashirsha Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-12-01",
+      "stage1FireDate": "2026-11-28",
+      "stage2FireDate": "2026-12-01",
+      "label": "Pausha Pushya",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2026-12-28",
+      "stage1FireDate": "2026-12-25",
+      "stage2FireDate": "2026-12-28",
+      "label": "Pushya Nakshatra 2026-12-28",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2027-01-08",
+      "stage1FireDate": "2027-01-05",
+      "stage2FireDate": "2027-01-08",
+      "label": "Pushya Session",
+      "isActive": true
+    },
+    {
+      "pushyaDate": "2027-01-24",
+      "stage1FireDate": "2027-01-21",
+      "stage2FireDate": "2027-01-24",
+      "label": "Pushya Nakshatra 2027-01-24",
+      "isActive": true
+    }
+  ],
+  "reminders": [
+    {
+      "id": "rem-1-20260621-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-06-21",
+      "stage": 1,
+      "scheduledDate": "2026-06-18",
+      "status": "read",
+      "sentAt": "9:02 AM",
+      "deliveredAt": "9:02 AM",
+      "readAt": "9:05 AM"
+    },
+    {
+      "id": "rem-1-20260621-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-06-21",
+      "stage": 2,
+      "scheduledDate": "2026-06-21",
+      "status": "read",
+      "sentAt": "7:30 AM",
+      "deliveredAt": "7:30 AM",
+      "readAt": "7:40 AM"
+    },
+    {
+      "id": "rem-1-20260718-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-07-18",
+      "stage": 1,
+      "scheduledDate": "2026-07-15",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20260718-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-07-18",
+      "stage": 2,
+      "scheduledDate": "2026-07-18",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20260814-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-08-14",
+      "stage": 1,
+      "scheduledDate": "2026-08-11",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20260814-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-08-14",
+      "stage": 2,
+      "scheduledDate": "2026-08-14",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20260910-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-09-10",
+      "stage": 1,
+      "scheduledDate": "2026-09-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20260910-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-09-10",
+      "stage": 2,
+      "scheduledDate": "2026-09-10",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20261007-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-10-07",
+      "stage": 1,
+      "scheduledDate": "2026-10-04",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20261007-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-10-07",
+      "stage": 2,
+      "scheduledDate": "2026-10-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20261103-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-11-03",
+      "stage": 1,
+      "scheduledDate": "2026-10-31",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20261103-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-11-03",
+      "stage": 2,
+      "scheduledDate": "2026-11-03",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20261201-s1",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-12-01",
+      "stage": 1,
+      "scheduledDate": "2026-11-28",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1-20261201-s2",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-12-01",
+      "stage": 2,
+      "scheduledDate": "2026-12-01",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20260621-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-06-21",
+      "stage": 1,
+      "scheduledDate": "2026-06-18",
+      "status": "read",
+      "sentAt": "9:02 AM",
+      "deliveredAt": "9:02 AM",
+      "readAt": "9:10 AM"
+    },
+    {
+      "id": "rem-2-20260621-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-06-21",
+      "stage": 2,
+      "scheduledDate": "2026-06-21",
+      "status": "delivered",
+      "sentAt": "7:30 AM",
+      "deliveredAt": "7:30 AM"
+    },
+    {
+      "id": "rem-2-20260718-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-07-18",
+      "stage": 1,
+      "scheduledDate": "2026-07-15",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20260718-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-07-18",
+      "stage": 2,
+      "scheduledDate": "2026-07-18",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20260814-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-08-14",
+      "stage": 1,
+      "scheduledDate": "2026-08-11",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20260814-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-08-14",
+      "stage": 2,
+      "scheduledDate": "2026-08-14",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20260910-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-09-10",
+      "stage": 1,
+      "scheduledDate": "2026-09-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20260910-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-09-10",
+      "stage": 2,
+      "scheduledDate": "2026-09-10",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20261007-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-10-07",
+      "stage": 1,
+      "scheduledDate": "2026-10-04",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20261007-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-10-07",
+      "stage": 2,
+      "scheduledDate": "2026-10-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20261103-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-11-03",
+      "stage": 1,
+      "scheduledDate": "2026-10-31",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20261103-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-11-03",
+      "stage": 2,
+      "scheduledDate": "2026-11-03",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20261201-s1",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-12-01",
+      "stage": 1,
+      "scheduledDate": "2026-11-28",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-2-20261201-s2",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-12-01",
+      "stage": 2,
+      "scheduledDate": "2026-12-01",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20260621-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-06-21",
+      "stage": 1,
+      "scheduledDate": "2026-06-18",
+      "status": "delivered",
+      "sentAt": "9:02 AM",
+      "deliveredAt": "9:02 AM"
+    },
+    {
+      "id": "rem-3-20260621-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-06-21",
+      "stage": 2,
+      "scheduledDate": "2026-06-21",
+      "status": "sent",
+      "sentAt": "7:30 AM"
+    },
+    {
+      "id": "rem-3-20260718-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-07-18",
+      "stage": 1,
+      "scheduledDate": "2026-07-15",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20260718-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-07-18",
+      "stage": 2,
+      "scheduledDate": "2026-07-18",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20260814-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-08-14",
+      "stage": 1,
+      "scheduledDate": "2026-08-11",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20260814-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-08-14",
+      "stage": 2,
+      "scheduledDate": "2026-08-14",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20260910-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-09-10",
+      "stage": 1,
+      "scheduledDate": "2026-09-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20260910-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-09-10",
+      "stage": 2,
+      "scheduledDate": "2026-09-10",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20261007-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-10-07",
+      "stage": 1,
+      "scheduledDate": "2026-10-04",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20261007-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-10-07",
+      "stage": 2,
+      "scheduledDate": "2026-10-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20261103-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-11-03",
+      "stage": 1,
+      "scheduledDate": "2026-10-31",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20261103-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-11-03",
+      "stage": 2,
+      "scheduledDate": "2026-11-03",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20261201-s1",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-12-01",
+      "stage": 1,
+      "scheduledDate": "2026-11-28",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-3-20261201-s2",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-12-01",
+      "stage": 2,
+      "scheduledDate": "2026-12-01",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20260621-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-06-21",
+      "stage": 1,
+      "scheduledDate": "2026-06-18",
+      "status": "read",
+      "sentAt": "9:03 AM",
+      "deliveredAt": "9:03 AM",
+      "readAt": "9:15 AM"
+    },
+    {
+      "id": "rem-4-20260621-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-06-21",
+      "stage": 2,
+      "scheduledDate": "2026-06-21",
+      "status": "read",
+      "sentAt": "7:31 AM",
+      "deliveredAt": "7:31 AM",
+      "readAt": "7:45 AM"
+    },
+    {
+      "id": "rem-4-20260718-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-07-18",
+      "stage": 1,
+      "scheduledDate": "2026-07-15",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20260718-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-07-18",
+      "stage": 2,
+      "scheduledDate": "2026-07-18",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20260814-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-08-14",
+      "stage": 1,
+      "scheduledDate": "2026-08-11",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20260814-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-08-14",
+      "stage": 2,
+      "scheduledDate": "2026-08-14",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20260910-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-09-10",
+      "stage": 1,
+      "scheduledDate": "2026-09-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20260910-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-09-10",
+      "stage": 2,
+      "scheduledDate": "2026-09-10",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20261007-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-10-07",
+      "stage": 1,
+      "scheduledDate": "2026-10-04",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20261007-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-10-07",
+      "stage": 2,
+      "scheduledDate": "2026-10-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20261103-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-11-03",
+      "stage": 1,
+      "scheduledDate": "2026-10-31",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20261103-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-11-03",
+      "stage": 2,
+      "scheduledDate": "2026-11-03",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20261201-s1",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-12-01",
+      "stage": 1,
+      "scheduledDate": "2026-11-28",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-4-20261201-s2",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-12-01",
+      "stage": 2,
+      "scheduledDate": "2026-12-01",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20260621-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-06-21",
+      "stage": 1,
+      "scheduledDate": "2026-06-18",
+      "status": "sent",
+      "sentAt": "9:03 AM"
+    },
+    {
+      "id": "rem-5-20260621-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-06-21",
+      "stage": 2,
+      "scheduledDate": "2026-06-21",
+      "status": "sent",
+      "sentAt": "7:31 AM"
+    },
+    {
+      "id": "rem-5-20260718-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-07-18",
+      "stage": 1,
+      "scheduledDate": "2026-07-15",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20260718-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-07-18",
+      "stage": 2,
+      "scheduledDate": "2026-07-18",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20260814-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-08-14",
+      "stage": 1,
+      "scheduledDate": "2026-08-11",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20260814-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-08-14",
+      "stage": 2,
+      "scheduledDate": "2026-08-14",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20260910-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-09-10",
+      "stage": 1,
+      "scheduledDate": "2026-09-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20260910-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-09-10",
+      "stage": 2,
+      "scheduledDate": "2026-09-10",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20261007-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-10-07",
+      "stage": 1,
+      "scheduledDate": "2026-10-04",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20261007-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-10-07",
+      "stage": 2,
+      "scheduledDate": "2026-10-07",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20261103-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-11-03",
+      "stage": 1,
+      "scheduledDate": "2026-10-31",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20261103-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-11-03",
+      "stage": 2,
+      "scheduledDate": "2026-11-03",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20261201-s1",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-12-01",
+      "stage": 1,
+      "scheduledDate": "2026-11-28",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-20261201-s2",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-12-01",
+      "stage": 2,
+      "scheduledDate": "2026-12-01",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-1787589594216-20260814-s1",
+      "patientId": "1787589594216",
+      "patientName": "Reyansh Gupta",
+      "phone": "9811223344",
+      "pushyaDate": "2026-08-14",
+      "stage": 1,
+      "scheduledDate": "2026-08-11",
+      "status": "delivered",
+      "sentAt": "10:09 PM",
+      "deliveredAt": "10:09 PM"
+    },
+    {
+      "id": "rem-1787589594216-20260814-s2",
+      "patientId": "1787589594216",
+      "patientName": "Reyansh Gupta",
+      "phone": "9811223344",
+      "pushyaDate": "2026-08-14",
+      "stage": 2,
+      "scheduledDate": "2026-08-14",
+      "status": "scheduled"
+    },
+    {
+      "id": "rem-5-s1-1976",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-12-28",
+      "stage": 1,
+      "scheduledDate": "2026-12-25",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Monday, Dec 28, 2026* (2026-12-28).\n\n🧒 *Child Name*: *Ananya Joshi*\n🗓️ *Pushya Date*: *Monday, Dec 28, 2026*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-5-s2-2071",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2026-12-28",
+      "stage": 2,
+      "scheduledDate": "2026-12-28",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Monday, Dec 28, 2026*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Ananya Joshi* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Ananya Joshi*\n🗓️ *Date*: Today, *Monday, Dec 28, 2026*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-1-s1-2103",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-12-28",
+      "stage": 1,
+      "scheduledDate": "2026-12-25",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Monday, Dec 28, 2026* (2026-12-28).\n\n🧒 *Child Name*: *Arjun Sharma*\n🗓️ *Pushya Date*: *Monday, Dec 28, 2026*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-1-s2-2120",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2026-12-28",
+      "stage": 2,
+      "scheduledDate": "2026-12-28",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Monday, Dec 28, 2026*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Arjun Sharma* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Arjun Sharma*\n🗓️ *Date*: Today, *Monday, Dec 28, 2026*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-3-s1-2132",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-12-28",
+      "stage": 1,
+      "scheduledDate": "2026-12-25",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Monday, Dec 28, 2026* (2026-12-28).\n\n🧒 *Child Name*: *Kavya Nair*\n🗓️ *Pushya Date*: *Monday, Dec 28, 2026*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-3-s2-2166",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2026-12-28",
+      "stage": 2,
+      "scheduledDate": "2026-12-28",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Monday, Dec 28, 2026*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Kavya Nair* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Kavya Nair*\n🗓️ *Date*: Today, *Monday, Dec 28, 2026*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-2-s1-2261",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-12-28",
+      "stage": 1,
+      "scheduledDate": "2026-12-25",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Monday, Dec 28, 2026* (2026-12-28).\n\n🧒 *Child Name*: *Priya Patel*\n🗓️ *Pushya Date*: *Monday, Dec 28, 2026*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-2-s2-2281",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2026-12-28",
+      "stage": 2,
+      "scheduledDate": "2026-12-28",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Monday, Dec 28, 2026*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Priya Patel* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Priya Patel*\n🗓️ *Date*: Today, *Monday, Dec 28, 2026*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-4-s1-2295",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-12-28",
+      "stage": 1,
+      "scheduledDate": "2026-12-25",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Monday, Dec 28, 2026* (2026-12-28).\n\n🧒 *Child Name*: *Rohan Desai*\n🗓️ *Pushya Date*: *Monday, Dec 28, 2026*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-4-s2-2319",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2026-12-28",
+      "stage": 2,
+      "scheduledDate": "2026-12-28",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Monday, Dec 28, 2026*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Rohan Desai* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Rohan Desai*\n🗓️ *Date*: Today, *Monday, Dec 28, 2026*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-5-s1-7178",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2027-01-24",
+      "stage": 1,
+      "scheduledDate": "2027-01-21",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Sunday, Jan 24, 2027* (2027-01-24).\n\n🧒 *Child Name*: *Ananya Joshi*\n🗓️ *Pushya Date*: *Sunday, Jan 24, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-5-s2-7192",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2027-01-24",
+      "stage": 2,
+      "scheduledDate": "2027-01-24",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Sunday, Jan 24, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Ananya Joshi* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Ananya Joshi*\n🗓️ *Date*: Today, *Sunday, Jan 24, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-1-s1-7223",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2027-01-24",
+      "stage": 1,
+      "scheduledDate": "2027-01-21",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Sunday, Jan 24, 2027* (2027-01-24).\n\n🧒 *Child Name*: *Arjun Sharma*\n🗓️ *Pushya Date*: *Sunday, Jan 24, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-1-s2-7243",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2027-01-24",
+      "stage": 2,
+      "scheduledDate": "2027-01-24",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Sunday, Jan 24, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Arjun Sharma* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Arjun Sharma*\n🗓️ *Date*: Today, *Sunday, Jan 24, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-3-s1-7256",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2027-01-24",
+      "stage": 1,
+      "scheduledDate": "2027-01-21",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Sunday, Jan 24, 2027* (2027-01-24).\n\n🧒 *Child Name*: *Kavya Nair*\n🗓️ *Pushya Date*: *Sunday, Jan 24, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-3-s2-7308",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2027-01-24",
+      "stage": 2,
+      "scheduledDate": "2027-01-24",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Sunday, Jan 24, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Kavya Nair* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Kavya Nair*\n🗓️ *Date*: Today, *Sunday, Jan 24, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-2-s1-7341",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2027-01-24",
+      "stage": 1,
+      "scheduledDate": "2027-01-21",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Sunday, Jan 24, 2027* (2027-01-24).\n\n🧒 *Child Name*: *Priya Patel*\n🗓️ *Pushya Date*: *Sunday, Jan 24, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-2-s2-7357",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2027-01-24",
+      "stage": 2,
+      "scheduledDate": "2027-01-24",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Sunday, Jan 24, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Priya Patel* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Priya Patel*\n🗓️ *Date*: Today, *Sunday, Jan 24, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-4-s1-7370",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2027-01-24",
+      "stage": 1,
+      "scheduledDate": "2027-01-21",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Sunday, Jan 24, 2027* (2027-01-24).\n\n🧒 *Child Name*: *Rohan Desai*\n🗓️ *Pushya Date*: *Sunday, Jan 24, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-4-s2-7395",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2027-01-24",
+      "stage": 2,
+      "scheduledDate": "2027-01-24",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Sunday, Jan 24, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Rohan Desai* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Rohan Desai*\n🗓️ *Date*: Today, *Sunday, Jan 24, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-5-s1-8541",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2027-01-08",
+      "stage": 1,
+      "scheduledDate": "2027-01-05",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Friday, Jan 8, 2027* (2027-01-08).\n\n🧒 *Child Name*: *Ananya Joshi*\n🗓️ *Pushya Date*: *Friday, Jan 8, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-5-s2-8576",
+      "patientId": "5",
+      "patientName": "Ananya Joshi",
+      "phone": "9876543214",
+      "pushyaDate": "2027-01-08",
+      "stage": 2,
+      "scheduledDate": "2027-01-08",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Friday, Jan 8, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Ananya Joshi* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Ananya Joshi*\n🗓️ *Date*: Today, *Friday, Jan 8, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-1-s1-8589",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2027-01-08",
+      "stage": 1,
+      "scheduledDate": "2027-01-05",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Friday, Jan 8, 2027* (2027-01-08).\n\n🧒 *Child Name*: *Arjun Sharma*\n🗓️ *Pushya Date*: *Friday, Jan 8, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-1-s2-8750",
+      "patientId": "1",
+      "patientName": "Arjun Sharma",
+      "phone": "9876543210",
+      "pushyaDate": "2027-01-08",
+      "stage": 2,
+      "scheduledDate": "2027-01-08",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Friday, Jan 8, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Arjun Sharma* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Arjun Sharma*\n🗓️ *Date*: Today, *Friday, Jan 8, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-3-s1-9038",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2027-01-08",
+      "stage": 1,
+      "scheduledDate": "2027-01-05",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Friday, Jan 8, 2027* (2027-01-08).\n\n🧒 *Child Name*: *Kavya Nair*\n🗓️ *Pushya Date*: *Friday, Jan 8, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-3-s2-9069",
+      "patientId": "3",
+      "patientName": "Kavya Nair",
+      "phone": "9876543212",
+      "pushyaDate": "2027-01-08",
+      "stage": 2,
+      "scheduledDate": "2027-01-08",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Friday, Jan 8, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Kavya Nair* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Kavya Nair*\n🗓️ *Date*: Today, *Friday, Jan 8, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-2-s1-9252",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2027-01-08",
+      "stage": 1,
+      "scheduledDate": "2027-01-05",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Friday, Jan 8, 2027* (2027-01-08).\n\n🧒 *Child Name*: *Priya Patel*\n🗓️ *Pushya Date*: *Friday, Jan 8, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-2-s2-9297",
+      "patientId": "2",
+      "patientName": "Priya Patel",
+      "phone": "9876543211",
+      "pushyaDate": "2027-01-08",
+      "stage": 2,
+      "scheduledDate": "2027-01-08",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Friday, Jan 8, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Priya Patel* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Priya Patel*\n🗓️ *Date*: Today, *Friday, Jan 8, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    },
+    {
+      "id": "rem-4-s1-9315",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2027-01-08",
+      "stage": 1,
+      "scheduledDate": "2027-01-05",
+      "status": "scheduled",
+      "messageContent": "🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\nDear Parent / Guardian,\n\nThis is an advance reminder from *Vaidya Ayurveda Clinic & Child Wellness Center* that the sacred *Pushya Nakshatra* is in *3 days* on *Friday, Jan 8, 2027* (2027-01-08).\n\n🧒 *Child Name*: *Rohan Desai*\n🗓️ *Pushya Date*: *Friday, Jan 8, 2027*\n⏰ *Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Location*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n• Boosts memory, intellect (Medha) & grasping power\n• Strengthens natural immunity (Vyadhikshamatva)\n• Improves digestion, vitality, physical strength & complexion\n\n📝 *Quick Instructions:*\n1. Ensure child is not given heavy food right before drops.\n2. Please bring your child’s Suvarna Prashan card.\n\nFor appointments or queries:\n📞 Call / WhatsApp: +91 98765 00000\n🩺 Consult: *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Wishing your child divine health and intellect!_ ✨"
+    },
+    {
+      "id": "rem-4-s2-9331",
+      "patientId": "4",
+      "patientName": "Rohan Desai",
+      "phone": "9876543213",
+      "pushyaDate": "2027-01-08",
+      "stage": 2,
+      "scheduledDate": "2027-01-08",
+      "status": "scheduled",
+      "messageContent": "🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\nDear Parent / Guardian,\n\nToday (*Friday, Jan 8, 2027*) is the auspicious day of *Pushya Nakshatra*!\n\nPlease bring *Rohan Desai* to *Vaidya Ayurveda Clinic & Child Wellness Center* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n🧒 *Child Name*: *Rohan Desai*\n🗓️ *Date*: Today, *Friday, Jan 8, 2027*\n⏰ *Clinic Timings*: 09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM\n📍 *Address*: Vaidya Ayurveda Clinic & Child Wellness Center, Ayush Bhavan, Health Road\n\n⚠️ *Important Notes:*\n• Administer drops on an empty or light stomach for optimal absorption.\n• Avoid giving cold water or dairy for 30 minutes after drops.\n\n📞 Helpline: +91 98765 00000\n🩺 *Dr. Meera Vaidya* (BAMS, MD (Ayurveda), Suvarna Prashan Specialist)\n\n_Give your child the gift of golden immunity today!_ 🌿✨"
+    }
+  ],
+  "logs": []
+}

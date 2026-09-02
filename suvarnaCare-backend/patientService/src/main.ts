@@ -1,38 +1,44 @@
 #!/usr/bin/env node
+import 'dotenv/config';
+import http from 'http';
+import app from './app.js';
+import { appConfig } from './config/db.config.js';
+import { connectSqlServer, closeSqlServer } from './database/sql-connection.js';
 
-/**
- * This is a sample HTTP server.
- * Replace this with your implementation.
- */
+const PORT = appConfig.port || 5001;
+const server = http.createServer(app);
 
-import 'dotenv/config'
-import { createServer, IncomingMessage, ServerResponse } from 'http'
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
-import { Config } from './config.js'
+export default function main(port: number = PORT) {
+  server.listen(port, () => {
+    console.log(`🚀 [PatientService] Running on http://localhost:${port}`);
+    console.log(`📊 [PatientService] Health check available at http://localhost:${port}/health`);
+    console.log(`📋 [PatientService] Patients API available at http://localhost:${port}/api/patients`);
 
-const nodePath = resolve(process.argv[1])
-const modulePath = resolve(fileURLToPath(import.meta.url))
-const isCLI = nodePath === modulePath
+    // Connect to SQL Server database asynchronously
+    connectSqlServer().catch((err) => {
+      console.warn(`⚠️ [PatientService] Initial SQL Server connection attempt finished: ${err?.message}`);
+    });
+  });
 
-export default function main(port: number = Config.port) {
-  const requestListener = (request: IncomingMessage, response: ServerResponse) => {
-    response.setHeader('content-type', 'text/plain;charset=utf8')
-    response.writeHead(200, 'OK')
-    response.end('Olá, Hola, Hello!')
-  }
-
-  const server = createServer(requestListener)
-
-  if (isCLI) {
-    server.listen(port)
-    // eslint-disable-next-line no-console
-    console.log(`Listening on port: ${port}`)
-  }
-
-  return server
+  return server;
 }
 
-if (isCLI) {
-  main()
-}
+// Graceful shutdown handlers
+process.on('SIGINT', async () => {
+  console.log('🛑 [PatientService] Shutting down gracefully (SIGINT)...');
+  await closeSqlServer();
+  server.close(() => process.exit(0));
+});
+
+process.on('SIGTERM', async () => {
+  console.log('🛑 [PatientService] Shutting down gracefully (SIGTERM)...');
+  await closeSqlServer();
+  server.close(() => process.exit(0));
+});
+
+process.on('unhandledRejection', (err: any) => {
+  console.error(`💥 [PatientService] Unhandled Rejection:`, err?.message || err);
+});
+
+// Run server
+main();

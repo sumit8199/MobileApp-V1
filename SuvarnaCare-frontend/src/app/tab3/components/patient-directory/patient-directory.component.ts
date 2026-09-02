@@ -1,33 +1,19 @@
-import { Component, input, model, OnInit, output } from '@angular/core';
+import { Component, input, OnInit, output, signal, computed } from '@angular/core';
 import { addIcons } from 'ionicons';
 import {
   addOutline,
   closeCircleOutline,
   peopleOutline,
   searchOutline,
+  reloadOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
 } from 'ionicons/icons';
 import { IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { PatientCardComponent } from '../patient-card/patient-card.component';
 import { FormsModule } from '@angular/forms';
-
-export interface Patient {
-  id: string;
-  name: string;
-  age: string;
-  parentName: string;
-  phone: string;
-  registrationDate: string;
-  history: Record<
-    string,
-    {
-      stage1Status: string;
-      stage1At?: string;
-      stage2Status: string;
-      stage2At?: string;
-    }
-  >;
-}
+import { Patient } from '@core/interfaces';
 
 @Component({
   selector: 'app-patient-directory',
@@ -40,12 +26,40 @@ export class PatientDirectoryComponent implements OnInit {
   readonly patients = input.required<Patient[]>();
   readonly allCount = input.required<number>();
   readonly nextPushya = input.required<string>();
+  readonly search = input<string>('');
 
-  // Two-way signal model binding for the search string
-  readonly search = model<string>('');
-
-  // Event emitters to notify parent page state actions
+  // Event emitters to notify parent page
+  readonly searchChange = output<string>();
   readonly openAddForm = output<void>();
+
+  // Pagination state
+  public currentPage = signal<number>(1);
+  public pageSize = signal<number>(5);
+
+  public totalPages = computed(() =>
+    Math.ceil(this.patients().length / this.pageSize()) || 1
+  );
+
+  public pagedPatients = computed(() => {
+    const list = this.patients();
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return list.slice(start, start + this.pageSize());
+  });
+
+  public startIndex = computed(() =>
+    this.patients().length === 0
+      ? 0
+      : (this.currentPage() - 1) * this.pageSize() + 1
+  );
+
+  public endIndex = computed(() =>
+    Math.min(this.currentPage() * this.pageSize(), this.patients().length)
+  );
+
+  public pagesArray = computed(() => {
+    const total = this.totalPages();
+    return Array.from({ length: total }, (_, i) => i + 1);
+  });
 
   constructor() {
     addIcons({
@@ -53,10 +67,41 @@ export class PatientDirectoryComponent implements OnInit {
       searchOutline,
       closeCircleOutline,
       peopleOutline,
+      reloadOutline,
+      chevronBackOutline,
+      chevronForwardOutline,
     });
   }
 
   ngOnInit() {}
+
+  public onInput(query: string): void {
+    this.currentPage.set(1);
+    this.searchChange.emit(query);
+  }
+
+  public clearSearch(): void {
+    this.currentPage.set(1);
+    this.searchChange.emit('');
+  }
+
+  public goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  public nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update((p) => p + 1);
+    }
+  }
+
+  public prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update((p) => p - 1);
+    }
+  }
 
   public formatDate(dateStr: string): string {
     if (!dateStr) return '';

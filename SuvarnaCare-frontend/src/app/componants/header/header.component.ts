@@ -1,15 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   IonButton,
   IonHeader,
   IonIcon,
-  IonMenuToggle,
   IonToolbar,
+  AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { leafOutline, notificationsOutline } from 'ionicons/icons';
+import {
+  leafOutline,
+  notificationsOutline,
+  serverOutline,
+  logOutOutline,
+  personCircleOutline,
+} from 'ionicons/icons';
 import { MenuController } from '@ionic/angular';
+import { SqlConnectionService, AuthService } from '@core/services';
 
 @Component({
   selector: 'app-header',
@@ -25,13 +33,55 @@ import { MenuController } from '@ionic/angular';
   ],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private menuCtrl: MenuController) {
-    addIcons({ leafOutline, notificationsOutline });
+  private menuCtrl = inject(MenuController);
+  private sqlConnectionService = inject(SqlConnectionService);
+  public authService = inject(AuthService);
+  private alertCtrl = inject(AlertController);
+  private router = inject(Router);
+
+  public dbStatus = this.sqlConnectionService.connectionStatus;
+  public currentUser = this.authService.currentUser;
+
+  constructor() {
+    addIcons({
+      leafOutline,
+      notificationsOutline,
+      serverOutline,
+      logOutOutline,
+      personCircleOutline,
+    });
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.sqlConnectionService.checkConnections().subscribe();
+  }
 
-  openMenu() {
+  openMenu(): void {
     this.menuCtrl.open('main-menu');
+  }
+
+  navigateToSettings(): void {
+    this.router.navigate(['/tabs/tab4']);
+  }
+
+  async logout(): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Sign Out',
+      message: 'Do you want to sign out of SuvarnaCare?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Sign Out',
+          role: 'destructive',
+          handler: () => {
+            this.authService.logout();
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 }

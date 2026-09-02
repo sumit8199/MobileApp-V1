@@ -89,7 +89,92 @@ $text-gray: #9ca3af;
     flex-direction: column;
     gap: 12px;
   }
+
+  /* Pagination Footer */
+  .pagination-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(26, 67, 41, 0.08);
+    border-radius: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+
+    .pagination-info {
+      font-size: 12px;
+      font-weight: 500;
+      color: #64748b;
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .page-nav-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        color: #334155;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        ion-icon {
+          font-size: 15px;
+        }
+
+        &:hover:not(:disabled) {
+          background: #f1f5f9;
+          border-color: #cbd5e1;
+        }
+
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+      }
+
+      .page-numbers {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .page-number-btn {
+          min-width: 30px;
+          height: 30px;
+          padding: 0 8px;
+          border-radius: 8px;
+          border: 1px solid transparent;
+          background: transparent;
+          color: #475569;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: #f1f5f9;
+          }
+
+          &.active {
+            background: $green-brand;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(26, 67, 41, 0.2);
+          }
+        }
+      }
+    }
+  }
 }
+
 
 // ── Patient Subcard Internal SCSS Styles ───────────────────
 .patient-card-container {

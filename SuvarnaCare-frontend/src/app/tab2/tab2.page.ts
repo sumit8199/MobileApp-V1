@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, computed } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -6,12 +6,14 @@ import {
   IonContent,
   IonChip,
   IonLabel,
-  DatetimeCustomEvent,
+  IonDatetime,
+  ViewWillEnter,
 } from '@ionic/angular/standalone';
-import { IonDatetime } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CalenderDetailsComponent } from '../componants/calender-details/calender-details.component';
-import { HeaderComponent } from "../componants/header/header.component";
+import { HeaderComponent } from '../componants/header/header.component';
+import { PatientApiService, ReminderApiService } from '@core/services';
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -26,96 +28,86 @@ import { HeaderComponent } from "../componants/header/header.component";
     IonChip,
     IonLabel,
     CalenderDetailsComponent,
-    HeaderComponent
-],
+    HeaderComponent,
+  ],
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit, ViewWillEnter {
+  private patientApiService = inject(PatientApiService);
+  private reminderApiService = inject(ReminderApiService);
+
   public datetime: string = new Date().toISOString();
+  public selectedDate: string | null = null;
+  public isSelectedPushya = false;
+  public isSelectedPast = false;
 
-  selectedDate: string | null = null;
+  // Reactive state signals from services
+  public patients = this.patientApiService.patients;
+  public pushyaDatesList = this.reminderApiService.pushyaDates;
 
-  isSelectedPushya = false;
+  public pushyaDates = computed(() =>
+    this.pushyaDatesList().map((p) => p.pushyaDate)
+  );
 
-  isSelectedPast = false;
-
-  patients = [
-    {
-      id: 1,
-      name: 'Rahul',
-      history: {
-        '2026-07-18': {
-          stage1Status: 'read',
-          stage2Status: 'scheduled',
-        },
-      },
-    },
-  ]; // your patient list
-
-  pushyaDates = ['2026-07-18', '2026-08-15', '2026-09-11'];
-
-  public highlightedDates = [
-    {
-      date: '2026-07-15',
-      textColor: '#ffffff',
-      backgroundColor: '#da5296', // Matching Pushya Indicator Color
-    },
-    {
-      date: '2026-07-25',
+  public highlightedDates = computed(() =>
+    this.pushyaDatesList().map((p) => ({
+      date: p.pushyaDate,
       textColor: '#ffffff',
       backgroundColor: '#da5296',
-    },
-  ];
+    }))
+  );
 
   constructor() {}
 
-  ngOnInit() {
-    const date = new Date();
-
-    // Set the value of the datetime to 2 days
-    // before the current day
-    let dayChange = -2;
-
-    // If the day we are going to set the value to
-    // is in the previous month then set the day 2 days
-    // later instead so it remains in the same month
-    if (date.getDate() + dayChange <= 0) {
-      dayChange = -dayChange;
-    }
-
-    // Set the value of the datetime to the day
-    // calculated above
-    date.setDate(date.getDate() + dayChange);
-    this.datetime = date.toISOString();
+  ngOnInit(): void {
+    this.refreshData();
   }
 
-  onDateSelected(event: CustomEvent) {
+  ionViewWillEnter(): void {
+    this.refreshData();
+  }
+
+  private refreshData(): void {
+    this.patientApiService.loadPatients().subscribe();
+    this.reminderApiService.loadPushyaDates().subscribe({
+      next: (dates) => {
+        if (!this.selectedDate && dates && dates.length > 0) {
+          const todayMs = new Date().setHours(0, 0, 0, 0);
+          const next =
+            dates.find((d) => new Date(d.pushyaDate).getTime() >= todayMs) ||
+            dates[0];
+          if (next) {
+            this.selectedDate = next.pushyaDate;
+            this.datetime = next.pushyaDate;
+            this.isSelectedPushya = true;
+            this.isSelectedPast =
+              new Date(next.pushyaDate).getTime() < new Date().getTime();
+          }
+        }
+      },
+    });
+  }
+
+  onDateSelected(event: CustomEvent): void {
     const value = event.detail.value;
 
-    // Handle null
     if (!value) {
       this.selectedDate = null;
       return;
     }
 
-    // Handle multiple selection (if ever enabled)
     if (Array.isArray(value)) {
       this.selectedDate = value[0]?.substring(0, 10) ?? null;
     } else {
       this.selectedDate = value.substring(0, 10);
     }
 
-    // selectedDate can still be null, so check it
-    if (!this.selectedDate) {
-      return;
-    }
+    if (!this.selectedDate) return;
 
-    this.isSelectedPushya = this.pushyaDates.includes(this.selectedDate);
-
-    this.isSelectedPast =
-      new Date(this.selectedDate).getTime() < new Date().getTime();
+    this.isSelectedPushya = this.pushyaDates().includes(this.selectedDate);
+    this.isSelectedPast = new Date(this.selectedDate).getTime() < new Date().getTime();
   }
 
-  clearSelection() {
+  clearSelection(): void {
     this.selectedDate = null;
     this.datetime = '';
   }

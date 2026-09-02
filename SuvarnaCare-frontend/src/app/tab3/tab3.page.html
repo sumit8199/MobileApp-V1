@@ -1,6 +1,12 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Pull-to-refresh to fetch latest patients directly from GET /api/patients -->
+  <ion-refresher slot="fixed" (ionRefresh)="fetchPatients($event)">
+    <ion-refresher-content pullingText="Pull to refresh patients..." refreshingSpinner="circles">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Tab 3</ion-title>
@@ -8,26 +14,32 @@
   </ion-header>
 
   @if (showAddPatient()) {
-  <!-- Added event binding to catch close clicks from the form component -->
-  <app-add-patient
-    nextPushya="2026-07-18"
-    (closeForm)="closeForm()"
-  ></app-add-patient>
+    <!-- Deferrable View: Lazy-loads Add Patient Form on demand -->
+    @defer (when showAddPatient()) {
+      <app-add-patient
+        [nextPushya]="nextPushyaDate()"
+        (closeForm)="closeForm()"
+        (registerPatient)="handleRegisterPatient($event)"
+      ></app-add-patient>
+    }
   } @else {
+    <!-- Patient Directory with GET integration -->
     <app-patient-directory
-      [patients]="patientList"
-      [allCount]="patientList.length"
-      nextPushya="2026-07-18"
-      [(search)]="searchQuery"
+      [patients]="filteredPatients()"
+      [allCount]="patients().length"
+      [nextPushya]="nextPushyaDate()"
+      [search]="searchQuery()"
+      (searchChange)="onSearchChange($event)"
+      (openAddForm)="addItem()"
     ></app-patient-directory>
   }
 
-  <!-- Only show the FAB button when the add patient form is hidden -->
+  <!-- Floating Action Button -->
   @if (!showAddPatient()) {
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addItem()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addItem()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   }
 </ion-content>

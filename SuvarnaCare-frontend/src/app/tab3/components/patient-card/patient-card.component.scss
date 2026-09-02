@@ -44,6 +44,7 @@ $bg-light-gray: #f3f4f6;
       align-items: center;
       justify-content: center;
       text-transform: uppercase;
+      flex-shrink: 0;
     }
 
     .meta-profile-summary {
@@ -70,22 +71,32 @@ $bg-light-gray: #f3f4f6;
       }
     }
 
-    // WhatsApp Message Status Indicators Stack
-    .status-badge-stack {
+    // Attendance Status Pill
+    .attendance-pill {
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 4px;
-      margin-right: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      background-color: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
 
-      .mini-indicator {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: #e5e7eb;
-        transition: background-color 0.2s ease;
-        
-        &.active { 
-          background-color: $whatsapp-green; 
+      ion-icon {
+        font-size: 13px;
+      }
+
+      &.visited {
+        background-color: #dcfce7;
+        color: #15803d;
+        border-color: #bbf7d0;
+
+        ion-icon {
+          color: #16a34a;
         }
       }
     }
@@ -94,6 +105,7 @@ $bg-light-gray: #f3f4f6;
       font-size: 16px;
       color: $text-gray;
       transition: transform 0.2s ease;
+      flex-shrink: 0;
       
       &.rotated { 
         transform: rotate(90deg); 
@@ -168,6 +180,19 @@ $bg-light-gray: #f3f4f6;
           padding: 8px 12px;
           background-color: rgba($gold-brand, 0.07);
 
+          &.is-visited {
+            background-color: #dcfce7;
+            
+            .time-label-stack {
+              ion-icon { color: #16a34a; }
+              .date-text { color: #15803d; }
+            }
+            .status-marker { 
+              color: #15803d;
+              font-weight: 700;
+            }
+          }
+
           &.is-past {
             background-color: $green-light;
             
@@ -187,7 +212,7 @@ $bg-light-gray: #f3f4f6;
             gap: 6px;
             
             ion-icon { 
-              font-size: 12px; 
+              font-size: 13px; 
               color: $gold-brand; 
             }
             .date-text { 
@@ -203,6 +228,11 @@ $bg-light-gray: #f3f4f6;
             text-transform: uppercase; 
             color: #9a7a00; 
             letter-spacing: 0.02em;
+
+            &.visited {
+              color: #15803d;
+              font-weight: 700;
+            }
           }
         }
 
@@ -211,37 +241,59 @@ $bg-light-gray: #f3f4f6;
           padding: 10px 12px;
           background-color: #ffffff;
           align-items: center;
+          justify-content: space-between;
+          gap: 12px;
 
-          .stage-metric {
+          .attendance-info {
             flex: 1;
-            
-            .stage-label { 
-              font-size: 9px; 
-              font-weight: 700; 
-              text-transform: uppercase; 
-              color: $text-gray; 
-              margin: 0; 
-              letter-spacing: 0.01em;
-            }
-            
-            .stage-status {
-              font-size: 11px;
-              font-weight: 500;
-              color: $text-gray;
-              margin: 4px 0 0 0;
-              
-              &.status-read { 
-                color: $whatsapp-green; 
-                font-weight: 600;
+
+            .attendance-status-text {
+              font-size: 12px;
+              font-weight: 600;
+              color: #64748b;
+              margin: 0;
+
+              &.is-visited {
+                color: #15803d;
               }
             }
           }
 
-          .stage-divider { 
-            width: 1px; 
-            background-color: rgba(26, 67, 41, 0.06); 
-            align-self: stretch; 
-            margin: 0 14px; 
+          .visit-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid $green-brand;
+            background-color: #ffffff;
+            color: $green-brand;
+            transition: all 0.2s ease;
+
+            ion-icon {
+              font-size: 13px;
+            }
+
+            &:hover {
+              background-color: $green-light;
+            }
+
+            &.visited {
+              background-color: #16a34a;
+              color: #ffffff;
+              border-color: #16a34a;
+
+              &:hover {
+                background-color: #15803d;
+              }
+            }
+
+            &:active {
+              transform: scale(0.97);
+            }
           }
         }
       }

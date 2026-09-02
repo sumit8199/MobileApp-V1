@@ -1,38 +1,55 @@
 #!/usr/bin/env node
+import 'dotenv/config';
+import http from 'http';
+import app from './app.js';
+import { appConfig } from './config/db.config.js';
+import { connectSqlServer, closeSqlServer } from './database/sql-connection.js';
+import { ReminderService } from './services/reminder.service.js';
+import { SchedulerService } from './services/scheduler.service.js';
 
-/**
- * This is a sample HTTP server.
- * Replace this with your implementation.
- */
+const PORT = appConfig.port || 5002;
+const server = http.createServer(app);
 
-import 'dotenv/config'
-import { createServer, IncomingMessage, ServerResponse } from 'http'
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
-import { Config } from './config.js'
+const reminderService = new ReminderService();
+const schedulerService = new SchedulerService(reminderService);
 
-const nodePath = resolve(process.argv[1])
-const modulePath = resolve(fileURLToPath(import.meta.url))
-const isCLI = nodePath === modulePath
+export default function main(port: number = PORT) {
+  server.listen(port, () => {
+    console.log(`🚀 [ReminderService] Running on http://localhost:${port}`);
+    console.log(`📊 [ReminderService] Health check available at http://localhost:${port}/health`);
+    console.log(`⏰ [ReminderService] Reminders API available at http://localhost:${port}/api/reminders`);
+    console.log(`💬 [ReminderService] WhatsApp Message Service ready (3-Day Advance & Day-of Alerts)`);
 
-export default function main(port: number = Config.port) {
-  const requestListener = (request: IncomingMessage, response: ServerResponse) => {
-    response.setHeader('content-type', 'text/plain;charset=utf8')
-    response.writeHead(200, 'OK')
-    response.end('Olá, Hola, Hello!')
-  }
+    // Connect to database asynchronously
+    connectSqlServer().catch((err) => {
+      console.warn(`⚠️ [ReminderService] Initial database connection attempt finished: ${err?.message}`);
+    });
 
-  const server = createServer(requestListener)
+    // Start background Pushya scheduler
+    schedulerService.start();
+  });
 
-  if (isCLI) {
-    server.listen(port)
-    // eslint-disable-next-line no-console
-    console.log(`Listening on port: ${port}`)
-  }
-
-  return server
+  return server;
 }
 
-if (isCLI) {
-  main()
-}
+// Graceful shutdown handlers
+process.on('SIGINT', async () => {
+  console.log('🛑 [ReminderService] Shutting down gracefully (SIGINT)...');
+  schedulerService.stop();
+  await closeSqlServer();
+  server.close(() => process.exit(0));
+});
+
+process.on('SIGTERM', async () => {
+  console.log('🛑 [ReminderService] Shutting down gracefully (SIGTERM)...');
+  schedulerService.stop();
+  await closeSqlServer();
+  server.close(() => process.exit(0));
+});
+
+process.on('unhandledRejection', (err: any) => {
+  console.error(`💥 [ReminderService] Unhandled Rejection:`, err?.message || err);
+});
+
+// Run server
+main();

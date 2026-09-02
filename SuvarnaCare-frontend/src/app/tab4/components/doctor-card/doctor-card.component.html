@@ -1,9 +1,25 @@
-<div class="hero">
-  <app-avatar [initials]="initials" [size]="64"> </app-avatar>
-  <h2>{{ doctor().name }}</h2>
-  <p>{{ doctor().qualification }}</p>
+<div class="doctor-hero-card">
+  <!-- Decorative Background Glows/Circles -->
+  <div class="circle-top-right"></div>
+  <div class="circle-bottom-left"></div>
+
+  <!-- Doctor Profile Header -->
+  <div class="profile-container">
+    <app-avatar [initials]="doctor().initials" [size]="64"></app-avatar>
+    
+    <div class="meta-block">
+      <h2 class="doc-name">{{ doctor().name }}</h2>
+      <p class="doc-degree">{{ doctor().qualification }}</p>
+      @if (doctor().specialization) {
+        <div class="specialty-badge">
+          <span>{{ doctor().specialization }}</span>
+        </div>
+      }
+    </div>
+  </div>
 </div>
 
+<!-- Stats Row in Row with Gap -->
 <div class="stats-row">
   @for (stat of statistics(); track stat.label) {
     <app-stat-card

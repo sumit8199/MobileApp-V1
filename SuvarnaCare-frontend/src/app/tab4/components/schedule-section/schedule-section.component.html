@@ -43,32 +43,47 @@
               </div>
 
               <!-- Context Actions Control Row Toggle -->
-              @if (!isPast(date)) {
+              <div class="actions-wrapper">
                 @if (editingIdx() === $index) {
-                  <button class="action-btn save-btn" (click)="saveEditing($index)">
-                    <ion-icon name="checkmark-outline"></ion-icon> Save
-                  </button>
+                  <div class="edit-action-group">
+                    <button class="action-btn cancel-btn" (click)="cancelEditing()" title="Cancel editing">
+                      <ion-icon name="close-outline"></ion-icon> Cancel
+                    </button>
+                    <button class="action-btn save-btn" (click)="saveEditing($index)" title="Save changed date">
+                      <ion-icon name="checkmark-outline"></ion-icon> Save
+                    </button>
+                  </div>
                 } @else {
-                  <button class="action-btn edit-btn" (click)="editingIdx.set($index)">
-                    @if (savedIdx() === $index) {
-                      <ion-icon name="checkmark-outline" class="success-icon"></ion-icon> Saved
-                    } @else {
-                      <ion-icon name="pencil-outline"></ion-icon> Edit
-                    }
-                  </button>
+                  @if (!isPast(date)) {
+                    <div class="row-actions">
+                      <button class="action-btn edit-btn" (click)="startEditing($index)" title="Edit date">
+                        @if (savedIdx() === $index) {
+                          <ion-icon name="checkmark-outline" class="success-icon"></ion-icon> Saved
+                        } @else {
+                          <ion-icon name="pencil-outline"></ion-icon> Edit
+                        }
+                      </button>
+                      <button class="action-btn delete-btn" (click)="confirmDeleteSession($index, date)" title="Delete session">
+                        <ion-icon name="trash-outline"></ion-icon>
+                      </button>
+                    </div>
+                  }
                 }
-              }
+              </div>
             </div>
 
             <!-- Data Input Fields Elements Display -->
             <div class="row-body">
               @if (editingIdx() === $index) {
-                <input 
-                  type="date" 
-                  [ngModel]="date" 
-                  (ngModelChange)="handleDateChange($index, $event)"
-                  class="date-input-field" 
-                  autofocus />
+                <div class="edit-input-container">
+                  <input 
+                    type="date" 
+                    [ngModel]="tempEditDate()" 
+                    (ngModelChange)="tempEditDate.set($event)"
+                    class="date-input-field" 
+                    autofocus />
+                  <span class="edit-help-text">Change date and click Save to apply</span>
+                </div>
               } @else {
                 <div class="date-display-box">
                   <p class="main-date-text" [class.is-past]="isPast(date)">

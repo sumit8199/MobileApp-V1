@@ -1,0 +1,21 @@
+import { Router } from 'express';
+import { ReminderController } from '../controllers/reminder.controller.js';
+const router = Router();
+const controller = new ReminderController();
+router.get('/health/db', controller.healthCheck);
+router.get('/pushya-dates', controller.getPushyaDates);
+router.get('/pushya-dates/upcoming', controller.getUpcomingPushya);
+router.post('/pushya-dates', controller.addPushyaDate);
+router.get('/statistics', controller.getStatistics);
+router.get('/whatsapp/templates', controller.getWhatsAppTemplates);
+router.post('/whatsapp/preview', controller.previewWhatsApp);
+router.post('/whatsapp/send-single', controller.sendSingleWhatsApp);
+router.post('/whatsapp/send-bulk', controller.sendBulkWhatsApp);
+router.post('/whatsapp/trigger-today', controller.triggerTodayWhatsApp);
+router.get('/whatsapp/logs', controller.getWhatsAppLogs);
+router.get('/', controller.getReminders);
+router.post('/', controller.createReminder);
+router.put('/:id/status', controller.updateStatus);
+router.post('/sync-patients', controller.syncPatients);
+export default router;
+//# sourceMappingURL=reminder.routes.js.map

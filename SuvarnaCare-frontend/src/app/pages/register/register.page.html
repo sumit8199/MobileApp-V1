@@ -1,0 +1,344 @@
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="auth-wrapper">
+    
+    <!-- Top Decorative Glows -->
+    <div class="decorative-blob blob-1"></div>
+    <div class="decorative-blob blob-2"></div>
+
+    <div class="auth-container">
+      
+      <!-- Brand Header -->
+      <div class="brand-hero">
+        <div class="brand-logo-glow">
+          <div class="logo-box">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+        </div>
+        <h1 class="brand-title">SuvarnaCare</h1>
+        <p class="brand-tagline">Ayurvedic Child Wellness & Pushya Nakshatra System</p>
+      </div>
+
+      <!-- Registration Card -->
+      <div class="auth-card">
+        
+        <div class="card-header">
+          <div class="header-icon-pill">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>Doctor & Clinic Onboarding</span>
+          </div>
+          <h2>Create Your Clinic Account</h2>
+          <p>Local-first storage: Your data stays secure on your device</p>
+        </div>
+
+        <!-- Multi-step Indicator -->
+        <div class="steps-progress">
+          <div class="step-item" [class.active]="currentStep() === 1" [class.completed]="currentStep() > 1">
+            <div class="step-circle">
+              @if (currentStep() > 1) {
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+              } @else {
+                <span>1</span>
+              }
+            </div>
+            <span class="step-label">Doctor & Clinic</span>
+          </div>
+          <div class="step-connector" [class.active]="currentStep() >= 2"></div>
+          <div class="step-item" [class.active]="currentStep() === 2">
+            <div class="step-circle">2</div>
+            <span class="step-label">Credentials & Security</span>
+          </div>
+        </div>
+
+        <!-- Quick Demo Fill Banner -->
+        <div class="quick-fill-row">
+          <button type="button" class="quick-fill-btn" (click)="fillSampleDoctor()">
+            <ion-icon name="sparkles-outline"></ion-icon>
+            <span>Auto-fill Sample Doctor Profile</span>
+          </button>
+        </div>
+
+        <!-- Error Banner -->
+        @if (errorMessage()) {
+          <div class="alert-box error-alert">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <!-- Registration Form -->
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+          
+          <!-- STEP 1: Doctor & Clinic Information -->
+          @if (currentStep() === 1) {
+            <div class="step-section">
+
+              <!-- Full Name -->
+              <div class="form-group">
+                <label for="name">Doctor's Full Name *</label>
+                <div class="input-container" [class.has-error]="nameControl?.invalid && nameControl?.touched">
+                  <ion-icon name="person-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="name"
+                    type="text"
+                    formControlName="name"
+                    placeholder="e.g. Dr. Rajesh Deshmukh"
+                    autocomplete="name"
+                  />
+                </div>
+                @if (nameControl?.invalid && nameControl?.touched) {
+                  <span class="field-error">Doctor name is required (min 3 characters)</span>
+                }
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <div class="input-container" [class.has-error]="emailControl?.invalid && emailControl?.touched">
+                  <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    placeholder="doctor@clinic.com"
+                    autocomplete="email"
+                  />
+                </div>
+                @if (emailControl?.invalid && emailControl?.touched) {
+                  <span class="field-error">Please enter a valid email address</span>
+                }
+              </div>
+
+              <!-- Phone -->
+              <div class="form-group">
+                <label for="phone">Mobile Phone (10 Digits) *</label>
+                <div class="input-container" [class.has-error]="phoneControl?.invalid && phoneControl?.touched">
+                  <ion-icon name="call-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="phone"
+                    type="tel"
+                    formControlName="phone"
+                    placeholder="9822012345"
+                    maxlength="10"
+                    autocomplete="tel"
+                  />
+                </div>
+                @if (phoneControl?.invalid && phoneControl?.touched) {
+                  <span class="field-error">Enter a valid 10-digit mobile number</span>
+                }
+              </div>
+
+              <!-- Clinic Name -->
+              <div class="form-group">
+                <label for="clinicName">Clinic / Hospital Name *</label>
+                <div class="input-container" [class.has-error]="clinicNameControl?.invalid && clinicNameControl?.touched">
+                  <ion-icon name="business-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="clinicName"
+                    type="text"
+                    formControlName="clinicName"
+                    placeholder="e.g. Deshmukh Ayurvedic Chikitsalaya"
+                  />
+                </div>
+                @if (clinicNameControl?.invalid && clinicNameControl?.touched) {
+                  <span class="field-error">Clinic name is required</span>
+                }
+              </div>
+
+              <!-- Qualification & Specialization 2-col row -->
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="qualification">Degree / Qualification</label>
+                  <div class="input-container">
+                    <ion-icon name="school-outline" class="input-icon"></ion-icon>
+                    <input
+                      id="qualification"
+                      type="text"
+                      formControlName="qualification"
+                      placeholder="BAMS, MD"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="registrationNo">Reg. No. (AYUSH)</label>
+                  <div class="input-container" [class.has-error]="registrationNoControl?.invalid && registrationNoControl?.touched">
+                    <ion-icon name="ribbon-outline" class="input-icon"></ion-icon>
+                    <input
+                      id="registrationNo"
+                      type="text"
+                      formControlName="registrationNo"
+                      placeholder="AYUSH/MH/2021"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Specialization -->
+              <div class="form-group">
+                <label for="specialization">Specialization / Focus Area</label>
+                <div class="input-container">
+                  <ion-icon name="medkit-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="specialization"
+                    type="text"
+                    formControlName="specialization"
+                    placeholder="e.g. Suvarna Prashan & Child Healthcare"
+                  />
+                </div>
+              </div>
+
+              <!-- Next Step Action -->
+              <button type="button" class="submit-btn next-btn" (click)="goToNextStep()">
+                <span>Continue to Security & Password</span>
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+              </button>
+
+            </div>
+          }
+
+          <!-- STEP 2: Password, Confirm, Terms -->
+          @if (currentStep() === 2) {
+            <div class="step-section">
+
+              <!-- Password Input -->
+              <div class="form-group">
+                <label for="regPassword">Create Account Password *</label>
+                <div class="input-container" [class.has-error]="passwordControl?.invalid && passwordControl?.touched">
+                  <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="regPassword"
+                    [type]="showPassword() ? 'text' : 'password'"
+                    formControlName="password"
+                    placeholder="At least 6 characters"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle-btn"
+                    (click)="togglePassword()"
+                    tabindex="-1"
+                    aria-label="Toggle password"
+                  >
+                    <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                  </button>
+                </div>
+
+                <!-- Password Strength Bar -->
+                @if (passwordControl?.value) {
+                  <div class="strength-meter">
+                    <div class="strength-bar-bg">
+                      <div
+                        class="strength-bar-fill"
+                        [style.width.%]="passwordStrength().score"
+                        [ngClass]="passwordStrength().class"
+                      ></div>
+                    </div>
+                    <span class="strength-text" [ngClass]="passwordStrength().class">
+                      Password strength: {{ passwordStrength().text }}
+                    </span>
+                  </div>
+                }
+
+                @if (passwordControl?.invalid && passwordControl?.touched) {
+                  <span class="field-error">Password must be at least 6 characters</span>
+                }
+              </div>
+
+              <!-- Confirm Password Input -->
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <div class="input-container" [class.has-error]="confirmPasswordControl?.invalid && confirmPasswordControl?.touched">
+                  <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+                  <input
+                    id="confirmPassword"
+                    [type]="showConfirmPassword() ? 'text' : 'password'"
+                    formControlName="confirmPassword"
+                    placeholder="Re-enter password"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    class="password-toggle-btn"
+                    (click)="toggleConfirmPassword()"
+                    tabindex="-1"
+                    aria-label="Toggle confirm password"
+                  >
+                    <ion-icon [name]="showConfirmPassword() ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                  </button>
+                </div>
+                @if (confirmPasswordControl?.hasError('passwordMismatch') && confirmPasswordControl?.touched) {
+                  <span class="field-error">Passwords do not match</span>
+                }
+              </div>
+
+              <!-- Local Storage Info Box -->
+              <div class="storage-info-box">
+                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                <div>
+                  <strong>Local-First Offline Storage</strong>
+                  <p>Account data is stored directly in your browser/device local storage. No external server dependency.</p>
+                </div>
+              </div>
+
+              <!-- Terms Checkbox -->
+              <div class="form-options terms-option">
+                <label class="terms-label">
+                  <ion-checkbox formControlName="agreeTerms" justify="start" class="custom-checkbox"></ion-checkbox>
+                  <span>I agree to maintain patient privacy in accordance with Ayurvedic clinical ethics.</span>
+                </label>
+              </div>
+
+              <!-- Button Row -->
+              <div class="btn-group-row">
+                <button type="button" class="back-btn" (click)="goToPreviousStep()">
+                  <ion-icon name="arrow-back-outline"></ion-icon>
+                  <span>Back</span>
+                </button>
+
+                <button
+                  type="submit"
+                  class="submit-btn"
+                  [disabled]="isSubmitting() || registerForm.invalid"
+                >
+                  @if (isSubmitting()) {
+                    <ion-spinner name="crescent" class="btn-spinner"></ion-spinner>
+                    <span>Registering...</span>
+                  } @else {
+                    <span>Complete Registration</span>
+                    <ion-icon name="checkmark-circle-outline"></ion-icon>
+                  }
+                </button>
+              </div>
+
+            </div>
+          }
+
+        </form>
+
+        <!-- Footer / Back to Login -->
+        <div class="card-footer">
+          <p>Already have an active account?</p>
+          <a routerLink="/login" class="login-link">
+            <span>Log In to Clinic Portal</span>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Trust Footer -->
+      <div class="trust-footer">
+        <div class="trust-item">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <span>100% Device Local Storage</span>
+        </div>
+        <div class="trust-dot">•</div>
+        <div class="trust-item">
+          <ion-icon name="leaf-outline"></ion-icon>
+          <span>Suvarna Prashan Standard</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

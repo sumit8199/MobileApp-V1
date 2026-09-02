@@ -1,89 +1,300 @@
 @if (selectedDate()) {
   <div class="details-card">
-    <!-- Header -->
-
+    
+    <!-- Card Header -->
     <div class="details-header">
       <div>
         <p class="header-label">
           @if (isSelectedPushya()) {
-            {{ isSelectedPast() ? "Session History" : "Upcoming Session" }}
+            {{ isSelectedPast() ? "Pushyamrut Session History" : "Upcoming Pushyamrut Session" }}
           } @else {
-            Date Details
+            Calendar Date Details
           }
         </p>
 
-        <p class="header-date">
+        <h3 class="header-date">
           {{ formatDate(selectedDate()) }}
-        </p>
+        </h3>
       </div>
 
       <div class="header-actions">
         @if (isSelectedPushya()) {
           <span class="pushya-badge">
             <ion-icon name="star"></ion-icon>
-
-            Pushya
+            Pushyamrut Date
           </span>
         }
 
-        <button class="close-btn" (click)="onClose()">
+        <button class="close-btn" (click)="onClose()" title="Close details">
           <ion-icon name="close"></ion-icon>
         </button>
       </div>
     </div>
 
+    <!-- NON-PUSHYAMRUT DATE STATE -->
     @if (!isSelectedPushya()) {
-      <div class="empty-state">
-        <ion-icon name="calendar-outline" size="large"> </ion-icon>
-
-        <p>No session on this date</p>
-
-        <span>Select a gold-marked Pushya Nakshatra day</span>
+      <div class="non-pushya-state">
+        <div class="non-pushya-icon-box">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+        <h4>No Pushyamrut Session on this Date</h4>
+        <p>Patient attendance and Suvarna Prashan visit marking are enabled exclusively on <strong>Pushyamrut (Pushya Nakshatra)</strong> dates.</p>
+        <div class="tip-pill">
+          <ion-icon name="star"></ion-icon>
+          <span>Select any pink/gold highlighted Pushya day on the calendar</span>
+        </div>
       </div>
     } @else {
-      <div>
-        <!-- Column Header -->
+      
+      <!-- PUSHYAMRUT DATE STATE -->
 
-        <div class="table-header">
-          <span>Patient</span>
-
-          <span>Stage 1</span>
-
-          <span>Stage 2</span>
+      <!-- Check if any patients were registered on or before this date -->
+      @if (eligiblePatients().length === 0) {
+        <div class="empty-registered-state">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <h4>No Registered Patients on this Date</h4>
+          <p>There are no patients registered on or before <strong>{{ formatDate(selectedDate()) }}</strong>.</p>
+          <span>Patients will automatically appear here once their registration date is on or prior to this Pushyamrut session.</span>
         </div>
+      } @else {
 
-        @for (patient of patients(); track patient.id) {
-          <div class="patient-row">
-            <div class="patient">
-              <!-- PatientAvatar Component -->
-
-              <div class="avatar"></div>
-
-              <div>
-                <p class="name">
-                  {{ patient.name }}
-                </p>
-
-                <p class="parent">
-                  {{ patient.parentName }}
-                </p>
+        <!-- Attendance KPI Overview Banner -->
+        <div class="attendance-summary-banner">
+          <div class="kpi-grid">
+            <div class="kpi-card total">
+              <div class="kpi-icon-box">
+                <ion-icon name="people-outline"></ion-icon>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-value">{{ eligiblePatients().length }}</span>
+                <span class="kpi-label">Registered</span>
               </div>
             </div>
 
-            @if (selectedDate()) {
-              <div class="status">
-                {{ patient.history?.[selectedDate()!]?.stage1Status ?? "—" }}
+            <div class="kpi-card attended">
+              <div class="kpi-icon-box">
+                <ion-icon name="checkmark-circle"></ion-icon>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-value">{{ visitedCount() }}</span>
+                <span class="kpi-label">Visited</span>
+              </div>
+            </div>
+
+            <div class="kpi-card pending">
+              <div class="kpi-icon-box">
+                <ion-icon name="time-outline"></ion-icon>
+              </div>
+              <div class="kpi-info">
+                <span class="kpi-value">{{ pendingCount() }}</span>
+                <span class="kpi-label">Pending</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attendance Progress Bar -->
+          <div class="attendance-progress-row">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" [style.width.%]="attendancePercentage()"></div>
+            </div>
+            <span class="progress-label">{{ attendancePercentage() }}% Attendance Rate</span>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="toolbar-section">
+          
+          <!-- Search Input -->
+          <div class="search-box">
+            <ion-icon name="search-outline" class="search-icon"></ion-icon>
+            <input
+              type="text"
+              placeholder="Search registered child, parent, or phone..."
+              [value]="searchQuery()"
+              (input)="onSearchChange($event)"
+            />
+            @if (searchQuery()) {
+              <button class="clear-search-btn" (click)="searchQuery.set('')">
+                <ion-icon name="close"></ion-icon>
+              </button>
+            }
+          </div>
+
+          <!-- Filter Chips & Bulk Action -->
+          <div class="filters-row">
+            <div class="filter-chips">
+              <button
+                class="filter-chip"
+                [class.active]="filter() === 'all'"
+                (click)="setFilter('all')"
+              >
+                All ({{ eligiblePatients().length }})
+              </button>
+
+              <button
+                class="filter-chip visited-chip"
+                [class.active]="filter() === 'visited'"
+                (click)="setFilter('visited')"
+              >
+                Visited ({{ visitedCount() }})
+              </button>
+
+              <button
+                class="filter-chip pending-chip"
+                [class.active]="filter() === 'pending'"
+                (click)="setFilter('pending')"
+              >
+                Pending ({{ pendingCount() }})
+              </button>
+            </div>
+
+            @if (pendingCount() > 0) {
+              <button class="bulk-mark-btn" (click)="markAllVisited()">
+                <ion-icon name="checkmark-done-outline"></ion-icon>
+                <span>Mark All Visited</span>
+              </button>
+            }
+          </div>
+
+        </div>
+
+        <!-- Patient Attendance Table / List -->
+        <div class="patient-list-container">
+          
+          <!-- Table Header -->
+          <div class="table-header">
+            <span class="col-patient">Patient Details</span>
+            <span class="col-status">Attendance Status</span>
+            <span class="col-action">Visit Action</span>
+          </div>
+
+          @if (filteredPatients().length === 0) {
+            <div class="empty-filter-state">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <p>No patients match the search filter</p>
+              <span>Try switching filters or clearing your query</span>
+            </div>
+          } @else {
+            @for (patient of pagedPatients(); track patient.id) {
+              <div class="patient-row" [class.visited-row]="isPatientVisited(patient)">
+                
+                <!-- Patient Info -->
+                <div class="patient-info">
+                  <div class="avatar" [class.avatar-visited]="isPatientVisited(patient)">
+                    {{ patient.name.substring(0, 2).toUpperCase() }}
+                  </div>
+                  <div class="patient-text">
+                    <div class="name-row">
+                      <p class="name">{{ patient.name }}</p>
+                      @if (patient.age) {
+                        <span class="age-badge">{{ patient.age }}</span>
+                      }
+                    </div>
+                    <p class="parent">{{ patient.parentName }} · {{ patient.phone }}</p>
+                    @if (patient.registrationDate) {
+                      <span class="reg-date-hint">Reg: {{ formatDate(patient.registrationDate) }}</span>
+                    }
+                  </div>
+                </div>
+
+                <!-- Attendance Status Display -->
+                <div class="attendance-status-col">
+                  @if (isPatientVisited(patient)) {
+                    <div class="status-pill visited">
+                      <ion-icon name="checkmark-circle"></ion-icon>
+                      <div class="status-text-wrap">
+                        <span class="status-title">Visited</span>
+                        @if (getVisitTime(patient)) {
+                          <span class="status-sub">{{ getVisitTime(patient) }}</span>
+                        }
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="status-pill pending">
+                      <ion-icon name="time-outline"></ion-icon>
+                      <span class="status-title">Pending</span>
+                    </div>
+                  }
+                </div>
+
+                <!-- Visit Marking Action Button -->
+                <div class="visit-action-col">
+                  @if (!isPatientVisited(patient)) {
+                    <button
+                      type="button"
+                      class="action-btn mark-visit-btn"
+                      (click)="toggleVisit(patient)"
+                      title="Click to mark patient as visited on this Pushyamrut date"
+                    >
+                      <ion-icon name="medkit-outline"></ion-icon>
+                      <span>Mark Visited</span>
+                    </button>
+                  } @else {
+                    <button
+                      type="button"
+                      class="action-btn visited-toggle-btn"
+                      (click)="toggleVisit(patient)"
+                      title="Click to toggle or undo visit"
+                    >
+                      <ion-icon name="checkmark-circle"></ion-icon>
+                      <span>Visited ✓</span>
+                    </button>
+                  }
+                </div>
+
               </div>
             }
 
-            @if (selectedDate()) {
-              <div class="status">
-                {{ patient.history?.[selectedDate()!]?.stage2Status ?? "—" }}
+            <!-- Pagination Controls -->
+            @if (totalPages() > 1) {
+              <div class="pagination-footer">
+                <span class="pagination-info">
+                  Showing {{ startIndex() }}–{{ endIndex() }} of {{ filteredPatients().length }}
+                </span>
+
+                <div class="pagination-controls">
+                  <button
+                    type="button"
+                    class="page-nav-btn"
+                    [disabled]="currentPage() === 1"
+                    (click)="prevPage()"
+                    aria-label="Previous page"
+                  >
+                    <ion-icon name="chevron-back-outline"></ion-icon>
+                  </button>
+
+                  <div class="page-numbers">
+                    @for (page of pagesArray(); track page) {
+                      <button
+                        type="button"
+                        class="page-number-btn"
+                        [class.active]="currentPage() === page"
+                        (click)="goToPage(page)"
+                      >
+                        {{ page }}
+                      </button>
+                    }
+                  </div>
+
+                  <button
+                    type="button"
+                    class="page-nav-btn"
+                    [disabled]="currentPage() === totalPages()"
+                    (click)="nextPage()"
+                    aria-label="Next page"
+                  >
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </button>
+                </div>
               </div>
             }
-          </div>
-        }
-      </div>
+          }
+
+        </div>
+
+      }
+
     }
+
   </div>
 }

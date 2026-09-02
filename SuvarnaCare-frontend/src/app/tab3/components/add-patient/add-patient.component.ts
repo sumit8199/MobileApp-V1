@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, input, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -8,23 +8,11 @@ import {
   alertCircleOutline,
   closeOutline,
   flash,
+  calendarOutline,
+  happyOutline,
 } from 'ionicons/icons';
-
-export interface PatientForm {
-  name: string;
-  age: string;
-  parentName: string;
-  phone: string;
-  registrationDate: string;
-}
-
-export interface FormErrors {
-  name?: string;
-  age?: string;
-  parentName?: string;
-  phone?: string;
-  registrationDate?: string;
-}
+import { PatientForm, FormErrors } from '@core/interfaces';
+import { calculateAge } from '@core/dto';
 
 @Component({
   selector: 'app-add-patient',
@@ -35,26 +23,41 @@ export interface FormErrors {
 })
 export class AddPatientComponent implements OnInit {
   readonly nextPushya = input.required<string>();
-  readonly errors = input<FormErrors>({});
 
-  // Output Events (Replacing React callbacks)
+  // Output Events
   readonly closeForm = output<void>();
   readonly registerPatient = output<PatientForm>();
 
-  // Local React-like form state managed using an Angular signal
+  // Form errors state
+  public formErrors = signal<FormErrors>({});
+
+  // Local form state with birthDate
   public form = signal<PatientForm>({
     name: '',
-    age: '',
+    birthDate: '',
     parentName: '',
     phone: '',
     registrationDate: new Date().toISOString().split('T')[0],
   });
+
+  // Maximum selectable birth date is today
+  readonly todayDate = new Date().toISOString().split('T')[0];
+
+  // Dynamic calculated age derived automatically from birthDate
+  readonly calculatedAge = computed(() => {
+    const dob = this.form().birthDate;
+    if (!dob) return '';
+    return calculateAge(dob);
+  });
+
   constructor() {
     addIcons({
       closeOutline,
       alertCircleOutline,
       flash,
       addOutline,
+      calendarOutline,
+      happyOutline,
     });
   }
 
@@ -62,7 +65,6 @@ export class AddPatientComponent implements OnInit {
 
   public onPhoneInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    // Strip non-digits and slice to 10 digits max
     const sanitized = inputElement.value.replace(/\D/g, '').slice(0, 10);
 
     this.form.update((current) => ({
@@ -70,7 +72,6 @@ export class AddPatientComponent implements OnInit {
       phone: sanitized,
     }));
 
-    // Keep template view value synced if characters were dropped
     inputElement.value = sanitized;
   }
 
@@ -78,6 +79,12 @@ export class AddPatientComponent implements OnInit {
     this.form.update((current) => ({
       ...current,
       [key]: value,
+    }));
+
+    // Clear field error on edit
+    this.formErrors.update((current) => ({
+      ...current,
+      [key]: undefined,
     }));
   }
 
@@ -93,6 +100,33 @@ export class AddPatientComponent implements OnInit {
   }
 
   public submitForm(): void {
-    this.registerPatient.emit(this.form());
+    const data = this.form();
+    const errors: FormErrors = {};
+
+    if (!data.name.trim()) {
+      errors.name = "Child's name is required";
+    }
+    if (!data.birthDate.trim()) {
+      errors.birthDate = 'Date of birth is required';
+    } else {
+      const dob = new Date(data.birthDate);
+      if (isNaN(dob.getTime()) || dob > new Date()) {
+        errors.birthDate = 'Please select a valid past date of birth';
+      }
+    }
+    if (!data.parentName.trim()) {
+      errors.parentName = 'Parent / Guardian name is required';
+    }
+    if (!data.phone.trim() || data.phone.length < 10) {
+      errors.phone = 'Please enter a valid 10-digit mobile number';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      this.formErrors.set(errors);
+      return;
+    }
+
+    this.formErrors.set({});
+    this.registerPatient.emit(data);
   }
 }

@@ -131,6 +131,29 @@ $error-red: #ef4444;
           font-size: 12px;
         }
       }
+
+      .age-preview-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: $green-light;
+        color: $green-brand;
+        border: 1px solid rgba(26, 67, 41, 0.2);
+        border-radius: 8px;
+        padding: 4px 10px;
+        font-size: 11px;
+        margin-top: 4px;
+        width: fit-content;
+
+        ion-icon {
+          font-size: 13px;
+        }
+
+        strong {
+          color: $green-brand;
+          font-weight: 700;
+        }
+      }
     }
 
     .automation-notice {

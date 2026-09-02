@@ -128,6 +128,13 @@ $text-gray: #9ca3af;
           }
         }
 
+        .edit-action-group,
+        .row-actions {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
         .action-btn {
           display: flex;
           align-items: center;
@@ -137,6 +144,8 @@ $text-gray: #9ca3af;
           border-radius: 8px;
           border: none;
           font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
           
           &.edit-btn {
             background-color: $green-light;
@@ -148,11 +157,40 @@ $text-gray: #9ca3af;
             background-color: $green-brand;
             color: #ffffff;
           }
+          &.cancel-btn {
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+          }
+          &.delete-btn {
+            background-color: #fef2f2;
+            color: #ef4444;
+            padding: 4px 8px;
+            font-size: 13px;
+
+            &:hover {
+              background-color: #fee2e2;
+              color: #dc2626;
+            }
+          }
           &:active { opacity: 0.7; }
         }
       }
 
       .row-body {
+        .edit-input-container {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-bottom: 6px;
+
+          .edit-help-text {
+            font-size: 10px;
+            color: #94a3b8;
+            padding-left: 2px;
+          }
+        }
+
         .date-input-field {
           width: 100%;
           border-radius: 12px;

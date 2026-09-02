@@ -12,6 +12,7 @@
       <ion-datetime
         presentation="date"
         [(ngModel)]="datetime"
+        [highlightedDates]="highlightedDates()"
         (ionChange)="onDateSelected($event)"
       >
       </ion-datetime>
@@ -32,12 +33,16 @@
         <ion-label>Today's Date</ion-label>
       </ion-chip>
     </div>
-    <app-calender-details
-      [selectedDate]="selectedDate"
-      [isSelectedPushya]="isSelectedPushya"
-      [isSelectedPast]="isSelectedPast"
-      [patients]="patients"
-      (close)="selectedDate = null"
-    ></app-calender-details>
+
+    <!-- Deferrable View: Lazy-loads attendance details when a date is selected -->
+    @defer (when selectedDate) {
+      <app-calender-details
+        [selectedDate]="selectedDate"
+        [isSelectedPushya]="isSelectedPushya"
+        [isSelectedPast]="isSelectedPast"
+        [patients]="patients()"
+        (close)="selectedDate = null"
+      ></app-calender-details>
+    }
   </div>
 </ion-content>

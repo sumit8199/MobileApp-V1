@@ -13,11 +13,31 @@
         </div>
       </div>
 
-      <ion-button fill="clear" class="notification-btn">
-        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      <div class="header-right">
+        <!-- Live Localhost Service & SQL Status Pill -->
+        <div class="db-status-pill" [class.connected]="dbStatus().sqlServerConnected" title="SQL Server & Microservices Status on Localhost">
+          <span class="status-pulse"></span>
+          <span class="status-text">
+            {{ dbStatus().sqlServerConnected ? 'SQL Active' : 'Local Dev' }}
+          </span>
+        </div>
 
-        <span class="badge">3</span>
-      </ion-button>
+        <!-- Doctor Avatar & Logout -->
+        @if (currentUser()) {
+          <div class="doctor-badge" (click)="navigateToSettings()" title="View Doctor Profile (Settings)">
+            <span class="doctor-initials">{{ currentUser()?.initials || 'DR' }}</span>
+          </div>
+
+          <ion-button fill="clear" class="logout-icon-btn" (click)="logout()" title="Sign Out">
+            <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+          </ion-button>
+        } @else {
+          <ion-button fill="clear" class="notification-btn">
+            <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+            <span class="badge">3</span>
+          </ion-button>
+        }
+      </div>
 
     </div>
   </ion-toolbar>

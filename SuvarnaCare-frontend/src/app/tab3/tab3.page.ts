@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -7,13 +7,18 @@ import {
   IonFabButton,
   IonFab,
   IonIcon,
-  IonSearchbar,
+  IonRefresher,
+  IonRefresherContent,
+  IonSpinner,
+  ViewWillEnter,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 import { HeaderComponent } from '../componants/header/header.component';
 import { AddPatientComponent } from './components/add-patient/add-patient.component';
-import { Patient, PatientDirectoryComponent } from './components/patient-directory/patient-directory.component';
+import { PatientDirectoryComponent } from './components/patient-directory/patient-directory.component';
+import { Patient, PatientForm } from '@core/interfaces';
+import { PatientApiService, ReminderApiService } from '@core/services';
 
 @Component({
   selector: 'app-tab3',
@@ -27,44 +32,87 @@ import { Patient, PatientDirectoryComponent } from './components/patient-directo
     IonFabButton,
     IonFab,
     IonIcon,
+    IonRefresher,
+    IonRefresherContent,
+    IonSpinner,
     HeaderComponent,
     AddPatientComponent,
     PatientDirectoryComponent,
   ],
 })
-export class Tab3Page {
-  // Signal tracking visibility state
+export class Tab3Page implements OnInit, ViewWillEnter {
+  private patientApiService = inject(PatientApiService);
+  private reminderApiService = inject(ReminderApiService);
+
+  // State Signals
   public showAddPatient = signal<boolean>(false);
   public searchQuery = signal<string>('');
+  public nextPushyaDate = signal<string>('2026-07-18');
 
-  // 3. Define static/mock patient data layout matching the Patient interface
-  public patientList: Patient[] = [
-    {
-      id: '1',
-      name: 'Arjun Sharma',
-      age: '2 years, 8 months',
-      parentName: 'Vikram Sharma',
-      phone: '9876543210',
-      registrationDate: '2026-06-15',
-      history: {
-        '2026-07-18': {
-          stage1Status: 'read',
-          stage1At: '09:00 AM',
-          stage2Status: 'sent',
-        },
-      },
-    },
-  ];
+  // Reactive access to services
+  public patients = this.patientApiService.patients;
+  public isLoading = this.patientApiService.isLoading;
+  public isDatabaseConnected = this.patientApiService.isDatabaseConnected;
+
+  // Filtered patients computed from search query
+  public filteredPatients = computed(() => {
+    const q = this.searchQuery().toLowerCase().trim();
+    const list = this.patients();
+    if (!q) return list;
+    return list.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.phone.includes(q) ||
+        p.parentName.toLowerCase().includes(q)
+    );
+  });
 
   constructor() {
     addIcons({ add });
   }
 
-  public addItem() {
+  ngOnInit(): void {
+    this.fetchPatients();
+    this.reminderApiService.loadPushyaDates().subscribe((dates) => {
+      if (dates && dates.length > 0) {
+        this.nextPushyaDate.set(dates[0].pushyaDate);
+      }
+    });
+  }
+
+  ionViewWillEnter(): void {
+    this.fetchPatients();
+  }
+
+  public fetchPatients(event?: any): void {
+    this.patientApiService.loadPatients(this.searchQuery()).subscribe({
+      next: () => {
+        if (event) event.target.complete();
+      },
+      error: () => {
+        if (event) event.target.complete();
+      },
+    });
+  }
+
+  public onSearchChange(newQuery: string): void {
+    this.searchQuery.set(newQuery);
+    // Fetch directly from backend GET /api/patients?search=...
+    this.patientApiService.loadPatients(newQuery).subscribe();
+  }
+
+  public addItem(): void {
     this.showAddPatient.set(true);
   }
 
-  public closeForm() {
+  public closeForm(): void {
     this.showAddPatient.set(false);
+  }
+
+  public handleRegisterPatient(form: PatientForm): void {
+    this.patientApiService.createPatient(form, this.nextPushyaDate()).subscribe(() => {
+      this.closeForm();
+      this.fetchPatients();
+    });
   }
 }

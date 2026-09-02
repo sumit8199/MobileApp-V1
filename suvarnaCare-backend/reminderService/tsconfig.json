@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "importHelpers": true,
@@ -30,7 +31,8 @@
   },
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts"
   ],
   "include": ["src"]
 }

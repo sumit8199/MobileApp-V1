@@ -2,14 +2,53 @@
 
 <ion-content>
   <div class="dashboard">
-    <!-- Doctor Hero -->
-    <app-doctor-card [doctor]="doctor" [statistics]="statistics">
+    <!-- Doctor Hero (Dynamic with logged-in user profile) -->
+    <app-doctor-card [doctor]="doctor()" [statistics]="statistics()">
     </app-doctor-card>
+
     <!-- Clinic Information -->
-    <app-clinic-info [doctor]="doctor"> </app-clinic-info>
-    <!-- Schedule -->
-    <app-schedule-section> </app-schedule-section>
-    <!-- Version -->
-    <app-app-info> </app-app-info>
+    <app-clinic-info [doctor]="doctor()"> </app-clinic-info>
+
+    <!-- Account & Session Management Card -->
+    <div class="account-card">
+      <div class="account-card-header">
+        <div class="header-pill">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          <span>Active Session</span>
+        </div>
+        <h3>Account & Access</h3>
+      </div>
+
+      <div class="account-details">
+        <div class="detail-row">
+          <ion-icon name="person-circle-outline" class="detail-icon"></ion-icon>
+          <div class="detail-text">
+            <span class="detail-label">Logged in User</span>
+            <span class="detail-value">{{ authService.currentUser()?.name || doctor().name }}</span>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <ion-icon name="mail-outline" class="detail-icon"></ion-icon>
+          <div class="detail-text">
+            <span class="detail-label">Registered Email</span>
+            <span class="detail-value">{{ authService.currentUser()?.email || 'doctor@suvarnacare.com' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-actions">
+        <button type="button" class="logout-action-btn" (click)="confirmLogout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>Sign Out / Switch Doctor</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Deferrable View: Lazy-loads Schedule and App Info on idle -->
+    @defer (on idle) {
+      <app-schedule-section> </app-schedule-section>
+      <app-app-info> </app-app-info>
+    }
   </div>
 </ion-content>
