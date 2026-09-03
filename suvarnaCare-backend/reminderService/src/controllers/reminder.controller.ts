@@ -52,6 +52,45 @@ export class ReminderController {
   };
 
   /**
+   * PUT /api/reminders/pushya-dates/:oldDate
+   * or PUT /api/reminders/pushya-dates
+   */
+  updatePushyaDate = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const oldDate = (req.params.oldDate || req.params.date || req.body?.oldDate || req.body?.pushyaDate) as string;
+      const newDate = (req.body?.newDate || req.body?.pushyaDate) as string;
+      const label = req.body?.label as string | undefined;
+
+      if (!oldDate || !newDate) {
+        res.status(400).json(buildApiResponse(null, 'Validation Error: Both oldDate and newDate are required.', false, isSqlConnected()));
+        return;
+      }
+
+      const updated = await this.service.updatePushyaDate(oldDate, newDate, label);
+      res.status(200).json(buildApiResponse(updated, `Pushya date updated from ${oldDate} to ${newDate} successfully.`, true, isSqlConnected()));
+    } catch (error: any) {
+      res.status(400).json(buildApiResponse(null, error.message, false, isSqlConnected()));
+    }
+  };
+
+  /**
+   * DELETE /api/reminders/pushya-dates/:date
+   */
+  deletePushyaDate = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const dateParam = (req.params.date || req.params.pushyaDate || req.body?.pushyaDate) as string;
+      if (!dateParam) {
+        res.status(400).json(buildApiResponse(false, 'Validation Error: pushyaDate parameter is required.', false, isSqlConnected()));
+        return;
+      }
+      await this.service.deletePushyaDate(dateParam);
+      res.status(200).json(buildApiResponse(true, `Pushya date ${dateParam} deleted successfully from database.`, true, isSqlConnected()));
+    } catch (error: any) {
+      res.status(500).json(buildApiResponse(false, error.message, false, isSqlConnected()));
+    }
+  };
+
+  /**
    * GET /api/reminders
    */
   getReminders = async (req: Request, res: Response): Promise<void> => {

@@ -42,8 +42,7 @@ export function calculateAge(birthDateStr: string | Date): string {
 
 export interface CreatePatientRequestDto {
   name: string;
-  birthDate: string;
-  parentName: string;
+  birthDate?: string;
   phone: string;
   registrationDate?: string;
   initialPushyaDate?: string;
@@ -52,7 +51,6 @@ export interface CreatePatientRequestDto {
 export interface UpdatePatientRequestDto {
   name?: string;
   birthDate?: string;
-  parentName?: string;
   phone?: string;
   registrationDate?: string;
 }
@@ -77,7 +75,6 @@ export interface PatientResponseDto {
   name: string;
   birthDate: string;
   age: string;
-  parentName: string;
   phone: string;
   registrationDate: string;
   history: IPatientHistoryMap;
@@ -105,9 +102,8 @@ export function buildCreatePatientDto(raw: any): CreatePatientRequestDto {
 
   return {
     name: String(raw.name || '').trim(),
-    birthDate: String(birthDate).trim(),
-    parentName: String(raw.parentName || raw.parent_name || '').trim(),
-    phone: String(raw.phone || '').replace(/\D/g, ''),
+    birthDate: String(birthDate || '').trim(),
+    phone: String(raw.phone || '').replace(/\D/g, '').slice(0, 10),
     registrationDate: raw.registrationDate || raw.registration_date || new Date().toISOString().split('T')[0],
     initialPushyaDate: raw.nextPushya || raw.initialPushyaDate,
   };
@@ -117,12 +113,9 @@ export function buildUpdatePatientDto(raw: any): UpdatePatientRequestDto {
   const dto: UpdatePatientRequestDto = {};
   if (raw.name !== undefined) dto.name = String(raw.name).trim();
   if (raw.birthDate !== undefined || raw.birth_date !== undefined) {
-    dto.birthDate = String(raw.birthDate || raw.birth_date).trim();
+    dto.birthDate = String(raw.birthDate || raw.birth_date || '').trim();
   }
-  if (raw.parentName !== undefined || raw.parent_name !== undefined) {
-    dto.parentName = String(raw.parentName || raw.parent_name).trim();
-  }
-  if (raw.phone !== undefined) dto.phone = String(raw.phone).replace(/\D/g, '');
+  if (raw.phone !== undefined) dto.phone = String(raw.phone).replace(/\D/g, '').slice(0, 10);
   if (raw.registrationDate !== undefined || raw.registration_date !== undefined) {
     dto.registrationDate = String(raw.registrationDate || raw.registration_date).trim();
   }
@@ -136,7 +129,6 @@ export function toPatientResponseDto(entity: IPatientEntity): PatientResponseDto
     name: entity.name,
     birthDate: entity.birthDate || '',
     age: computedAge,
-    parentName: entity.parentName,
     phone: entity.phone,
     registrationDate: entity.registrationDate,
     history: entity.history || {},

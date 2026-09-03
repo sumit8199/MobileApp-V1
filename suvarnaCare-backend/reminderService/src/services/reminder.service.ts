@@ -95,6 +95,21 @@ export class ReminderService {
   }
 
   /**
+   * Updates an existing Pushya date to a new date and cascades reminder schedule updates.
+   */
+  async updatePushyaDate(oldDate: string, newDate: string, label?: string): Promise<PushyaScheduleResponseDto> {
+    const updated = await this.repository.updatePushyaDate(oldDate, newDate, label);
+    return toPushyaScheduleDto(updated);
+  }
+
+  /**
+   * Deletes a Pushya calendar date from MySQL and memory.
+   */
+  async deletePushyaDate(pushyaDate: string): Promise<boolean> {
+    return this.repository.deletePushyaDate(pushyaDate);
+  }
+
+  /**
    * Retrieves reminders according to query filters (pushyaDate, stage, status, patientId).
    */
   async getReminders(filter?: IReminderFilterQuery): Promise<ReminderResponseDto[]> {

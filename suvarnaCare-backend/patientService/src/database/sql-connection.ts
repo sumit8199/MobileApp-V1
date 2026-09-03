@@ -59,8 +59,7 @@ export async function initializeDatabaseSchema(activePool: Pool): Promise<void> 
       CREATE TABLE IF NOT EXISTS Patients (
         id VARCHAR(50) PRIMARY KEY,
         name VARCHAR(150) NOT NULL,
-        birth_date VARCHAR(20) NOT NULL,
-        parent_name VARCHAR(150) NOT NULL,
+        birth_date VARCHAR(20) DEFAULT '',
         phone VARCHAR(20) NOT NULL,
         registration_date VARCHAR(50) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -90,7 +89,9 @@ export async function initializeDatabaseSchema(activePool: Pool): Promise<void> 
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
-    // Ensure columns exist on existing tables
+    // Ensure columns and schema definitions exist on existing tables
+    try { await activePool.query(`ALTER TABLE Patients MODIFY COLUMN birth_date VARCHAR(20) NULL DEFAULT '';`); } catch (_) {}
+    try { await activePool.query(`ALTER TABLE Patients DROP COLUMN parent_name;`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE PatientSessionHistory ADD COLUMN visited TINYINT(1) DEFAULT 0;`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE PatientSessionHistory ADD COLUMN visited_at VARCHAR(50) NULL;`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE PatientSessionHistory ADD COLUMN dose_administered TINYINT(1) DEFAULT 0;`); } catch (_) {}
@@ -113,17 +114,17 @@ async function seedInitialData(activePool: Pool): Promise<void> {
       console.log('🌱 [MySQL - PatientService] Seeding default patients into MySQL...');
 
       const seedPatients = [
-        { id: '1', name: 'Arjun Sharma', birthDate: '2024-06-15', parent_name: 'Vikram Sharma', phone: '9876543210', reg: '2026-02-15' },
-        { id: '2', name: 'Priya Patel', birthDate: '2025-02-10', parent_name: 'Suresh Patel', phone: '9876543211', reg: '2026-04-10' },
-        { id: '3', name: 'Kavya Nair', birthDate: '2023-08-20', parent_name: 'Rajan Nair', phone: '9876543212', reg: '2026-03-20' },
-        { id: '4', name: 'Rohan Desai', birthDate: '2025-12-05', parent_name: 'Amit Desai', phone: '9876543213', reg: '2026-05-05' },
-        { id: '5', name: 'Ananya Joshi', birthDate: '2024-02-12', parent_name: 'Deepak Joshi', phone: '9876543214', reg: '2026-06-12' },
+        { id: '1', name: 'Arjun Sharma', birthDate: '2024-06-15', phone: '9876543210', reg: '2026-02-15' },
+        { id: '2', name: 'Priya Patel', birthDate: '2025-02-10', phone: '9876543211', reg: '2026-04-10' },
+        { id: '3', name: 'Kavya Nair', birthDate: '2023-08-20', phone: '9876543212', reg: '2026-03-20' },
+        { id: '4', name: 'Rohan Desai', birthDate: '2025-12-05', phone: '9876543213', reg: '2026-05-05' },
+        { id: '5', name: 'Ananya Joshi', birthDate: '2024-02-12', phone: '9876543214', reg: '2026-06-12' },
       ];
 
       for (const p of seedPatients) {
         await activePool.execute(
-          'INSERT INTO Patients (id, name, birth_date, parent_name, phone, registration_date) VALUES (?, ?, ?, ?, ?, ?)',
-          [p.id, p.name, p.birthDate, p.parent_name, p.phone, p.reg]
+          'INSERT INTO Patients (id, name, birth_date, phone, registration_date) VALUES (?, ?, ?, ?, ?)',
+          [p.id, p.name, p.birthDate, p.phone, p.reg]
         );
 
         await activePool.execute(

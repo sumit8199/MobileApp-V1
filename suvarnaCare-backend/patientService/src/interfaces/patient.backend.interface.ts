@@ -23,7 +23,6 @@ export interface IPatientEntity {
   name: string;
   birthDate: string;
   age?: string;
-  parentName: string;
   phone: string;
   registrationDate: string;
   history: IPatientHistoryMap;
@@ -35,7 +34,6 @@ export interface IPatientDbRow {
   id: string;
   name: string;
   birth_date: string;
-  parent_name: string;
   phone: string;
   registration_date: string;
   pushya_date?: string;

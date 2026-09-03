@@ -43,7 +43,6 @@ export class AddPatientComponent implements OnInit {
   public form = signal<PatientForm>({
     name: '',
     birthDate: '',
-    parentName: '',
     phone: '',
     registrationDate: new Date().toISOString().split('T')[0],
   });
@@ -80,7 +79,6 @@ export class AddPatientComponent implements OnInit {
         this.form.set({
           name: p.name || '',
           birthDate: p.birthDate || '',
-          parentName: p.parentName || '',
           phone: (p.phone || '').replace(/\D/g, '').slice(0, 10),
           registrationDate: p.registrationDate || new Date().toISOString().split('T')[0],
         });
@@ -88,7 +86,6 @@ export class AddPatientComponent implements OnInit {
         this.form.set({
           name: '',
           birthDate: '',
-          parentName: '',
           phone: '',
           registrationDate: new Date().toISOString().split('T')[0],
         });
@@ -104,7 +101,6 @@ export class AddPatientComponent implements OnInit {
       this.form.set({
         name: p.name || '',
         birthDate: p.birthDate || '',
-        parentName: p.parentName || '',
         phone: (p.phone || '').replace(/\D/g, '').slice(0, 10),
         registrationDate: p.registrationDate || new Date().toISOString().split('T')[0],
       });
@@ -121,6 +117,13 @@ export class AddPatientComponent implements OnInit {
     }));
 
     inputElement.value = sanitized;
+
+    if (sanitized.length === 10) {
+      this.formErrors.update((current) => ({
+        ...current,
+        phone: undefined,
+      }));
+    }
   }
 
   public updateField(key: keyof PatientForm, value: string): void {
@@ -152,20 +155,17 @@ export class AddPatientComponent implements OnInit {
     const errors: FormErrors = {};
 
     if (!data.name.trim()) {
-      errors.name = "Child's name is required";
+      errors.name = "Patient's full name is required";
     }
-    if (!data.birthDate.trim()) {
-      errors.birthDate = 'Date of birth is required';
-    } else {
+    if (data.birthDate && data.birthDate.trim()) {
       const dob = new Date(data.birthDate);
       if (isNaN(dob.getTime()) || dob > new Date()) {
         errors.birthDate = 'Please select a valid past date of birth';
       }
     }
-    if (!data.parentName.trim()) {
-      errors.parentName = 'Parent / Guardian name is required';
-    }
-    if (!data.phone.trim() || data.phone.length < 10) {
+    if (!data.phone.trim()) {
+      errors.phone = 'Phone number is required';
+    } else if (data.phone.length !== 10) {
       errors.phone = 'Please enter a valid 10-digit mobile number';
     }
 

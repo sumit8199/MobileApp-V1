@@ -21,6 +21,7 @@ $error-red: #ef4444;
     border-bottom: 1px solid var(--card-border);
     padding: 20px 20px 16px 20px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 12px;
 
@@ -38,7 +39,9 @@ $error-red: #ef4444;
       font-size: 17px;
       transition: all 0.2s ease;
 
-      &:active { opacity: 0.7; }
+      &:active {
+        opacity: 0.7;
+      }
     }
 
     .header-titles {
@@ -50,6 +53,7 @@ $error-red: #ef4444;
         margin: 0;
         color: var(--brand-green);
       }
+
       .subtitle {
         font-size: 11px;
         margin-top: 2px;
@@ -209,7 +213,9 @@ $error-red: #ef4444;
           background-color: rgba(0, 0, 0, 0.03);
         }
 
-        &:active { opacity: 0.7; }
+        &:active {
+          opacity: 0.7;
+        }
       }
 
       .submit-action-btn {
@@ -248,7 +254,9 @@ $error-red: #ef4444;
         cursor: not-allowed;
       }
 
-      &:active { opacity: 0.8; }
+      &:active {
+        opacity: 0.8;
+      }
     }
   }
 }
@@ -270,6 +278,7 @@ $error-red: #ef4444;
         .title {
           color: #dfb956;
         }
+
         .subtitle {
           color: #94a3b8;
         }

@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, catchError, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -45,6 +45,27 @@ export class ReminderApiService {
   });
   public isLoading = signal<boolean>(false);
   public isDatabaseConnected = signal<boolean>(false);
+
+  // Dynamic next upcoming Pushya schedule based on current date
+  public upcomingPushya = computed<PushyaSchedule | null>(() => {
+    const list = this.pushyaDates();
+    if (!list || list.length === 0) return null;
+
+    const sorted = [...list].sort(
+      (a, b) => new Date(a.pushyaDate).getTime() - new Date(b.pushyaDate).getTime()
+    );
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const next = sorted.find((item) => {
+      const pDate = new Date(item.pushyaDate);
+      pDate.setHours(0, 0, 0, 0);
+      return pDate.getTime() >= today.getTime();
+    });
+
+    return next || sorted[sorted.length - 1];
+  });
 
   private mockPushyaDates: PushyaSchedule[] = [
     { pushyaDate: '2026-06-21', stage1FireDate: '2026-06-18', stage2FireDate: '2026-06-21', label: 'Ashadha Pushya', isActive: true },
@@ -118,9 +139,25 @@ export class ReminderApiService {
   }
 
   /**
-   * Updates an existing Pushya date at a specific index and syncs with backend.
+   * Updates an existing Pushya date at a specific index or by date string and syncs with backend database.
    */
-  public updatePushyaDate(index: number, newDate: string, label?: string): Observable<PushyaSchedule | null> {
+  public updatePushyaDate(
+    target: number | string,
+    newDate: string,
+    label?: string
+  ): Observable<PushyaSchedule | null> {
+    const currentList = this.pushyaDates();
+    let oldDate = '';
+    let index = -1;
+
+    if (typeof target === 'number') {
+      index = target;
+      oldDate = currentList[target]?.pushyaDate || '';
+    } else {
+      oldDate = target;
+      index = currentList.findIndex((p) => p.pushyaDate === target);
+    }
+
     const d = new Date(newDate);
     d.setDate(d.getDate() - 3);
     const stage1FireDate = d.toISOString().split('T')[0];
@@ -129,42 +166,57 @@ export class ReminderApiService {
       pushyaDate: newDate,
       stage1FireDate,
       stage2FireDate: newDate,
-      label: label || 'Pushya Session',
+      label: label || (index >= 0 ? currentList[index]?.label : undefined) || 'Pushya Session',
       isActive: true,
     };
 
+    // Optimistically replace old date with new date (preventing duplicate entries)
     this.pushyaDates.update((prev) => {
-      const next = [...prev];
-      if (index >= 0 && index < next.length) {
-        next[index] = {
-          ...next[index],
-          ...updatedItem,
-        };
-      }
+      const filtered = prev.filter((p) => p.pushyaDate !== oldDate && p.pushyaDate !== newDate);
+      const next = [...filtered, updatedItem].sort((a, b) => a.pushyaDate.localeCompare(b.pushyaDate));
       return next;
     });
 
+    const endpointUrl = oldDate
+      ? `${this.apiUrl}/pushya-dates/${oldDate}`
+      : `${this.apiUrl}/pushya-dates`;
+
     return this.http
-      .post<ApiResponse<PushyaScheduleResponseDto>>(`${this.apiUrl}/pushya-dates`, {
+      .put<ApiResponse<PushyaScheduleResponseDto>>(endpointUrl, {
+        oldDate: oldDate || newDate,
+        newDate,
         pushyaDate: newDate,
-        label: label || updatedItem.label,
+        label: updatedItem.label,
       })
       .pipe(
         map((res) => {
           if (res && res.data) {
-            const created = buildPushyaScheduleViewModel(res.data);
-            return created;
+            const updated = buildPushyaScheduleViewModel(res.data);
+            return updated;
           }
           return updatedItem;
         }),
-        catchError(() => of(updatedItem))
+        catchError((err) => {
+          console.warn(`⚠️ [ReminderApiService] PUT /api/reminders/pushya-dates fallback:`, err.message);
+          return of(updatedItem);
+        })
       );
   }
 
   /**
-   * Deletes a Pushya date session at a specific index or by date string.
+   * Deletes a Pushya date session at a specific index or by date string and synchronizes with backend database.
    */
   public deletePushyaDate(target: number | string): Observable<boolean> {
+    let dateToDelete = '';
+    const currentList = this.pushyaDates();
+
+    if (typeof target === 'number') {
+      dateToDelete = currentList[target]?.pushyaDate || '';
+    } else {
+      dateToDelete = target;
+    }
+
+    // Optimistically update reactive signals
     this.pushyaDates.update((prev) => {
       if (typeof target === 'number') {
         return prev.filter((_, i) => i !== target);
@@ -172,7 +224,24 @@ export class ReminderApiService {
       return prev.filter((s) => s.pushyaDate !== target);
     });
 
-    return of(true);
+    if (!dateToDelete) {
+      return of(true);
+    }
+
+    return this.http
+      .delete<ApiResponse<boolean>>(`${this.apiUrl}/pushya-dates/${dateToDelete}`)
+      .pipe(
+        map((res) => {
+          return res.success;
+        }),
+        catchError((err) => {
+          console.warn(
+            `⚠️ [ReminderApiService] DELETE /api/reminders/pushya-dates/${dateToDelete} fallback:`,
+            err.message
+          );
+          return of(true);
+        })
+      );
   }
 
   /**

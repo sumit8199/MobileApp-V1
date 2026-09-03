@@ -48,7 +48,10 @@ export class Tab3Page implements OnInit, ViewWillEnter {
   public showAddPatient = signal<boolean>(false);
   public selectedPatientForEdit = signal<Patient | null>(null);
   public searchQuery = signal<string>('');
-  public nextPushyaDate = signal<string>('2026-07-18');
+  public nextPushyaDate = computed(() => {
+    const upcoming = this.reminderApiService.upcomingPushya();
+    return upcoming?.pushyaDate || '2026-09-10';
+  });
 
   // Form open status
   public isFormOpen = computed(
@@ -68,8 +71,7 @@ export class Tab3Page implements OnInit, ViewWillEnter {
     return list.filter(
       (p) =>
         p.name.toLowerCase().includes(q) ||
-        p.phone.includes(q) ||
-        p.parentName.toLowerCase().includes(q)
+        p.phone.includes(q)
     );
   });
 
@@ -79,11 +81,7 @@ export class Tab3Page implements OnInit, ViewWillEnter {
 
   ngOnInit(): void {
     this.fetchPatients();
-    this.reminderApiService.loadPushyaDates().subscribe((dates) => {
-      if (dates && dates.length > 0) {
-        this.nextPushyaDate.set(dates[0].pushyaDate);
-      }
-    });
+    this.reminderApiService.loadPushyaDates().subscribe();
   }
 
   ionViewWillEnter(): void {

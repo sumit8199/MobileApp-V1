@@ -1,8 +1,12 @@
 import { Router } from 'express';
 import { ReminderController } from '../controllers/reminder.controller.js';
+import { authenticateJwt } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 const controller = new ReminderController();
+
+// Protect every API endpoint with JWT verification middleware
+router.use(authenticateJwt);
 
 // Health Check
 router.get('/health/db', controller.healthCheck);
@@ -11,6 +15,9 @@ router.get('/health/db', controller.healthCheck);
 router.get('/pushya-dates', controller.getPushyaDates);
 router.get('/pushya-dates/upcoming', controller.getUpcomingPushya);
 router.post('/pushya-dates', controller.addPushyaDate);
+router.put('/pushya-dates/:oldDate', controller.updatePushyaDate);
+router.put('/pushya-dates', controller.updatePushyaDate);
+router.delete('/pushya-dates/:date', controller.deletePushyaDate);
 
 // Dashboard Statistics
 router.get('/statistics', controller.getStatistics);

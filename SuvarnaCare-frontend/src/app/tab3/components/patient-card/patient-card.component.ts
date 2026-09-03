@@ -122,7 +122,7 @@ export class PatientCardComponent implements OnInit {
 
     const alert = await this.alertCtrl.create({
       header: 'Delete Patient Record?',
-      subHeader: `${p.name} (Parent: ${p.parentName})`,
+      subHeader: `${p.name} (+91 ${p.phone})`,
       message: 'Are you sure you want to permanently remove this patient and their complete Pushyamrut attendance history? This action cannot be undone.',
       cssClass: 'custom-delete-alert',
       buttons: [

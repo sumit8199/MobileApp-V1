@@ -39,7 +39,6 @@ export class PatientApiService {
       name: 'Arjun Sharma',
       birthDate: '2024-06-15',
       age: '2 yrs',
-      parentName: 'Vikram Sharma',
       phone: '9876543210',
       registrationDate: '2026-02-15',
       history: {
@@ -66,7 +65,6 @@ export class PatientApiService {
       name: 'Priya Patel',
       birthDate: '2025-02-10',
       age: '18 mo',
-      parentName: 'Suresh Patel',
       phone: '9876543211',
       registrationDate: '2026-04-10',
       history: {
@@ -85,7 +83,6 @@ export class PatientApiService {
       name: 'Kavya Nair',
       birthDate: '2023-08-20',
       age: '3 yrs',
-      parentName: 'Rajan Nair',
       phone: '9876543212',
       registrationDate: '2026-03-20',
       history: {},
@@ -95,7 +92,6 @@ export class PatientApiService {
       name: 'Rohan Desai',
       birthDate: '2025-12-05',
       age: '8 mo',
-      parentName: 'Amit Desai',
       phone: '9876543213',
       registrationDate: '2026-05-05',
       history: {
@@ -122,7 +118,6 @@ export class PatientApiService {
       name: 'Ananya Joshi',
       birthDate: '2024-02-12',
       age: '2.5 yrs',
-      parentName: 'Deepak Joshi',
       phone: '9876543214',
       registrationDate: '2026-06-12',
       history: {},
@@ -181,8 +176,7 @@ export class PatientApiService {
           filtered = filtered.filter(
             (p) =>
               p.name.toLowerCase().includes(q) ||
-              p.phone.includes(q) ||
-              p.parentName.toLowerCase().includes(q)
+              p.phone.includes(q)
           );
         }
         this.patients.set(filtered);
@@ -229,9 +223,8 @@ export class PatientApiService {
         const fallbackPatient: Patient = {
           id: Date.now().toString(),
           name: dto.name,
-          birthDate: dto.birthDate,
-          age: calculateAge(dto.birthDate),
-          parentName: dto.parentName,
+          birthDate: dto.birthDate || '',
+          age: calculateAge(dto.birthDate || ''),
           phone: dto.phone,
           registrationDate: dto.registrationDate || new Date().toISOString().split('T')[0],
           history: {},
@@ -268,7 +261,6 @@ export class PatientApiService {
                 name: form.name?.trim() || p.name,
                 birthDate,
                 age: calculateAge(birthDate),
-                parentName: form.parentName?.trim() || p.parentName,
                 phone: (form.phone || p.phone).replace(/\D/g, '').slice(0, 10),
                 registrationDate: form.registrationDate || p.registrationDate,
               };

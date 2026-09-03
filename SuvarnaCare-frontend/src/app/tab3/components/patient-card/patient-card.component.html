@@ -8,7 +8,7 @@
     
     <div class="meta-profile-summary">
       <p class="patient-name">{{ patient().name }}</p>
-      <p class="patient-details">{{ patient().age }} · {{ patient().parentName }}</p>
+      <p class="patient-details">{{ patient().age || '+91 ' + patient().phone }}</p>
     </div>
 
     <!-- Attendance Status Badge / Pill -->

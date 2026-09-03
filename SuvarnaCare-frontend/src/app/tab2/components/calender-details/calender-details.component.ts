@@ -176,9 +176,8 @@ export class CalenderDetailsComponent implements OnInit {
       // Search filter
       if (query) {
         const matchName = p.name.toLowerCase().includes(query);
-        const matchParent = p.parentName.toLowerCase().includes(query);
         const matchPhone = p.phone.includes(query);
-        return matchName || matchParent || matchPhone;
+        return matchName || matchPhone;
       }
 
       return true;

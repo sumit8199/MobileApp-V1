@@ -2,8 +2,7 @@ import { PatientHistoryRecord } from '../interfaces/patient.interface';
 
 export interface CreatePatientRequestDto {
   name: string;
-  birthDate: string;
-  parentName: string;
+  birthDate?: string;
   phone: string;
   registrationDate?: string;
   initialPushyaDate?: string;
@@ -12,7 +11,6 @@ export interface CreatePatientRequestDto {
 export interface UpdatePatientRequestDto {
   name?: string;
   birthDate?: string;
-  parentName?: string;
   phone?: string;
   registrationDate?: string;
 }
@@ -37,7 +35,6 @@ export interface PatientResponseDto {
   name: string;
   birthDate: string;
   age: string;
-  parentName: string;
   phone: string;
   registrationDate: string;
   history: Record<string, PatientHistoryRecord>;

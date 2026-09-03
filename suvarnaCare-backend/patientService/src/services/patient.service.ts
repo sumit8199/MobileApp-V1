@@ -44,13 +44,7 @@ export class PatientService {
     if (!dto.name) {
       throw new Error('Validation Error: Patient name is required.');
     }
-    if (!dto.birthDate) {
-      throw new Error('Validation Error: Patient birthDate is required (e.g., 2025-02-01).');
-    }
-    if (!dto.parentName) {
-      throw new Error('Validation Error: Parent / Guardian name is required.');
-    }
-    if (!dto.phone || dto.phone.length < 10) {
+    if (!dto.phone || dto.phone.length !== 10) {
       throw new Error('Validation Error: Valid 10-digit mobile number is required.');
     }
 

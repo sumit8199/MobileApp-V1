@@ -109,7 +109,7 @@
             <ion-icon name="search-outline" class="search-icon"></ion-icon>
             <input
               type="text"
-              placeholder="Search registered child, parent, or phone..."
+              placeholder="Search registered patient or phone..."
               [value]="searchQuery()"
               (input)="onSearchChange($event)"
             />
@@ -190,7 +190,7 @@
                         <span class="age-badge">{{ patient.age }}</span>
                       }
                     </div>
-                    <p class="parent">{{ patient.parentName }} · {{ patient.phone }}</p>
+                    <p class="parent">+91 {{ patient.phone }}</p>
                     @if (patient.registrationDate) {
                       <span class="reg-date-hint">Reg: {{ formatDate(patient.registrationDate) }}</span>
                     }
