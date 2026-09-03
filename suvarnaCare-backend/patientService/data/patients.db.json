@@ -6,7 +6,16 @@
     "age": "1 yr 2 mo",
     "phone": "7896325410",
     "registrationDate": "2026-09-03",
-    "history": {}
+    "history": {
+      "2026-09-13": {
+        "sessionDate": "2026-09-13",
+        "attended": true,
+        "attendedAt": "10:34 PM",
+        "visited": true,
+        "visitedAt": "10:34 PM",
+        "doseAdministered": true
+      }
+    }
   },
   {
     "id": "1787748007775",
@@ -43,6 +52,12 @@
       "2026-12-01": {
         "stage1Status": "scheduled",
         "stage2Status": "scheduled"
+      },
+      "2026-09-13": {
+        "sessionDate": "2026-09-13",
+        "attended": false,
+        "visited": false,
+        "doseAdministered": false
       }
     }
   },

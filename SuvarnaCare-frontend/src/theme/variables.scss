@@ -35,6 +35,14 @@
   --tab-bar-color: #64748b;
   --tab-bar-color-selected: #1a4329;
 
+  /* Ionic Primary Color Brand Tokens */
+  --ion-color-primary: #1a4329;
+  --ion-color-primary-rgb: 26, 67, 41;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #112e1c;
+  --ion-color-primary-tint: #2d6a4f;
+
   /* Ionic system tokens */
   --ion-background-color: var(--app-bg);
   --ion-text-color: var(--text-primary);
@@ -78,6 +86,13 @@
     --tab-bar-color-selected: #dfb956;
 
     /* Ionic Palette Overrides in Dark Mode */
+    --ion-color-primary: #2d6a4f;
+    --ion-color-primary-rgb: 45, 106, 79;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #143324;
+    --ion-color-primary-tint: #40916c;
+
     --ion-background-color: #101612;
     --ion-background-color-rgb: 16, 22, 18;
     --ion-text-color: #f3f4f6;

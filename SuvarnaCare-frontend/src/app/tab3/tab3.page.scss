@@ -5,3 +5,36 @@
   flex-direction: column;
   gap: 20px;
 }
+
+/* Floating Action Button - Ayurvedic Emerald & Gold Theme */
+ion-fab {
+  margin-bottom: calc(var(--ion-safe-area-bottom, 0px) + 20px);
+  margin-inline-end: 12px;
+
+  ion-fab-button {
+    --background: linear-gradient(135deg, var(--brand-green, #1a4329) 0%, var(--brand-green-dark, #112e1c) 100%);
+    --color: #ffffff;
+    --box-shadow: 0 8px 24px rgba(26, 67, 41, 0.38), 0 2px 8px rgba(200, 161, 59, 0.25);
+    --border-radius: 50%;
+    --border-width: 1.5px;
+    --border-style: solid;
+    --border-color: rgba(200, 161, 59, 0.5);
+    border-radius: 50%;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+
+    ion-icon {
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      --box-shadow: 0 12px 28px rgba(26, 67, 41, 0.48), 0 3px 10px rgba(200, 161, 59, 0.35);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+  }
+}
