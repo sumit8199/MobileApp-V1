@@ -134,6 +134,110 @@ export class ReminderRepository {
   }
 
   /**
+   * Updates an existing Pushya date to a new date, updating MySQL, disk storage, and associated reminders.
+   */
+  async updatePushyaDate(oldDate: string, newDate: string, label?: string): Promise<IPushyaDateEntity> {
+    const parts = newDate.split('-');
+    const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    d.setDate(d.getDate() - 3);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const stage1FireDate = `${yyyy}-${mm}-${dd}`;
+    const stage2FireDate = newDate;
+
+    const existing = this.inMemoryPushyaDates.find((p) => p.pushyaDate === oldDate);
+    const resolvedLabel = label || existing?.label || `Pushya Nakshatra ${newDate}`;
+
+    const entity: IPushyaDateEntity = {
+      pushyaDate: newDate,
+      stage1FireDate,
+      stage2FireDate,
+      label: resolvedLabel,
+      isActive: true,
+    };
+
+    const pool = getSqlPool();
+    if (isSqlConnected() && pool) {
+      try {
+        if (oldDate === newDate) {
+          await pool.execute(
+            `UPDATE PushyaDates SET stage1_fire_date = ?, stage2_fire_date = ?, label = ?, is_active = 1 WHERE pushya_date = ?`,
+            [stage1FireDate, stage2FireDate, resolvedLabel, oldDate]
+          );
+        } else {
+          // Check if newDate already exists in table
+          const [exists]: any = await pool.query(`SELECT pushya_date FROM PushyaDates WHERE pushya_date = ?`, [newDate]);
+          if (exists && exists.length > 0) {
+            // Delete old date since new date already exists
+            await pool.execute(`DELETE FROM PushyaDates WHERE pushya_date = ?`, [oldDate]);
+          } else {
+            await pool.execute(
+              `UPDATE PushyaDates SET pushya_date = ?, stage1_fire_date = ?, stage2_fire_date = ?, label = ?, is_active = 1 WHERE pushya_date = ?`,
+              [newDate, stage1FireDate, stage2FireDate, resolvedLabel, oldDate]
+            );
+          }
+
+          // Update associated reminders scheduled on oldDate to newDate
+          await pool.execute(
+            `UPDATE Reminders SET pushya_date = ?, scheduled_date = CASE WHEN stage = 1 THEN ? ELSE ? END WHERE pushya_date = ?`,
+            [newDate, stage1FireDate, stage2FireDate, oldDate]
+          );
+        }
+      } catch (err: any) {
+        console.warn('⚠️ [ReminderRepository] MySQL updatePushyaDate error:', err.message);
+      }
+    }
+
+    // In-memory & disk update
+    if (oldDate === newDate) {
+      const idx = this.inMemoryPushyaDates.findIndex((p) => p.pushyaDate === oldDate);
+      if (idx >= 0) {
+        this.inMemoryPushyaDates[idx] = entity;
+      } else {
+        this.inMemoryPushyaDates.push(entity);
+      }
+    } else {
+      // Remove oldDate, add new entity
+      this.inMemoryPushyaDates = this.inMemoryPushyaDates.filter((p) => p.pushyaDate !== oldDate && p.pushyaDate !== newDate);
+      this.inMemoryPushyaDates.push(entity);
+      this.inMemoryPushyaDates.sort((a, b) => a.pushyaDate.localeCompare(b.pushyaDate));
+
+      // Move reminders from oldDate to newDate
+      this.inMemoryReminders.forEach((r) => {
+        if (r.pushyaDate === oldDate) {
+          r.pushyaDate = newDate;
+          r.scheduledDate = r.stage === 1 ? stage1FireDate : stage2FireDate;
+        }
+      });
+    }
+
+    this.saveToDisk();
+    return entity;
+  }
+
+  /**
+   * Deletes a Pushya calendar date and associated reminders from MySQL and disk store.
+   */
+  async deletePushyaDate(pushyaDate: string): Promise<boolean> {
+    const pool = getSqlPool();
+    if (isSqlConnected() && pool) {
+      try {
+        await pool.execute(`DELETE FROM Reminders WHERE pushya_date = ?`, [pushyaDate]);
+        const [res]: any = await pool.execute(`DELETE FROM PushyaDates WHERE pushya_date = ?`, [pushyaDate]);
+        console.log(`🗑️ [ReminderRepository] Deleted Pushya date ${pushyaDate} from MySQL`);
+      } catch (err: any) {
+        console.warn('⚠️ [ReminderRepository] MySQL deletePushyaDate error:', err.message);
+      }
+    }
+
+    this.inMemoryPushyaDates = this.inMemoryPushyaDates.filter((p) => p.pushyaDate !== pushyaDate);
+    this.inMemoryReminders = this.inMemoryReminders.filter((r) => r.pushyaDate !== pushyaDate);
+    this.saveToDisk();
+    return true;
+  }
+
+  /**
    * Retrieves reminders filtered from MySQL or in-memory.
    */
   async findReminders(filter?: IReminderFilterQuery): Promise<IReminderEntity[]> {
@@ -468,7 +572,9 @@ export class ReminderRepository {
   async getStatistics(): Promise<IReminderStats> {
     const pool = getSqlPool();
     const pushyaList = await this.getPushyaDates();
-    const upcomingDate = pushyaList[0]?.pushyaDate || '2026-07-18';
+    const todayMs = new Date().setHours(0, 0, 0, 0);
+    const sorted = [...pushyaList].sort((a, b) => new Date(a.pushyaDate).getTime() - new Date(b.pushyaDate).getTime());
+    const upcomingDate = sorted.find((d) => new Date(d.pushyaDate).getTime() >= todayMs)?.pushyaDate || sorted[sorted.length - 1]?.pushyaDate || '2026-09-10';
 
     if (isSqlConnected() && pool) {
       try {

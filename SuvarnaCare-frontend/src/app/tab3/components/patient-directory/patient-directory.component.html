@@ -13,7 +13,7 @@
     <ion-icon name="search-outline" class="search-icon"></ion-icon>
     <input 
       type="text" 
-      placeholder="Search name, parent or phone…" 
+      placeholder="Search name or phone…" 
       [ngModel]="search()" 
       (ngModelChange)="onInput($event)"
       class="search-input" />
@@ -35,7 +35,9 @@
       @for (patientItem of pagedPatients(); track patientItem.id) {
         <app-patient-card 
           [patient]="patientItem" 
-          [nextPushya]="nextPushya()">
+          [nextPushya]="nextPushya()"
+          (editPatient)="onEdit($event)"
+          (deletePatient)="onDelete($event)">
         </app-patient-card>
       }
     </div>

@@ -21,7 +21,6 @@ export interface Patient {
   name: string;
   birthDate: string;
   age?: string;
-  parentName: string;
   phone: string;
   registrationDate: string;
   history: PatientSessionMap;
@@ -29,17 +28,15 @@ export interface Patient {
 
 export interface PatientForm {
   name: string;
-  birthDate: string;
-  parentName: string;
+  birthDate?: string;
   phone: string;
-  registrationDate: string;
+  registrationDate?: string;
 }
 
 export interface FormErrors {
   name?: string;
   birthDate?: string;
   age?: string;
-  parentName?: string;
   phone?: string;
   registrationDate?: string;
 }

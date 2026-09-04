@@ -41,6 +41,7 @@ $text-gray: #9ca3af;
       border: none;
       background-color: $green-brand;
       color: #ffffff;
+      cursor: pointer;
       
       &:active { opacity: 0.8; }
     }
@@ -51,8 +52,8 @@ $text-gray: #9ca3af;
     align-items: center;
     gap: 12px;
     padding: 12px 14px;
-    background-color: #ffffff;
-    border: 1px solid rgba(26, 67, 41, 0.1);
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
 
     .search-icon { font-size: 16px; color: $text-gray; }
@@ -62,7 +63,7 @@ $text-gray: #9ca3af;
       border: none;
       outline: none;
       font-size: 14px;
-      color: $green-brand;
+      color: var(--text-primary);
       &::placeholder { color: #9ca3af; }
     }
     .clear-search-btn {
@@ -70,6 +71,7 @@ $text-gray: #9ca3af;
       border: none;
       font-size: 15px;
       color: $text-gray;
+      cursor: pointer;
     }
   }
 
@@ -80,7 +82,7 @@ $text-gray: #9ca3af;
     align-items: center;
     gap: 8px;
     
-    ion-icon { font-size: 36px; color: #d1d5db; }
+    ion-icon { font-size: 36px; color: #94a3b8; }
     p { font-size: 14px; color: $text-gray; margin: 0; }
   }
 
@@ -96,8 +98,8 @@ $text-gray: #9ca3af;
     justify-content: space-between;
     align-items: center;
     padding: 14px 16px;
-    background: #ffffff;
-    border: 1px solid rgba(26, 67, 41, 0.08);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 14px;
     flex-wrap: wrap;
     gap: 10px;
@@ -106,7 +108,7 @@ $text-gray: #9ca3af;
     .pagination-info {
       font-size: 12px;
       font-weight: 500;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .pagination-controls {
@@ -154,14 +156,14 @@ $text-gray: #9ca3af;
           border-radius: 8px;
           border: 1px solid transparent;
           background: transparent;
-          color: #475569;
+          color: var(--text-secondary);
           font-size: 13px;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.2s ease;
 
           &:hover {
-            background: #f1f5f9;
+            background: rgba(255, 255, 255, 0.08);
           }
 
           &.active {
@@ -175,11 +177,10 @@ $text-gray: #9ca3af;
   }
 }
 
-
 // ── Patient Subcard Internal SCSS Styles ───────────────────
 .patient-card-container {
-  background-color: #ffffff;
-  border: 1px solid $border-color;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
   overflow: hidden;
 
@@ -192,13 +193,14 @@ $text-gray: #9ca3af;
     background: transparent;
     border: none;
     text-align: left;
+    cursor: pointer;
 
     .avatar-mock-circle {
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background-color: $green-light;
-      color: $green-brand;
+      background-color: var(--brand-green-bg);
+      color: var(--brand-green);
       font-weight: 700;
       font-size: 14px;
       display: flex;
@@ -213,14 +215,14 @@ $text-gray: #9ca3af;
         font-size: 14px;
         font-weight: 700;
         margin: 0;
-        color: $green-brand;
+        color: var(--text-primary);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       .patient-details {
         font-size: 11px;
-        color: $text-gray;
+        color: var(--text-muted);
         margin: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -240,7 +242,7 @@ $text-gray: #9ca3af;
         border-radius: 50%;
         background-color: #e5e7eb;
         
-        &.active { background-color: #25d366; } // WA_BLUE representation color fallback
+        &.active { background-color: #25d366; }
       }
     }
 
@@ -248,12 +250,13 @@ $text-gray: #9ca3af;
       font-size: 16px;
       color: $text-gray;
       transition: transform 0.2s ease;
+
       &.rotated { transform: rotate(90deg); }
     }
   }
 
   .drawer-expanded-content {
-    border-top: 1px solid rgba(26, 67, 41, 0.06);
+    border-top: 1px solid var(--card-border);
     
     .info-details-grid {
       padding: 12px 16px 8px 16px;
@@ -267,13 +270,13 @@ $text-gray: #9ca3af;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.025em;
-          color: $text-gray;
+          color: var(--text-muted);
         }
         p {
           font-size: 12px;
           font-weight: 600;
           margin: 2px 0 0 0;
-          color: $green-brand;
+          color: var(--brand-green-text);
         }
       }
     }
@@ -291,11 +294,11 @@ $text-gray: #9ca3af;
         text-transform: uppercase;
         letter-spacing: 0.12em;
         margin-bottom: 4px;
-        color: $text-gray;
+        color: var(--text-muted);
       }
 
       .history-nested-row-item {
-        border: 1px solid rgba(26, 67, 41, 0.08);
+        border: 1px solid var(--card-border);
         border-radius: 12px;
         overflow: hidden;
 
@@ -307,9 +310,9 @@ $text-gray: #9ca3af;
           background-color: rgba($gold-brand, 0.07);
 
           &.is-past {
-            background-color: $green-light;
-            .time-label-stack ion-icon, .time-label-stack .date-text { color: $green-brand; }
-            .status-marker { color: $text-gray; }
+            background-color: var(--brand-green-bg);
+            .time-label-stack ion-icon, .time-label-stack .date-text { color: var(--brand-green); }
+            .status-marker { color: var(--text-muted); }
           }
 
           .time-label-stack {
@@ -325,18 +328,106 @@ $text-gray: #9ca3af;
         .history-item-body {
           display: flex;
           padding: 8px 12px;
-          background-color: #ffffff;
+          background-color: var(--card-bg-elevated);
 
-          .stage-divider { width: 1px; background-color: rgba(26, 67, 41, 0.06); align-self: stretch; margin: 0 16px; }
+          .stage-divider { width: 1px; background-color: var(--card-border); align-self: stretch; margin: 0 16px; }
           .stage-metric {
             flex: 1;
-            .stage-label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: $text-gray; margin: 0; }
+            .stage-label { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin: 0; }
             .stage-status {
               font-size: 10px;
-              color: $text-gray;
+              color: var(--text-secondary);
               margin: 4px 0 0 0;
               &.status-read { color: #25d366; }
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .directory-container {
+    .directory-header .title-stack .section-title {
+      color: #dfb956;
+    }
+
+    .directory-header .add-action-btn {
+      background: #dfb956;
+      color: #101612;
+    }
+
+    .search-bar-frame {
+      background-color: #18221b;
+      border-color: rgba(255, 255, 255, 0.08);
+
+      .search-input {
+        color: #f3f4f6;
+      }
+    }
+
+    .pagination-footer {
+      background: #141c16;
+      border-color: rgba(255, 255, 255, 0.08);
+
+      .pagination-controls {
+        .page-nav-btn {
+          background: #1e2920;
+          border-color: rgba(255, 255, 255, 0.1);
+          color: #cbd5e1;
+        }
+
+        .page-number-btn.active {
+          background: #dfb956;
+          color: #101612;
+        }
+      }
+    }
+  }
+
+  .patient-card-container {
+    background-color: #18221b;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    .card-trigger-panel {
+      .avatar-mock-circle {
+        background-color: rgba(45, 106, 79, 0.35);
+        color: #34d399;
+      }
+      .meta-profile-summary .patient-name {
+        color: #f3f4f6;
+      }
+    }
+
+    .drawer-expanded-content {
+      border-top-color: rgba(255, 255, 255, 0.08);
+
+      .info-details-grid .grid-cell p {
+        color: #6ee7b7;
+      }
+
+      .history-log-timeline .history-nested-row-item {
+        border-color: rgba(255, 255, 255, 0.08);
+
+        .history-item-header {
+          background-color: rgba(223, 185, 86, 0.12);
+          .time-label-stack .date-text, .status-marker {
+            color: #dfb956;
+          }
+
+          &.is-past {
+            background-color: rgba(45, 106, 79, 0.25);
+            .time-label-stack ion-icon, .time-label-stack .date-text {
+              color: #34d399;
+            }
+          }
+        }
+
+        .history-item-body {
+          background-color: #141c16;
+          .stage-divider {
+            background-color: rgba(255, 255, 255, 0.08);
           }
         }
       }

@@ -42,6 +42,13 @@ export class ReminderService {
         catch { }
         return toPushyaScheduleDto(created);
     }
+    async updatePushyaDate(oldDate, newDate, label) {
+        const updated = await this.repository.updatePushyaDate(oldDate, newDate, label);
+        return toPushyaScheduleDto(updated);
+    }
+    async deletePushyaDate(pushyaDate) {
+        return this.repository.deletePushyaDate(pushyaDate);
+    }
     async getReminders(filter) {
         const rows = await this.repository.findReminders(filter);
         return toReminderListResponseDto(rows);

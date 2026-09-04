@@ -1,28 +1,26 @@
-// Variables / Constants matching your design tokens
 $bg-light: #f9fafb;
 $screen-padding: 16px;
 
 :host {
-  --background: #{$bg-light};
+  --background: var(--app-bg);
 }
 
 ion-content {
-  --background: #{$bg-light};
+  --background: var(--app-bg);
 
   .dashboard {
     padding: 20px 16px;
-
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
   .account-card {
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: 16px;
     padding: 18px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(200, 161, 59, 0.2);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
 
     .account-card-header {
       margin-bottom: 14px;
@@ -50,7 +48,7 @@ ion-content {
         margin: 0;
         font-size: 16px;
         font-weight: 700;
-        color: #1e293b;
+        color: var(--text-primary);
       }
     }
 
@@ -64,14 +62,14 @@ ion-content {
         display: flex;
         align-items: center;
         gap: 12px;
-        background: #f8fafc;
+        background: var(--card-bg-elevated);
         padding: 10px 12px;
         border-radius: 10px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--card-border);
 
         .detail-icon {
           font-size: 22px;
-          color: #c8a13b;
+          color: var(--brand-gold);
         }
 
         .detail-text {
@@ -80,13 +78,13 @@ ion-content {
 
           .detail-label {
             font-size: 11px;
-            color: #64748b;
+            color: var(--text-muted);
             font-weight: 500;
           }
 
           .detail-value {
             font-size: 13px;
-            color: #0f172a;
+            color: var(--text-primary);
             font-weight: 600;
           }
         }
@@ -132,3 +130,56 @@ ion-content {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    .account-card {
+      background: #18221b;
+      border-color: rgba(223, 185, 86, 0.25);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+
+      .account-card-header {
+        .header-pill {
+          background: rgba(16, 185, 129, 0.2);
+          color: #6ee7b7;
+          border-color: rgba(52, 211, 153, 0.35);
+          ion-icon {
+            color: #34d399;
+          }
+        }
+
+        h3 {
+          color: #f3f4f6;
+        }
+      }
+
+      .account-details .detail-row {
+        background: #1e2920;
+        border-color: rgba(255, 255, 255, 0.08);
+
+        .detail-icon {
+          color: #dfb956;
+        }
+
+        .detail-text {
+          .detail-label {
+            color: #94a3b8;
+          }
+          .detail-value {
+            color: #f3f4f6;
+          }
+        }
+      }
+
+      .account-actions .logout-action-btn {
+        background: rgba(239, 68, 68, 0.15);
+        border-color: rgba(239, 68, 68, 0.35);
+        color: #fca5a5;
+
+        &:hover {
+          background: rgba(239, 68, 68, 0.25);
+          border-color: #f87171;
+        }
+      }
+    }
+  }
+}

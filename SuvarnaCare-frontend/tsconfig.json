@@ -26,6 +26,7 @@
       "@interfaces/*": ["src/app/core/interfaces/*"],
       "@dto/*": ["src/app/core/dto/*"],
       "@services/*": ["src/app/core/services/*"],
+      "@shared/*": ["src/app/shared/*"],
       "@env/*": ["src/environments/*"]
     }
   },

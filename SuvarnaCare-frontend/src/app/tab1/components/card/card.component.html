@@ -1,0 +1,14 @@
+<div class="card" [class.card-gold]="gold()" [class.card-default]="!gold()">
+  <div class="card-icon" [class.icon-gold]="gold()" [class.icon-default]="!gold()">
+    <!-- Icon -->
+    <ion-icon aria-hidden="true" [icon]="icon()"></ion-icon>
+  </div>
+
+  <p class="card-value" [class.val-gold]="gold()" [class.val-default]="!gold()">
+    {{ value() }}
+  </p>
+
+  <p class="card-label">
+    {{ label() }}
+  </p>
+</div>

@@ -24,7 +24,6 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     id: '1',
     name: 'Arjun Sharma',
     birthDate: '2024-06-15',
-    parentName: 'Vikram Sharma',
     phone: '9876543210',
     registrationDate: '2026-02-15',
     history: {
@@ -36,7 +35,6 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     id: '2',
     name: 'Priya Patel',
     birthDate: '2025-02-10',
-    parentName: 'Suresh Patel',
     phone: '9876543211',
     registrationDate: '2026-04-10',
     history: {
@@ -47,7 +45,6 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     id: '3',
     name: 'Kavya Nair',
     birthDate: '2023-08-20',
-    parentName: 'Rajan Nair',
     phone: '9876543212',
     registrationDate: '2026-03-20',
     history: {},
@@ -56,7 +53,6 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     id: '4',
     name: 'Rohan Desai',
     birthDate: '2025-12-05',
-    parentName: 'Amit Desai',
     phone: '9876543213',
     registrationDate: '2026-05-05',
     history: {
@@ -68,7 +64,6 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     id: '5',
     name: 'Ananya Joshi',
     birthDate: '2024-02-12',
-    parentName: 'Deepak Joshi',
     phone: '9876543214',
     registrationDate: '2026-06-12',
     history: {},
@@ -119,7 +114,7 @@ export class PatientRepository {
       try {
         let sql = `
           SELECT 
-            p.id, p.name, p.birth_date, p.parent_name, p.phone, p.registration_date,
+            p.id, p.name, p.birth_date, p.phone, p.registration_date,
             h.pushya_date, h.stage1_status, h.stage1_at, h.stage2_status, h.stage2_at,
             h.visited, h.visited_at, h.dose_administered, h.notes
           FROM Patients p
@@ -128,9 +123,9 @@ export class PatientRepository {
         const params: any[] = [];
 
         if (query?.search) {
-          sql += ` WHERE p.name LIKE ? OR p.phone LIKE ? OR p.parent_name LIKE ?`;
+          sql += ` WHERE p.name LIKE ? OR p.phone LIKE ?`;
           const term = `%${query.search}%`;
-          params.push(term, term, term);
+          params.push(term, term);
         }
 
         sql += ` ORDER BY p.name ASC`;
@@ -148,8 +143,7 @@ export class PatientRepository {
       list = list.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.phone.includes(q) ||
-          p.parentName.toLowerCase().includes(q)
+          p.phone.includes(q)
       );
     }
     return list.map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
@@ -165,7 +159,7 @@ export class PatientRepository {
       try {
         const [rows]: any = await pool.query(
           `SELECT 
-            p.id, p.name, p.birth_date, p.parent_name, p.phone, p.registration_date,
+            p.id, p.name, p.birth_date, p.phone, p.registration_date,
             h.pushya_date, h.stage1_status, h.stage1_at, h.stage2_status, h.stage2_at,
             h.visited, h.visited_at, h.dose_administered, h.notes
           FROM Patients p
@@ -193,14 +187,13 @@ export class PatientRepository {
   async create(dto: CreatePatientRequestDto): Promise<IPatientEntity> {
     const id = Date.now().toString();
     const regDate = dto.registrationDate || new Date().toISOString().split('T')[0];
-    const birthDate = dto.birthDate || '2024-01-01';
+    const birthDate = dto.birthDate || '';
 
     const newPatient: IPatientEntity = {
       id,
       name: dto.name,
       birthDate,
       age: calculateAge(birthDate),
-      parentName: dto.parentName,
       phone: dto.phone,
       registrationDate: regDate,
       history: {},
@@ -210,9 +203,9 @@ export class PatientRepository {
     if (isSqlConnected() && pool) {
       try {
         await pool.execute(
-          `INSERT INTO Patients (id, name, birth_date, parent_name, phone, registration_date)
-           VALUES (?, ?, ?, ?, ?, ?)`,
-          [id, dto.name, birthDate, dto.parentName, dto.phone, regDate]
+          `INSERT INTO Patients (id, name, birth_date, phone, registration_date)
+           VALUES (?, ?, ?, ?, ?)`,
+          [id, dto.name, birthDate, dto.phone, regDate]
         );
       } catch (err: any) {
         console.warn('⚠️ [PatientRepository] MySQL patient insert error:', err.message);
@@ -237,7 +230,6 @@ export class PatientRepository {
 
         if (dto.name) { fields.push('name = ?'); values.push(dto.name); }
         if (dto.birthDate) { fields.push('birth_date = ?'); values.push(dto.birthDate); }
-        if (dto.parentName) { fields.push('parent_name = ?'); values.push(dto.parentName); }
         if (dto.phone) { fields.push('phone = ?'); values.push(dto.phone); }
         if (dto.registrationDate) { fields.push('registration_date = ?'); values.push(dto.registrationDate); }
 
@@ -262,7 +254,6 @@ export class PatientRepository {
       patient.birthDate = dto.birthDate;
       patient.age = calculateAge(dto.birthDate);
     }
-    if (dto.parentName) patient.parentName = dto.parentName;
     if (dto.phone) patient.phone = dto.phone;
     if (dto.registrationDate) patient.registrationDate = dto.registrationDate;
 
@@ -322,10 +313,10 @@ export class PatientRepository {
             id,
             sessionDate,
             isAttended ? 1 : 0,
-            isAttended ? attendedTime : null,
+            isAttended ? (attendedTime ?? null) : null,
             isAttended ? 1 : 0,
             history.notes || null,
-          ]
+          ] as any[]
         );
         return this.findById(id);
       } catch (err: any) {
@@ -365,7 +356,6 @@ export class PatientRepository {
           name: r.name,
           birthDate,
           age: calculateAge(birthDate),
-          parentName: r.parent_name,
           phone: r.phone,
           registrationDate: r.registration_date,
           history: {},

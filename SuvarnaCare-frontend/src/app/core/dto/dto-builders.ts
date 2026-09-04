@@ -69,9 +69,8 @@ export function buildCreatePatientDto(
   const regDate = form.registrationDate || new Date().toISOString().split('T')[0];
 
   return {
-    name: form.name.trim(),
-    birthDate: form.birthDate.trim(),
-    parentName: form.parentName.trim(),
+    name: (form.name || '').trim(),
+    birthDate: (form.birthDate || '').trim(),
     phone: sanitizedPhone,
     registrationDate: regDate,
     initialPushyaDate: nextPushyaDate,
@@ -86,10 +85,9 @@ export function buildUpdatePatientDto(
 ): UpdatePatientRequestDto {
   const dto: UpdatePatientRequestDto = {};
   if (form.name !== undefined) dto.name = form.name.trim();
-  if (form.birthDate !== undefined) dto.birthDate = form.birthDate.trim();
-  if (form.parentName !== undefined) dto.parentName = form.parentName.trim();
+  if (form.birthDate !== undefined) dto.birthDate = (form.birthDate || '').trim();
   if (form.phone !== undefined) {
-    dto.phone = form.phone.replace(/\D/g, '').slice(0, 10);
+    dto.phone = (form.phone || '').replace(/\D/g, '').slice(0, 10);
   }
   if (form.registrationDate !== undefined) {
     dto.registrationDate = form.registrationDate;
@@ -107,7 +105,6 @@ export function buildPatientViewModel(dto: PatientResponseDto): Patient {
     name: dto.name,
     birthDate: dto.birthDate || '',
     age: computedAge,
-    parentName: dto.parentName,
     phone: dto.phone,
     registrationDate: dto.registrationDate,
     history: dto.history || {},
@@ -129,7 +126,6 @@ export function buildPatientFormDto(patient: Patient): PatientForm {
   return {
     name: patient.name,
     birthDate: patient.birthDate,
-    parentName: patient.parentName,
     phone: patient.phone,
     registrationDate: patient.registrationDate,
   };

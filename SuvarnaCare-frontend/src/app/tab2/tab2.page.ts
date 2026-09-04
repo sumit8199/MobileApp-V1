@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, computed } from '@angular/core';
+import { Component, OnInit, inject, computed, signal } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -10,8 +10,8 @@ import {
   ViewWillEnter,
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
-import { CalenderDetailsComponent } from '../componants/calender-details/calender-details.component';
-import { HeaderComponent } from '../componants/header/header.component';
+import { CalenderDetailsComponent } from './components/calender-details/calender-details.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { PatientApiService, ReminderApiService } from '@core/services';
 
 @Component({

@@ -69,6 +69,17 @@ export class AuthService {
   }
 
   /**
+   * Retrieves active JWT token from session storage or returns fallback token
+   */
+  public getToken(): string {
+    const session = this.storage.getItem<AuthSession>(STORAGE_KEY_SESSION);
+    if (session && session.token) {
+      return session.token;
+    }
+    return `jwt_suvarna_token_${Date.now()}`;
+  }
+
+  /**
    * Helper to extract initials from doctor/user name
    */
   public generateInitials(name: string): string {

@@ -14,10 +14,10 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
-import { HeaderComponent } from '../componants/header/header.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { AddPatientComponent } from './components/add-patient/add-patient.component';
 import { PatientDirectoryComponent } from './components/patient-directory/patient-directory.component';
-import { Patient, PatientForm } from '@core/interfaces';
+import { Patient } from '@core/interfaces';
 import { PatientApiService, ReminderApiService } from '@core/services';
 
 @Component({
@@ -46,8 +46,17 @@ export class Tab3Page implements OnInit, ViewWillEnter {
 
   // State Signals
   public showAddPatient = signal<boolean>(false);
+  public selectedPatientForEdit = signal<Patient | null>(null);
   public searchQuery = signal<string>('');
-  public nextPushyaDate = signal<string>('2026-07-18');
+  public nextPushyaDate = computed(() => {
+    const upcoming = this.reminderApiService.upcomingPushya();
+    return upcoming?.pushyaDate || '2026-09-10';
+  });
+
+  // Form open status
+  public isFormOpen = computed(
+    () => this.showAddPatient() || !!this.selectedPatientForEdit()
+  );
 
   // Reactive access to services
   public patients = this.patientApiService.patients;
@@ -62,8 +71,7 @@ export class Tab3Page implements OnInit, ViewWillEnter {
     return list.filter(
       (p) =>
         p.name.toLowerCase().includes(q) ||
-        p.phone.includes(q) ||
-        p.parentName.toLowerCase().includes(q)
+        p.phone.includes(q)
     );
   });
 
@@ -73,11 +81,7 @@ export class Tab3Page implements OnInit, ViewWillEnter {
 
   ngOnInit(): void {
     this.fetchPatients();
-    this.reminderApiService.loadPushyaDates().subscribe((dates) => {
-      if (dates && dates.length > 0) {
-        this.nextPushyaDate.set(dates[0].pushyaDate);
-      }
-    });
+    this.reminderApiService.loadPushyaDates().subscribe();
   }
 
   ionViewWillEnter(): void {
@@ -101,18 +105,30 @@ export class Tab3Page implements OnInit, ViewWillEnter {
     this.patientApiService.loadPatients(newQuery).subscribe();
   }
 
-  public addItem(): void {
+  public openAddForm(): void {
+    this.selectedPatientForEdit.set(null);
     this.showAddPatient.set(true);
+  }
+
+  public openEditForm(patient: Patient): void {
+    this.showAddPatient.set(false);
+    this.selectedPatientForEdit.set(patient);
   }
 
   public closeForm(): void {
     this.showAddPatient.set(false);
+    this.selectedPatientForEdit.set(null);
   }
 
-  public handleRegisterPatient(form: PatientForm): void {
-    this.patientApiService.createPatient(form, this.nextPushyaDate()).subscribe(() => {
+  public onPatientSaved(patient: Patient): void {
+    this.closeForm();
+    this.fetchPatients();
+  }
+
+  public handleDeletePatient(patientId: string): void {
+    // If the patient currently open in edit mode was deleted, close the form
+    if (this.selectedPatientForEdit()?.id === patientId) {
       this.closeForm();
-      this.fetchPatients();
-    });
+    }
   }
 }
