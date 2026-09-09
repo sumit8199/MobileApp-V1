@@ -2,8 +2,8 @@
 **/node_modules/
 
 # Ignore environment variables and secrets
-**/.env
-**/.env.local
+**/.env.dev
+**/.env.prod
 
 # Ignore build outputs
 frontend/dist/

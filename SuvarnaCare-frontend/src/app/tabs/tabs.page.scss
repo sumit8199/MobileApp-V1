@@ -31,7 +31,7 @@ ion-tab-button {
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   ion-tab-bar {
     --background: #141c16;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -48,3 +48,4 @@ ion-tab-button {
     }
   }
 }
+

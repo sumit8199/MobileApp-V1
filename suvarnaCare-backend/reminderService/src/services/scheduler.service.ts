@@ -53,8 +53,7 @@ export class SchedulerService {
 
   /**
    * Evaluates today's date against Pushya Nakshatra calendar.
-   * - If today == stage1FireDate (3 days before): Trigger Stage 1 WhatsApp reminders.
-   * - If today == stage2FireDate (on Pushya day): Trigger Stage 2 WhatsApp reminders.
+   * - If today == stage1FireDate (1 day before): Trigger WhatsApp reminders.
    */
   async evaluateSchedules(targetDateStr?: string): Promise<{
     dateEvaluated: string;
@@ -73,9 +72,9 @@ export class SchedulerService {
     for (const pushya of pushyaDates) {
       if (!pushya.isActive) continue;
 
-      // 1. Check Stage 1 (3 Days Before Pushya Date)
+      // 1. Check Reminder Fire Date (1 Day Before Pushya Date)
       if (pushya.stage1FireDate === todayStr) {
-        console.log(`📢 [SchedulerService] Match found: Today is 3 days before Pushya date ${pushya.pushyaDate} (${pushya.label || 'Pushya'}). Triggering Stage 1 WhatsApp alerts!`);
+        console.log(`📢 [SchedulerService] Match found: Today is 1 day before Pushya date ${pushya.pushyaDate} (${pushya.label || 'Pushya'}). Triggering WhatsApp alerts!`);
         const result = await this.reminderService.sendBulkWhatsAppReminders({
           pushyaDate: pushya.pushyaDate,
           stage: 1,
@@ -84,21 +83,9 @@ export class SchedulerService {
         stage1Dispatches.push(result);
         messagesSent += result.successCount;
       }
-
-      // 2. Check Stage 2 (On Pushya Date)
-      if (pushya.stage2FireDate === todayStr || pushya.pushyaDate === todayStr) {
-        console.log(`📢 [SchedulerService] Match found: Today is Pushya Nakshatra day ${pushya.pushyaDate} (${pushya.label || 'Pushya'}). Triggering Stage 2 WhatsApp alerts!`);
-        const result = await this.reminderService.sendBulkWhatsAppReminders({
-          pushyaDate: pushya.pushyaDate,
-          stage: 2,
-          simulateDelivery: true,
-        });
-        stage2Dispatches.push(result);
-        messagesSent += result.successCount;
-      }
     }
 
-    if (stage1Dispatches.length === 0 && stage2Dispatches.length === 0) {
+    if (stage1Dispatches.length === 0) {
       console.log(`ℹ️ [SchedulerService] No Pushya fire dates matched for ${todayStr}. No automated WhatsApp messages needed today.`);
     } else {
       console.log(`✅ [SchedulerService] Completed WhatsApp dispatch for ${todayStr}. Total messages sent: ${messagesSent}.`);

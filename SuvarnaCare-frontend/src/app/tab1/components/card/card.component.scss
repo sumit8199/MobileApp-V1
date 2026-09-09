@@ -65,7 +65,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .card {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 
@@ -102,3 +102,4 @@
     }
   }
 }
+

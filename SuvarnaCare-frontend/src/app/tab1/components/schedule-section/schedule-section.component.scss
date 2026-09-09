@@ -226,7 +226,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .header {
     &.header-stage1 {
       background: #1f2518;
@@ -316,3 +316,4 @@
     }
   }
 }
+

@@ -9,11 +9,9 @@
     "history": {
       "2026-09-13": {
         "sessionDate": "2026-09-13",
-        "attended": true,
-        "attendedAt": "10:34 PM",
-        "visited": true,
-        "visitedAt": "10:34 PM",
-        "doseAdministered": true
+        "attended": false,
+        "visited": false,
+        "doseAdministered": false
       }
     }
   },

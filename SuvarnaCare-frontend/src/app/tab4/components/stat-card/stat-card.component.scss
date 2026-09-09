@@ -67,7 +67,7 @@ $text-muted: #9ca3af;
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .stat-card-container {
     background-color: #18221b;
     border-color: rgba(255, 255, 255, 0.08);
@@ -95,4 +95,4 @@ $text-muted: #9ca3af;
       }
     }
   }
-}
+}

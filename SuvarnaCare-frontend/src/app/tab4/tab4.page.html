@@ -45,10 +45,14 @@
       </div>
     </div>
 
-    <!-- Deferrable View: Lazy-loads Schedule and App Info on idle -->
-    @defer (on idle) {
-      <app-schedule-section> </app-schedule-section>
-      <app-app-info> </app-app-info>
-    }
+    <!-- Pushyamrut Schedule Section -->
+    <app-schedule-section> </app-schedule-section>
+
+    <!-- Compact Theme & Appearance Switcher (Below Pushyamrut schedule) -->
+    <app-theme-selector> </app-theme-selector>
+
+    <!-- App Info Footer -->
+    <app-app-info> </app-app-info>
   </div>
 </ion-content>
+

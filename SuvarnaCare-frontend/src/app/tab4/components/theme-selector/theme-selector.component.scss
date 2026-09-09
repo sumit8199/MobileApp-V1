@@ -1,0 +1,159 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.theme-compact-card {
+  background-color: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+
+  .theme-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .header-icon {
+        font-size: 15px;
+        color: var(--brand-green);
+      }
+
+      .header-title {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: 0.01em;
+      }
+    }
+
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background-color: var(--brand-green-bg);
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--brand-green-text);
+
+      .pulse-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #10b981;
+      }
+
+      &.is-dark {
+        background-color: rgba(223, 185, 86, 0.15);
+        color: var(--brand-gold-text);
+
+        .pulse-dot {
+          background-color: #dfb956;
+        }
+      }
+    }
+  }
+
+  .segmented-control {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    background-color: var(--card-bg-elevated);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 3px;
+
+    .segment-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 4px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+      ion-icon {
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .btn-label {
+        line-height: 1;
+      }
+
+      &:hover:not(.active) {
+        background-color: rgba(0, 0, 0, 0.03);
+        color: var(--text-primary);
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+
+      &.active {
+        background-color: var(--brand-green);
+        color: #ffffff;
+        box-shadow: 0 2px 6px rgba(26, 67, 41, 0.25);
+
+        ion-icon {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+// Dark Mode Support
+:host-context(.ion-palette-dark) {
+  .theme-compact-card {
+    background-color: #18221b;
+    border-color: rgba(255, 255, 255, 0.08);
+
+    .theme-header-row .header-left .header-icon {
+      color: #dfb956;
+    }
+
+    .segmented-control {
+      background-color: #141c16;
+      border-color: rgba(255, 255, 255, 0.08);
+
+      .segment-btn {
+        color: #94a3b8;
+
+        &:hover:not(.active) {
+          background-color: rgba(255, 255, 255, 0.05);
+          color: #f3f4f6;
+        }
+
+        &.active {
+          background-color: #dfb956;
+          color: #101612;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+
+          ion-icon {
+            color: #101612;
+          }
+        }
+      }
+    }
+  }
+}

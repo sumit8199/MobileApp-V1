@@ -130,7 +130,7 @@ ion-content {
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   ion-content {
     .account-card {
       background: #18221b;
@@ -183,3 +183,4 @@ ion-content {
     }
   }
 }
+

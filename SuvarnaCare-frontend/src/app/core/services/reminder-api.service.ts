@@ -68,13 +68,13 @@ export class ReminderApiService {
   });
 
   private mockPushyaDates: PushyaSchedule[] = [
-    { pushyaDate: '2026-06-21', stage1FireDate: '2026-06-18', stage2FireDate: '2026-06-21', label: 'Ashadha Pushya', isActive: true },
-    { pushyaDate: '2026-07-18', stage1FireDate: '2026-07-15', stage2FireDate: '2026-07-18', label: 'Shravana Pushya', isActive: true },
-    { pushyaDate: '2026-08-14', stage1FireDate: '2026-08-11', stage2FireDate: '2026-08-14', label: 'Bhadrapada Pushya', isActive: true },
-    { pushyaDate: '2026-09-10', stage1FireDate: '2026-09-07', stage2FireDate: '2026-09-10', label: 'Ashwina Pushya', isActive: true },
-    { pushyaDate: '2026-10-07', stage1FireDate: '2026-10-04', stage2FireDate: '2026-10-07', label: 'Kartika Pushya', isActive: true },
-    { pushyaDate: '2026-11-03', stage1FireDate: '2026-10-31', stage2FireDate: '2026-11-03', label: 'Margashirsha Pushya', isActive: true },
-    { pushyaDate: '2026-12-01', stage1FireDate: '2026-11-28', stage2FireDate: '2026-12-01', label: 'Pausha Pushya', isActive: true },
+    { pushyaDate: '2026-06-21', stage1FireDate: '2026-06-20', stage2FireDate: '2026-06-21', label: 'Ashadha Pushya', isActive: true },
+    { pushyaDate: '2026-07-18', stage1FireDate: '2026-07-17', stage2FireDate: '2026-07-18', label: 'Shravana Pushya', isActive: true },
+    { pushyaDate: '2026-08-14', stage1FireDate: '2026-08-13', stage2FireDate: '2026-08-14', label: 'Bhadrapada Pushya', isActive: true },
+    { pushyaDate: '2026-09-10', stage1FireDate: '2026-09-09', stage2FireDate: '2026-09-10', label: 'Ashwina Pushya', isActive: true },
+    { pushyaDate: '2026-10-07', stage1FireDate: '2026-10-06', stage2FireDate: '2026-10-07', label: 'Kartika Pushya', isActive: true },
+    { pushyaDate: '2026-11-03', stage1FireDate: '2026-11-02', stage2FireDate: '2026-11-03', label: 'Margashirsha Pushya', isActive: true },
+    { pushyaDate: '2026-12-01', stage1FireDate: '2026-11-30', stage2FireDate: '2026-12-01', label: 'Pausha Pushya', isActive: true },
   ];
 
   constructor() {
@@ -121,9 +121,9 @@ export class ReminderApiService {
           return null;
         }),
         catchError(() => {
-          // Calculate 3-day fire date fallback
+          // Calculate 1-day reminder fire date fallback
           const d = new Date(pushyaDate);
-          d.setDate(d.getDate() - 3);
+          d.setDate(d.getDate() - 1);
           const stage1FireDate = d.toISOString().split('T')[0];
           const localItem: PushyaSchedule = {
             pushyaDate,
@@ -159,7 +159,7 @@ export class ReminderApiService {
     }
 
     const d = new Date(newDate);
-    d.setDate(d.getDate() - 3);
+    d.setDate(d.getDate() - 1);
     const stage1FireDate = d.toISOString().split('T')[0];
 
     const updatedItem: PushyaSchedule = {
