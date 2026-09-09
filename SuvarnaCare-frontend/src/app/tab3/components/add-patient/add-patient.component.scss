@@ -261,8 +261,9 @@ $error-red: #ef4444;
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .form-container {
+
     background-color: #101612;
 
     .form-header {

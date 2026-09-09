@@ -103,7 +103,7 @@ ion-chip .dot {
   background-color: #8462d1;
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .calendar-wrapper {
     background: #18221b;
     border-color: rgba(223, 185, 86, 0.35);
@@ -121,3 +121,4 @@ ion-chip .dot {
     border-color: rgba(255, 255, 255, 0.08);
   }
 }
+

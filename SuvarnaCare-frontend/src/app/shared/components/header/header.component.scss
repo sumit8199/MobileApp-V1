@@ -179,7 +179,7 @@ ion-header {
   font-weight: 700;
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   ion-header {
     background: #112e1c;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
@@ -189,4 +189,5 @@ ion-header {
     border-bottom: 1px solid rgba(200, 161, 59, 0.35);
   }
 }
+
 

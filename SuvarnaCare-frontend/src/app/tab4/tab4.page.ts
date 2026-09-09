@@ -17,6 +17,7 @@ import {
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { DoctorCardComponent } from './components/doctor-card/doctor-card.component';
 import { ClinicInfoComponent } from './components/clinic-info/clinic-info.component';
+import { ThemeSelectorComponent } from './components/theme-selector/theme-selector.component';
 import { AppInfoComponent } from './components/app-info/app-info.component';
 import { ScheduleSectionComponent } from './components/schedule-section/schedule-section.component';
 import { PatientApiService, ReminderApiService, AuthService } from '@core/services';
@@ -34,6 +35,7 @@ import { PatientApiService, ReminderApiService, AuthService } from '@core/servic
     HeaderComponent,
     DoctorCardComponent,
     ClinicInfoComponent,
+    ThemeSelectorComponent,
     ScheduleSectionComponent,
     AppInfoComponent,
   ],

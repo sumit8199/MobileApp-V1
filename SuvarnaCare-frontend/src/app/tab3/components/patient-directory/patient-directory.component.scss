@@ -347,8 +347,9 @@ $text-gray: #9ca3af;
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .directory-container {
+
     .directory-header .title-stack .section-title {
       color: #dfb956;
     }

@@ -60,12 +60,14 @@ export class Tab1Page implements OnInit, ViewWillEnter {
     return list.length > 0 ? list[0].pushyaDate : '2026-09-10';
   });
 
-  public stage1Date = computed(() => {
+  public reminderDate = computed(() => {
     const upcoming = this.upcomingPushya();
     if (upcoming?.stage1FireDate) return upcoming.stage1FireDate;
     const list = this.pushyaDates();
-    return list.length > 0 ? list[0].stage1FireDate : '2026-09-07';
+    return list.length > 0 ? list[0].stage1FireDate : '2026-09-09';
   });
+
+  public stage1Date = this.reminderDate;
 
   public daysToPushya = computed(() => {
     const targetStr = this.nextPushya();

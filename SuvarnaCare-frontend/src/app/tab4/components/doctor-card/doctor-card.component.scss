@@ -103,7 +103,7 @@ $white: #ffffff;
   }
 }
 
-@media (prefers-color-scheme: dark) {
+:host-context(.ion-palette-dark) {
   .doctor-hero-card {
     background: linear-gradient(135deg, #143324, #1b4332);
     border: 1px solid rgba(223, 185, 86, 0.25);
@@ -115,4 +115,4 @@ $white: #ffffff;
       border-color: rgba(223, 185, 86, 0.4);
     }
   }
-}
+}

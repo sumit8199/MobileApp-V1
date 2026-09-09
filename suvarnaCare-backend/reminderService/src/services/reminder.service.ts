@@ -331,8 +331,7 @@ export class ReminderService {
 
   /**
    * Evaluates today's date against Pushya schedules and triggers due WhatsApp reminders:
-   * - 3 Days Before Pushya Date (Stage 1)
-   * - On Pushya Date (Stage 2)
+   * - 1 Day Before Pushya Date (Reminder Fire Date)
    */
   async triggerTodayReminders(rawInput: any): Promise<{
     evaluatedDate: string;
@@ -351,7 +350,7 @@ export class ReminderService {
     for (const pushya of pushyaList) {
       if (!pushya.isActive) continue;
 
-      // Stage 1 (3 days before)
+      // 1 Day Before Pushya Date
       if (pushya.stage1FireDate === targetDate) {
         const res = await this.sendBulkWhatsAppReminders({
           pushyaDate: pushya.pushyaDate,
@@ -359,17 +358,6 @@ export class ReminderService {
           simulateDelivery: dto.simulateDelivery,
         });
         stage1Results.push(res);
-        totalMessagesSent += res.successCount;
-      }
-
-      // Stage 2 (on pushya day)
-      if (pushya.stage2FireDate === targetDate || pushya.pushyaDate === targetDate) {
-        const res = await this.sendBulkWhatsAppReminders({
-          pushyaDate: pushya.pushyaDate,
-          stage: 2,
-          simulateDelivery: dto.simulateDelivery,
-        });
-        stage2Results.push(res);
         totalMessagesSent += res.successCount;
       }
     }
@@ -391,7 +379,7 @@ export class ReminderService {
 
   /**
    * Syncs reminders for a list of patients for an upcoming Pushya session or all Pushya sessions.
-   * Ensures Stage 1 (3 days before - s1) and Stage 2 (Pushya day - s2) fire dates are identical for every user.
+   * Ensures Reminder (1 day before Pushya - s1) fire dates are identical for every user.
    */
   async syncPatientsForPushya(dto: SyncPatientsDto): Promise<{ createdCount: number; pushyaDate: string }> {
     const pushyaList = await this.repository.getPushyaDates();
@@ -407,10 +395,9 @@ export class ReminderService {
     for (const pushyaConfig of targetDates) {
       const pDate = pushyaConfig.pushyaDate;
       const stage1Date = pushyaConfig.stage1FireDate;
-      const stage2Date = pushyaConfig.stage2FireDate;
 
       for (const p of dto.patients) {
-        // Stage 1 Reminder (3 days before - s1 is same for all users)
+        // WhatsApp Reminder (1 day before Pushya Date)
         const existingStage1 = await this.repository.findByPatientDateStage(p.id, pDate, 1);
         if (!existingStage1) {
           const msg1 = this.whatsAppService.generateMessage(1, p.name, pDate);
@@ -422,22 +409,6 @@ export class ReminderService {
             stage: 1,
             scheduledDate: stage1Date,
             messageContent: msg1,
-          });
-          createdCount++;
-        }
-
-        // Stage 2 Reminder (On Pushya day - s2 is same for all users)
-        const existingStage2 = await this.repository.findByPatientDateStage(p.id, pDate, 2);
-        if (!existingStage2) {
-          const msg2 = this.whatsAppService.generateMessage(2, p.name, pDate);
-          await this.repository.createReminder({
-            patientId: p.id,
-            patientName: p.name,
-            phone: p.phone,
-            pushyaDate: pDate,
-            stage: 2,
-            scheduledDate: stage2Date,
-            messageContent: msg2,
           });
           createdCount++;
         }

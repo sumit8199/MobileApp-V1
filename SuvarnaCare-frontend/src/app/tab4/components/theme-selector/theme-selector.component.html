@@ -1,0 +1,29 @@
+<div class="theme-compact-card">
+  <div class="theme-header-row">
+    <div class="header-left">
+      <ion-icon name="color-palette-outline" class="header-icon"></ion-icon>
+      <span class="header-title">Theme</span>
+    </div>
+
+    <!-- Active Mode Indicator Badge -->
+    <div class="active-badge" [class.is-dark]="themeService.isDark()">
+      <span class="pulse-dot"></span>
+      <span class="active-text">{{ themeService.currentActiveLabel() }}</span>
+    </div>
+  </div>
+
+  <!-- Sleek Segmented Switcher -->
+  <div class="segmented-control" role="group" aria-label="Theme Mode Selection">
+    <button
+      *ngFor="let option of themeOptions"
+      type="button"
+      class="segment-btn"
+      [class.active]="themeService.themeMode() === option.id"
+      (click)="selectTheme(option.id)"
+      [attr.aria-pressed]="themeService.themeMode() === option.id"
+    >
+      <ion-icon [name]="themeService.themeMode() === option.id ? option.activeIcon : option.icon"></ion-icon>
+      <span class="btn-label">{{ option.name }}</span>
+    </button>
+  </div>
+</div>

@@ -89,10 +89,10 @@ export class ReminderRepository {
    * Adds or updates a Pushya calendar date.
    */
   async addPushyaDate(pushyaDate: string, label?: string): Promise<IPushyaDateEntity> {
-    // Calculate stage 1 fire date (3 days before)
+    // Calculate reminder fire date (1 day before Pushya)
     const parts = pushyaDate.split('-');
     const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-    d.setDate(d.getDate() - 3);
+    d.setDate(d.getDate() - 1);
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const dd = String(d.getDate()).padStart(2, '0');
@@ -139,7 +139,7 @@ export class ReminderRepository {
   async updatePushyaDate(oldDate: string, newDate: string, label?: string): Promise<IPushyaDateEntity> {
     const parts = newDate.split('-');
     const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-    d.setDate(d.getDate() - 3);
+    d.setDate(d.getDate() - 1);
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const dd = String(d.getDate()).padStart(2, '0');
