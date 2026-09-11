@@ -9,12 +9,12 @@ import {
 
 export class WhatsAppService {
   private defaultClinicInfo: IClinicInfo = {
-    clinicName: 'Vaidya Ayurveda Clinic & Child Wellness Center',
-    doctorName: 'Dr. Meera Vaidya',
-    doctorQualification: 'BAMS, MD (Ayurveda), Suvarna Prashan Specialist',
-    phone: '+91 98765 00000',
-    address: 'Ayush Bhavan, Health Road',
-    timings: '09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM',
+    clinicName: process.env.CLINIC_NAME || 'Mauli Clinic',
+    doctorName: process.env.DOCTOR_NAME || 'Dr. Suraj Yeole',
+    doctorQualification: process.env.DOCTOR_QUALIFICATION || 'BAMS, MD (Pediatrics)',
+    phone: process.env.CLINIC_PHONE || '+91 9767976136',
+    address: process.env.CLINIC_ADDRESS || 'Mauli Clinic & Child Wellness Center, Nashik.',
+    timings: process.env.CLINIC_TIMINGS || '09:00 AM - 01:00 PM & 05:00 PM - 08:30 PM',
   };
 
   /**
