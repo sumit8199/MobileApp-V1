@@ -1,7 +1,7 @@
-// src/app.ts
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import patientRoutes from './routes/patient.routes.js';
+import authRoutes from './routes/auth.routes.js';
 import { isSqlConnected } from './database/sql-connection.js';
 
 const app: Application = express();
@@ -40,6 +40,7 @@ app.get('/health', (_req: Request, res: Response): void => {
 });
 
 // Modular endpoint groups
+app.use('/api/auth', authRoutes);
 app.use('/api/patients', patientRoutes);
 
 // 404 Handler

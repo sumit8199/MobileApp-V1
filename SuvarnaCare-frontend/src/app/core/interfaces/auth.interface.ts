@@ -1,16 +1,16 @@
 export interface User {
   id: string;
-  name: string;
   email: string;
-  phone: string;
+  name?: string;
+  phone?: string;
   password?: string;
-  clinicName: string;
+  clinicName?: string;
   qualification?: string;
   specialization?: string;
   registrationNo?: string;
   avatarUrl?: string;
-  initials: string;
-  createdAt: string;
+  initials?: string;
+  createdAt?: string;
   lastLoginAt?: string;
 }
 
@@ -23,17 +23,18 @@ export interface AuthSession {
 }
 
 export interface LoginCredentials {
-  emailOrPhone: string;
+  email?: string;
+  emailOrPhone?: string;
   password: string;
   rememberMe?: boolean;
 }
 
 export interface RegisterData {
-  name: string;
   email: string;
-  phone: string;
   password: string;
-  clinicName: string;
+  name?: string;
+  phone?: string;
+  clinicName?: string;
   qualification?: string;
   specialization?: string;
   registrationNo?: string;

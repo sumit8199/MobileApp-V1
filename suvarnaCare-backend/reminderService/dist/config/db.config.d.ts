@@ -1,6 +1,6 @@
-import 'dotenv/config';
 export declare const appConfig: {
     port: number;
+    jwtSecret: string;
 };
 export declare const dbConfig: {
     host: string;

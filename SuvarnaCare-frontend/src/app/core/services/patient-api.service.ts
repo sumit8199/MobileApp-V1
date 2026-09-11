@@ -19,6 +19,13 @@ import {
   calculateAge,
 } from '../dto/dto-builders';
 
+export interface PatientQueryOptions {
+  search?: string;
+  start?: number;
+  pageSize?: number;
+  page?: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -28,6 +35,10 @@ export class PatientApiService {
 
   // Reactive State Signals
   public patients = signal<Patient[]>([]);
+  public totalPatients = signal<number>(0);
+  public currentPage = signal<number>(1);
+  public pageSize = signal<number>(5);
+  public totalPages = signal<number>(1);
   public isLoading = signal<boolean>(false);
   public isDatabaseConnected = signal<boolean>(false);
   public lastError = signal<string | null>(null);
@@ -125,44 +136,76 @@ export class PatientApiService {
   ];
 
   constructor() {
-    this.patients.set(this.mockPatients.map((p) => ({ ...p, age: calculateAge(p.birthDate) })));
+    const initial = this.mockPatients.map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
+    this.patients.set(initial);
+    this.totalPatients.set(initial.length);
+    this.totalPages.set(Math.ceil(initial.length / 5) || 1);
   }
 
   /**
-   * Loads all patients via HTTP GET /api/patients with optional search filter.
+   * Loads all patients via HTTP GET /api/patients with optional search filter and server-side pagination.
    */
-  public loadPatients(searchQuery?: string): Observable<Patient[]> {
+  public loadPatients(options?: PatientQueryOptions | string): Observable<Patient[]> {
     this.isLoading.set(true);
+
+    let query: PatientQueryOptions = {};
+    if (typeof options === 'string') {
+      query = { search: options };
+    } else if (options) {
+      query = options;
+    }
+
     let params = new HttpParams();
-    if (searchQuery && searchQuery.trim()) {
-      params = params.set('search', searchQuery.trim());
+    if (query.search !== undefined && query.search.trim()) {
+      params = params.set('search', query.search.trim());
+    }
+    if (query.start !== undefined) {
+      params = params.set('start', query.start.toString());
+    }
+    if (query.pageSize !== undefined) {
+      params = params.set('pageSize', query.pageSize.toString());
+    }
+    if (query.page !== undefined) {
+      params = params.set('page', query.page.toString());
     }
 
     return this.http.get<ApiResponse<PatientResponseDto[]>>(this.apiUrl, { params }).pipe(
       map((res) => {
         this.isDatabaseConnected.set(res.databaseConnected ?? true);
         const list = buildPatientListViewModel(res.data || []);
-        if (list.length > 0) {
-          // Merge any active visited session state if already marked locally
-          const currentMap = new Map(this.patients().map((p) => [p.id, p]));
-          const merged = list.map((remote) => {
-            const local = currentMap.get(remote.id);
-            if (local && local.history) {
-              return {
-                ...remote,
-                history: {
-                  ...remote.history,
-                  ...local.history,
-                },
-              };
-            }
-            return remote;
-          });
-          this.patients.set(merged);
+
+        if (res.pagination) {
+          this.totalPatients.set(res.pagination.total);
+          this.currentPage.set(res.pagination.page);
+          this.pageSize.set(res.pagination.pageSize);
+          this.totalPages.set(res.pagination.totalPages);
+        } else {
+          this.totalPatients.set(list.length);
+          this.currentPage.set(1);
+          this.pageSize.set(query.pageSize || 5);
+          this.totalPages.set(Math.ceil(list.length / (query.pageSize || 5)) || 1);
         }
+
+        // Merge any active visited session state if already marked locally
+        const currentMap = new Map(this.patients().map((p) => [p.id, p]));
+        const merged = list.map((remote) => {
+          const local = currentMap.get(remote.id);
+          if (local && local.history) {
+            return {
+              ...remote,
+              history: {
+                ...remote.history,
+                ...local.history,
+              },
+            };
+          }
+          return remote;
+        });
+
+        this.patients.set(merged);
         this.isLoading.set(false);
         this.lastError.set(null);
-        return this.patients();
+        return merged;
       }),
       catchError((err) => {
         console.warn('⚠️ [PatientApiService] GET /api/patients failed, falling back to local cache:', err.message);
@@ -171,16 +214,29 @@ export class PatientApiService {
         this.lastError.set(err.message);
 
         let filtered = [...this.mockPatients].map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
-        if (searchQuery && searchQuery.trim()) {
-          const q = searchQuery.toLowerCase();
+        if (query.search && query.search.trim()) {
+          const q = query.search.toLowerCase().trim();
           filtered = filtered.filter(
             (p) =>
               p.name.toLowerCase().includes(q) ||
               p.phone.includes(q)
           );
         }
-        this.patients.set(filtered);
-        return of(filtered);
+
+        const total = filtered.length;
+        const pSize = query.pageSize || 5;
+        const pStart = query.start !== undefined ? query.start : (query.page ? (query.page - 1) * pSize : 0);
+        const isPaginated = query.start !== undefined || query.page !== undefined || query.pageSize !== undefined;
+        const sliced = isPaginated ? filtered.slice(pStart, pStart + pSize) : filtered;
+        const page = Math.floor(pStart / pSize) + 1;
+        const totalPages = Math.ceil(total / pSize) || 1;
+
+        this.totalPatients.set(total);
+        this.currentPage.set(page);
+        this.pageSize.set(pSize);
+        this.totalPages.set(totalPages);
+        this.patients.set(sliced);
+        return of(sliced);
       })
     );
   }

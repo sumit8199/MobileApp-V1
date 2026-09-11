@@ -1,4 +1,4 @@
-import { Component, input, OnInit, output, signal, computed } from '@angular/core';
+import { Component, input, OnInit, output, computed } from '@angular/core';
 import { addIcons } from 'ionicons';
 import {
   addOutline,
@@ -26,38 +26,28 @@ import { Patient } from '@core/interfaces';
 })
 export class PatientDirectoryComponent implements OnInit {
   readonly patients = input.required<Patient[]>();
-  readonly allCount = input.required<number>();
+  readonly totalCount = input.required<number>();
   readonly nextPushya = input.required<string>();
   readonly search = input<string>('');
+  readonly currentPage = input<number>(1);
+  readonly pageSize = input<number>(5);
+  readonly totalPages = input<number>(1);
 
   // Event emitters to notify parent page
   readonly searchChange = output<string>();
+  readonly pageChange = output<number>();
   readonly openAddForm = output<void>();
   readonly editPatient = output<Patient>();
   readonly deletePatient = output<string>();
 
-  // Pagination state
-  public currentPage = signal<number>(1);
-  public pageSize = signal<number>(5);
-
-  public totalPages = computed(() =>
-    Math.ceil(this.patients().length / this.pageSize()) || 1
-  );
-
-  public pagedPatients = computed(() => {
-    const list = this.patients();
-    const start = (this.currentPage() - 1) * this.pageSize();
-    return list.slice(start, start + this.pageSize());
-  });
-
   public startIndex = computed(() =>
-    this.patients().length === 0
+    this.totalCount() === 0
       ? 0
       : (this.currentPage() - 1) * this.pageSize() + 1
   );
 
   public endIndex = computed(() =>
-    Math.min(this.currentPage() * this.pageSize(), this.patients().length)
+    Math.min(this.currentPage() * this.pageSize(), this.totalCount())
   );
 
   public pagesArray = computed(() => {
@@ -82,12 +72,10 @@ export class PatientDirectoryComponent implements OnInit {
   ngOnInit() {}
 
   public onInput(query: string): void {
-    this.currentPage.set(1);
     this.searchChange.emit(query);
   }
 
   public clearSearch(): void {
-    this.currentPage.set(1);
     this.searchChange.emit('');
   }
 
@@ -100,20 +88,20 @@ export class PatientDirectoryComponent implements OnInit {
   }
 
   public goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages()) {
-      this.currentPage.set(page);
+    if (page >= 1 && page <= this.totalPages() && page !== this.currentPage()) {
+      this.pageChange.emit(page);
     }
   }
 
   public nextPage(): void {
     if (this.currentPage() < this.totalPages()) {
-      this.currentPage.update((p) => p + 1);
+      this.pageChange.emit(this.currentPage() + 1);
     }
   }
 
   public prevPage(): void {
     if (this.currentPage() > 1) {
-      this.currentPage.update((p) => p - 1);
+      this.pageChange.emit(this.currentPage() - 1);
     }
   }
 

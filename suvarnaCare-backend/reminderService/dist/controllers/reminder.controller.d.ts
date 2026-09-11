@@ -6,6 +6,8 @@ export declare class ReminderController {
     getPushyaDates: (_req: Request, res: Response) => Promise<void>;
     getUpcomingPushya: (_req: Request, res: Response) => Promise<void>;
     addPushyaDate: (req: Request, res: Response) => Promise<void>;
+    updatePushyaDate: (req: Request, res: Response) => Promise<void>;
+    deletePushyaDate: (req: Request, res: Response) => Promise<void>;
     getReminders: (req: Request, res: Response) => Promise<void>;
     createReminder: (req: Request, res: Response) => Promise<void>;
     updateStatus: (req: Request, res: Response) => Promise<void>;

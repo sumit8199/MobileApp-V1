@@ -4,7 +4,7 @@
   <div class="directory-header">
     <div class="title-stack">
       <h2 class="section-title">Patient Directory</h2>
-      <p class="subtitle">{{ allCount() }} registered · next {{ formatDate(nextPushya()) }}</p>
+      <p class="subtitle">{{ totalCount() }} registered · next {{ formatDate(nextPushya()) }}</p>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
     </div>
   } @else {
     <div class="cards-stack-list">
-      @for (patientItem of pagedPatients(); track patientItem.id) {
+      @for (patientItem of patients(); track patientItem.id) {
         <app-patient-card 
           [patient]="patientItem" 
           [nextPushya]="nextPushya()"
@@ -46,7 +46,7 @@
     @if (totalPages() > 1) {
       <div class="pagination-footer">
         <span class="pagination-info">
-          Showing {{ startIndex() }}–{{ endIndex() }} of {{ patients().length }} patients
+          Showing {{ startIndex() }}–{{ endIndex() }} of {{ totalCount() }} patients
         </span>
 
         <div class="pagination-controls">

@@ -9,6 +9,8 @@ export declare class ReminderRepository {
     private saveToDisk;
     getPushyaDates(): Promise<IPushyaDateEntity[]>;
     addPushyaDate(pushyaDate: string, label?: string): Promise<IPushyaDateEntity>;
+    updatePushyaDate(oldDate: string, newDate: string, label?: string): Promise<IPushyaDateEntity>;
+    deletePushyaDate(pushyaDate: string): Promise<boolean>;
     findReminders(filter?: IReminderFilterQuery): Promise<IReminderEntity[]>;
     findById(id: string): Promise<IReminderEntity | null>;
     findByPatientDateStage(patientId: string, pushyaDate: string, stage: ReminderStage): Promise<IReminderEntity | null>;

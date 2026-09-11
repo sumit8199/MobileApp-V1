@@ -92,13 +92,13 @@ async function seedInitialData(activePool) {
         if (rows[0]?.count === 0) {
             console.log('🌱 [MySQL - ReminderService] Seeding default Pushya dates...');
             const pushyaDates = [
-                { date: '2026-06-21', s1: '2026-06-18', s2: '2026-06-21', label: 'Ashadha Pushya' },
-                { date: '2026-07-18', s1: '2026-07-15', s2: '2026-07-18', label: 'Shravana Pushya' },
-                { date: '2026-08-14', s1: '2026-08-11', s2: '2026-08-14', label: 'Bhadrapada Pushya' },
-                { date: '2026-09-10', s1: '2026-09-07', s2: '2026-09-10', label: 'Ashwina Pushya' },
-                { date: '2026-10-07', s1: '2026-10-04', s2: '2026-10-07', label: 'Kartika Pushya' },
-                { date: '2026-11-03', s1: '2026-10-31', s2: '2026-11-03', label: 'Margashirsha Pushya' },
-                { date: '2026-12-01', s1: '2026-11-28', s2: '2026-12-01', label: 'Pausha Pushya' },
+                { date: '2026-06-21', s1: '2026-06-20', s2: '2026-06-21', label: 'Ashadha Pushya' },
+                { date: '2026-07-18', s1: '2026-07-17', s2: '2026-07-18', label: 'Shravana Pushya' },
+                { date: '2026-08-14', s1: '2026-08-13', s2: '2026-08-14', label: 'Bhadrapada Pushya' },
+                { date: '2026-09-10', s1: '2026-09-09', s2: '2026-09-10', label: 'Ashwina Pushya' },
+                { date: '2026-10-07', s1: '2026-10-06', s2: '2026-10-07', label: 'Kartika Pushya' },
+                { date: '2026-11-03', s1: '2026-11-02', s2: '2026-11-03', label: 'Margashirsha Pushya' },
+                { date: '2026-12-01', s1: '2026-11-30', s2: '2026-12-01', label: 'Pausha Pushya' },
             ];
             for (const p of pushyaDates) {
                 await activePool.execute('INSERT INTO PushyaDates (pushya_date, stage1_fire_date, stage2_fire_date, label, is_active) VALUES (?, ?, ?, ?, 1)', [p.date, p.s1, p.s2, p.label]);
@@ -115,7 +115,6 @@ async function seedInitialData(activePool) {
                 for (const pushya of pushyaDates) {
                     const isPast = pushya.date === '2026-06-21';
                     const stage1Status = isPast ? 'read' : 'scheduled';
-                    const stage2Status = isPast ? 'read' : 'scheduled';
                     await activePool.execute(`INSERT INTO Reminders (id, patient_id, patient_name, phone, pushya_date, stage, scheduled_date, status)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)
              ON DUPLICATE KEY UPDATE status = VALUES(status)`, [
@@ -127,18 +126,6 @@ async function seedInitialData(activePool) {
                         1,
                         pushya.s1,
                         stage1Status,
-                    ]);
-                    await activePool.execute(`INSERT INTO Reminders (id, patient_id, patient_name, phone, pushya_date, stage, scheduled_date, status)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE status = VALUES(status)`, [
-                        `rem-${p.pid}-${pushya.date}-s2`,
-                        p.pid,
-                        p.name,
-                        p.phone,
-                        pushya.date,
-                        2,
-                        pushya.s2,
-                        stage2Status,
                     ]);
                 }
             }

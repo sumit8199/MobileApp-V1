@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
-  patientApiUrl: 'http://localhost:5001/api/patients',
-  patientHealthUrl: 'http://localhost:5001/api/patients/health/db',
-  reminderApiUrl: 'http://localhost:5002/api/reminders',
-  reminderHealthUrl: 'http://localhost:5002/api/reminders/health/db',
+  authApiUrl: 'https://mobileapp-v1.onrender.com/api/auth',
+  patientApiUrl: 'https://mobileapp-v1.onrender.com/api/patients',
+  patientHealthUrl: 'https://mobileapp-v1.onrender.com/api/patients/health/db',
+  reminderApiUrl: 'https://reminderservice-gsvh.onrender.com/api/reminders',
+  reminderHealthUrl: 'https://reminderservice-gsvh.onrender.com/api/reminders/health/db',
 };

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "usr_demo_001",
+    "email": "doctor@suvarnacare.com",
+    "password": "898532f7b471f5e18500220221b0dc05:348287993cede5ddd5f557e48e61a990be509a2f4735d57b0e64317d6628aa74f9b3e2fdcb3f4740da44d62a466f27081136e3b50fe5a2684a1e47039c5df27e",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "usr_1788988036559_jy0k8",
+    "email": "doctor.sumit@gmail.com",
+    "password": "46f15d4402d392a6e4c9e2490408f0b2:5fa360148d90dfda662cd9811e3b9cab97f6ee273add763ba24b830ea6546e7f1be79f03f75171132e60461e460392b51e261d40015e426f02b5f020a75cbfe7",
+    "createdAt": "2026-09-09T21:07:16.559Z"
+  },
+  {
+    "id": "usr_1788988423425_oc1nv",
+    "email": "ayush.doc@clinic.org",
+    "password": "8bd147d73b569ff9d9311a3fb40902dd:807605a6b9b2c031db940b73c0ba6f4b209e527bfb984a8ba4e9a85db354b1215cc8f7c10bf69d0c048a257c96a9ac32ca3a5982b2c52290f10aa6eaa761599b",
+    "createdAt": "2026-09-09T21:13:43.425Z"
+  }
+]

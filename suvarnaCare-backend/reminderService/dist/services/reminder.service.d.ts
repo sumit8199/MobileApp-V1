@@ -9,6 +9,8 @@ export declare class ReminderService {
     getPushyaDates(): Promise<PushyaScheduleResponseDto[]>;
     getUpcomingPushyaInfo(): Promise<PushyaScheduleResponseDto | null>;
     addPushyaDate(pushyaDate: string, label?: string): Promise<PushyaScheduleResponseDto>;
+    updatePushyaDate(oldDate: string, newDate: string, label?: string): Promise<PushyaScheduleResponseDto>;
+    deletePushyaDate(pushyaDate: string): Promise<boolean>;
     getReminders(filter?: IReminderFilterQuery): Promise<ReminderResponseDto[]>;
     createReminder(rawInput: any): Promise<ReminderResponseDto>;
     updateStatus(id: string, rawInput: any): Promise<ReminderResponseDto | null>;

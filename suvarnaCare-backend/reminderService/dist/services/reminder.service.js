@@ -204,15 +204,6 @@ export class ReminderService {
                 stage1Results.push(res);
                 totalMessagesSent += res.successCount;
             }
-            if (pushya.stage2FireDate === targetDate || pushya.pushyaDate === targetDate) {
-                const res = await this.sendBulkWhatsAppReminders({
-                    pushyaDate: pushya.pushyaDate,
-                    stage: 2,
-                    simulateDelivery: dto.simulateDelivery,
-                });
-                stage2Results.push(res);
-                totalMessagesSent += res.successCount;
-            }
         }
         return {
             evaluatedDate: targetDate,
@@ -233,7 +224,6 @@ export class ReminderService {
         for (const pushyaConfig of targetDates) {
             const pDate = pushyaConfig.pushyaDate;
             const stage1Date = pushyaConfig.stage1FireDate;
-            const stage2Date = pushyaConfig.stage2FireDate;
             for (const p of dto.patients) {
                 const existingStage1 = await this.repository.findByPatientDateStage(p.id, pDate, 1);
                 if (!existingStage1) {
@@ -246,20 +236,6 @@ export class ReminderService {
                         stage: 1,
                         scheduledDate: stage1Date,
                         messageContent: msg1,
-                    });
-                    createdCount++;
-                }
-                const existingStage2 = await this.repository.findByPatientDateStage(p.id, pDate, 2);
-                if (!existingStage2) {
-                    const msg2 = this.whatsAppService.generateMessage(2, p.name, pDate);
-                    await this.repository.createReminder({
-                        patientId: p.id,
-                        patientName: p.name,
-                        phone: p.phone,
-                        pushyaDate: pDate,
-                        stage: 2,
-                        scheduledDate: stage2Date,
-                        messageContent: msg2,
                     });
                     createdCount++;
                 }

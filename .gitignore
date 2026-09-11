@@ -2,15 +2,24 @@
 **/node_modules/
 
 # Ignore environment variables and secrets
-**/.env.dev
-**/.env.prod
+**/.env
+**/.env.*
+!**/.env.example
 
-# Ignore build outputs
-frontend/dist/
-frontend/build/
-backend/dist/
+# Ignore build and cache outputs
+**/dist/
+**/build/
+**/www/
+**/.angular/
+**/*.tsbuildinfo
 
-# Ignore system files
+# Ignore generated documentation files
+requirements.md
+architecture.md
+progress.md
+
+# Ignore IDE and system files
 .DS_Store
 Thumbs.db
 .vscode/
+.idea/

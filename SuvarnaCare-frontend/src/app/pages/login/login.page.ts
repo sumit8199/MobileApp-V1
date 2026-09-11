@@ -127,11 +127,12 @@ export class LoginPage implements OnInit {
     }).subscribe({
       next: async (res) => {
         this.isSubmitting.set(false);
-        if (res.success && res.user) {
-          this.successMessage.set(`Welcome, ${res.user.name}!`);
+        if (res.success) {
+          const displayName = res.user?.name || res.user?.email || 'Doctor';
+          this.successMessage.set(`Welcome, ${displayName}!`);
           
           const toast = await this.toastCtrl.create({
-            message: `Welcome back, ${res.user.name}`,
+            message: `Welcome back, ${displayName}`,
             duration: 2000,
             color: 'success',
             position: 'top',
