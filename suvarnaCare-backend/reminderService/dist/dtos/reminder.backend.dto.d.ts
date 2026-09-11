@@ -18,7 +18,6 @@ export interface SyncPatientsDto {
         id: string;
         name: string;
         phone: string;
-        parentName?: string;
     }>;
 }
 export interface SendWhatsAppRequestDto {

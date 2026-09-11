@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, signal, computed } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -14,6 +14,8 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { AddPatientComponent } from './components/add-patient/add-patient.component';
 import { PatientDirectoryComponent } from './components/patient-directory/patient-directory.component';
@@ -40,9 +42,11 @@ import { PatientApiService, ReminderApiService } from '@core/services';
     PatientDirectoryComponent,
   ],
 })
-export class Tab3Page implements OnInit, ViewWillEnter {
+export class Tab3Page implements OnInit, OnDestroy, ViewWillEnter {
   private patientApiService = inject(PatientApiService);
   private reminderApiService = inject(ReminderApiService);
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   // State Signals
   public showAddPatient = signal<boolean>(false);
@@ -60,28 +64,42 @@ export class Tab3Page implements OnInit, ViewWillEnter {
 
   // Reactive access to services
   public patients = this.patientApiService.patients;
+  public totalPatients = this.patientApiService.totalPatients;
+  public currentPage = this.patientApiService.currentPage;
+  public pageSize = this.patientApiService.pageSize;
+  public totalPages = this.patientApiService.totalPages;
   public isLoading = this.patientApiService.isLoading;
   public isDatabaseConnected = this.patientApiService.isDatabaseConnected;
-
-  // Filtered patients computed from search query
-  public filteredPatients = computed(() => {
-    const q = this.searchQuery().toLowerCase().trim();
-    const list = this.patients();
-    if (!q) return list;
-    return list.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.phone.includes(q)
-    );
-  });
 
   constructor() {
     addIcons({ add });
   }
 
   ngOnInit(): void {
+    this.searchSubject
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((query) => {
+        this.patientApiService
+          .loadPatients({
+            search: query,
+            start: 0,
+            pageSize: this.pageSize(),
+            page: 1,
+          })
+          .subscribe();
+      });
+
     this.fetchPatients();
     this.reminderApiService.loadPushyaDates().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ionViewWillEnter(): void {
@@ -89,20 +107,39 @@ export class Tab3Page implements OnInit, ViewWillEnter {
   }
 
   public fetchPatients(event?: any): void {
-    this.patientApiService.loadPatients(this.searchQuery()).subscribe({
-      next: () => {
-        if (event) event.target.complete();
-      },
-      error: () => {
-        if (event) event.target.complete();
-      },
-    });
+    const start = (this.currentPage() - 1) * this.pageSize();
+    this.patientApiService
+      .loadPatients({
+        search: this.searchQuery(),
+        start,
+        pageSize: this.pageSize(),
+        page: this.currentPage(),
+      })
+      .subscribe({
+        next: () => {
+          if (event) event.target.complete();
+        },
+        error: () => {
+          if (event) event.target.complete();
+        },
+      });
   }
 
   public onSearchChange(newQuery: string): void {
     this.searchQuery.set(newQuery);
-    // Fetch directly from backend GET /api/patients?search=...
-    this.patientApiService.loadPatients(newQuery).subscribe();
+    this.searchSubject.next(newQuery);
+  }
+
+  public onPageChange(targetPage: number): void {
+    const start = (targetPage - 1) * this.pageSize();
+    this.patientApiService
+      .loadPatients({
+        search: this.searchQuery(),
+        start,
+        pageSize: this.pageSize(),
+        page: targetPage,
+      })
+      .subscribe();
   }
 
   public openAddForm(): void {

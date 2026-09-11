@@ -42,7 +42,7 @@ export class SchedulerService {
             if (!pushya.isActive)
                 continue;
             if (pushya.stage1FireDate === todayStr) {
-                console.log(`📢 [SchedulerService] Match found: Today is 3 days before Pushya date ${pushya.pushyaDate} (${pushya.label || 'Pushya'}). Triggering Stage 1 WhatsApp alerts!`);
+                console.log(`📢 [SchedulerService] Match found: Today is 1 day before Pushya date ${pushya.pushyaDate} (${pushya.label || 'Pushya'}). Triggering WhatsApp alerts!`);
                 const result = await this.reminderService.sendBulkWhatsAppReminders({
                     pushyaDate: pushya.pushyaDate,
                     stage: 1,
@@ -51,18 +51,8 @@ export class SchedulerService {
                 stage1Dispatches.push(result);
                 messagesSent += result.successCount;
             }
-            if (pushya.stage2FireDate === todayStr || pushya.pushyaDate === todayStr) {
-                console.log(`📢 [SchedulerService] Match found: Today is Pushya Nakshatra day ${pushya.pushyaDate} (${pushya.label || 'Pushya'}). Triggering Stage 2 WhatsApp alerts!`);
-                const result = await this.reminderService.sendBulkWhatsAppReminders({
-                    pushyaDate: pushya.pushyaDate,
-                    stage: 2,
-                    simulateDelivery: true,
-                });
-                stage2Dispatches.push(result);
-                messagesSent += result.successCount;
-            }
         }
-        if (stage1Dispatches.length === 0 && stage2Dispatches.length === 0) {
+        if (stage1Dispatches.length === 0) {
             console.log(`ℹ️ [SchedulerService] No Pushya fire dates matched for ${todayStr}. No automated WhatsApp messages needed today.`);
         }
         else {

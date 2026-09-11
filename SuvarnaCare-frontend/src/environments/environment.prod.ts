@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  authApiUrl: 'http://localhost:5001/api/auth',
   patientApiUrl: 'http://localhost:5001/api/patients',
   patientHealthUrl: 'http://localhost:5001/api/patients/health/db',
   reminderApiUrl: 'http://localhost:5002/api/reminders',

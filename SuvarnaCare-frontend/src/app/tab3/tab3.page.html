@@ -14,10 +14,21 @@
     (patientSaved)="onPatientSaved($event)"></app-add-patient>
   }
   } @else {
-  <!-- Patient Directory with GET, Edit & Delete integration -->
-  <app-patient-directory [patients]="filteredPatients()" [allCount]="patients().length" [nextPushya]="nextPushyaDate()"
-    [search]="searchQuery()" (searchChange)="onSearchChange($event)" (openAddForm)="openAddForm()"
-    (editPatient)="openEditForm($event)" (deletePatient)="handleDeletePatient($event)"></app-patient-directory>
+  <!-- Patient Directory with GET, Edit, Delete, Search & Server Pagination integration -->
+  <app-patient-directory
+    [patients]="patients()"
+    [totalCount]="totalPatients()"
+    [nextPushya]="nextPushyaDate()"
+    [search]="searchQuery()"
+    [currentPage]="currentPage()"
+    [pageSize]="pageSize()"
+    [totalPages]="totalPages()"
+    (searchChange)="onSearchChange($event)"
+    (pageChange)="onPageChange($event)"
+    (openAddForm)="openAddForm()"
+    (editPatient)="openEditForm($event)"
+    (deletePatient)="handleDeletePatient($event)">
+  </app-patient-directory>
   }
 
   <!-- Floating Action Button for quick Add Patient -->

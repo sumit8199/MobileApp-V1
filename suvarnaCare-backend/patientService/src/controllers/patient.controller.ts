@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { PatientService } from '../services/patient.service.js';
-import { buildApiResponse } from '../dtos/patient.backend.dto.js';
+import { buildApiResponse, buildPaginatedApiResponse } from '../dtos/patient.backend.dto.js';
 import { isSqlConnected } from '../database/sql-connection.js';
 
 export class PatientController {
@@ -13,11 +13,27 @@ export class PatientController {
   getAll = async (req: Request, res: Response): Promise<void> => {
     try {
       const search = req.query.search as string | undefined;
-      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : undefined;
-      const patients = await this.service.getAllPatients({ search, limit });
+      const start = req.query.start !== undefined ? parseInt(req.query.start as string, 10) : undefined;
+      const pageSize = req.query.pageSize !== undefined ? parseInt(req.query.pageSize as string, 10) : undefined;
+      const page = req.query.page !== undefined ? parseInt(req.query.page as string, 10) : undefined;
+      const limit = req.query.limit !== undefined ? parseInt(req.query.limit as string, 10) : undefined;
+      const offset = req.query.offset !== undefined ? parseInt(req.query.offset as string, 10) : undefined;
+
+      const result = await this.service.getAllPatients({ search, start, pageSize, page, limit, offset });
       
       res.status(200).json(
-        buildApiResponse(patients, `Retrieved ${patients.length} patients successfully.`, isSqlConnected())
+        buildPaginatedApiResponse(
+          result.items,
+          {
+            total: result.total,
+            start: result.start,
+            pageSize: result.pageSize,
+            page: result.page,
+            totalPages: result.totalPages,
+          },
+          `Retrieved ${result.items.length} patients successfully.`,
+          isSqlConnected()
+        )
       );
     } catch (error: any) {
       res.status(500).json(buildApiResponse([], error.message, isSqlConnected()));

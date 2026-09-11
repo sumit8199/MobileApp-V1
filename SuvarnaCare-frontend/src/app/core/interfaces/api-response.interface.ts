@@ -1,7 +1,16 @@
+export interface PaginationMetadata {
+  total: number;
+  start: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data: T;
+  pagination?: PaginationMetadata;
   timestamp: string;
   databaseConnected: boolean;
 }

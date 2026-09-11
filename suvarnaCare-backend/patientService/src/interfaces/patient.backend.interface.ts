@@ -68,9 +68,22 @@ export interface IPatientSessionHistoryDbRow {
   created_at: Date;
 }
 
+export interface IPaginatedResult<T> {
+  items: T[];
+  total: number;
+  start: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+}
+
 export interface IPatientFilterQuery {
   search?: string;
   pushyaDate?: string;
+  start?: number;
+  pageSize?: number;
+  page?: number;
   limit?: number;
   offset?: number;
 }
+

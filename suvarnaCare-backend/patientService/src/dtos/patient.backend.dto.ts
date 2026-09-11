@@ -80,10 +80,19 @@ export interface PatientResponseDto {
   history: IPatientHistoryMap;
 }
 
+export interface PaginationMetadata {
+  total: number;
+  start: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data?: T;
+  pagination?: PaginationMetadata;
   error?: string;
   timestamp: string;
   databaseConnected?: boolean;
@@ -152,3 +161,20 @@ export function buildApiResponse<T>(
     databaseConnected,
   };
 }
+
+export function buildPaginatedApiResponse<T>(
+  data: T,
+  pagination: PaginationMetadata,
+  message = 'Success',
+  databaseConnected = true
+): ApiResponse<T> {
+  return {
+    success: true,
+    message,
+    data,
+    pagination,
+    timestamp: new Date().toISOString(),
+    databaseConnected,
+  };
+}
+

@@ -66,7 +66,7 @@ export class ReminderRepository {
     async addPushyaDate(pushyaDate, label) {
         const parts = pushyaDate.split('-');
         const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-        d.setDate(d.getDate() - 3);
+        d.setDate(d.getDate() - 1);
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
@@ -104,7 +104,7 @@ export class ReminderRepository {
     async updatePushyaDate(oldDate, newDate, label) {
         const parts = newDate.split('-');
         const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-        d.setDate(d.getDate() - 3);
+        d.setDate(d.getDate() - 1);
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
@@ -449,6 +449,7 @@ export class ReminderRepository {
     }
     async getStatistics() {
         const pool = getSqlPool();
+        const pushyaList = await this.getPushyaDates();
         const todayMs = new Date().setHours(0, 0, 0, 0);
         const sorted = [...pushyaList].sort((a, b) => new Date(a.pushyaDate).getTime() - new Date(b.pushyaDate).getTime());
         const upcomingDate = sorted.find((d) => new Date(d.pushyaDate).getTime() >= todayMs)?.pushyaDate || sorted[sorted.length - 1]?.pushyaDate || '2026-09-10';

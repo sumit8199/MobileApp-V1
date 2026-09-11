@@ -232,9 +232,10 @@ export class RegisterPage implements OnInit {
     }).subscribe({
       next: async (res) => {
         this.isSubmitting.set(false);
-        if (res.success && res.user) {
+        if (res.success) {
+          const doctorName = res.user?.name || form.name || res.user?.email || 'Doctor';
           const toast = await this.toastCtrl.create({
-            message: `Account created for Dr. ${res.user.name}! Saved in Local Storage.`,
+            message: `Account created for ${doctorName}! Saved in Local Storage.`,
             duration: 3000,
             color: 'success',
             position: 'top',

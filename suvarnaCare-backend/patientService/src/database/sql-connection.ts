@@ -1,5 +1,6 @@
 import mysql, { Pool } from 'mysql2/promise';
 import { dbConfig } from '../config/db.config.js';
+import { hashPassword } from '../utils/password.util.js';
 
 let pool: Pool | null = null;
 let isConnected = false;
@@ -45,7 +46,8 @@ export async function connectSqlServer(): Promise<Pool | null> {
     return pool;
   } catch (error: any) {
     isConnected = false;
-    console.warn(`⚠️ [MySQL - PatientService] Connection failed (${error.message}). Running in fallback mode.`);
+    const reason = error?.message || error?.code || 'MySQL server not reachable on port 3306';
+    console.warn(`⚠️ [MySQL - PatientService] Connection failed (${reason}). Running in fallback JSON mode.`);
     return null;
   }
 }
@@ -89,6 +91,17 @@ export async function initializeDatabaseSchema(activePool: Pool): Promise<void> 
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
+    await activePool.query(`
+      CREATE TABLE IF NOT EXISTS Doctors (
+        id VARCHAR(64) PRIMARY KEY,
+        email VARCHAR(150) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        INDEX idx_doctors_email (email)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
     // Ensure columns and schema definitions exist on existing tables
     try { await activePool.query(`ALTER TABLE Patients MODIFY COLUMN birth_date VARCHAR(20) NULL DEFAULT '';`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE Patients DROP COLUMN parent_name;`); } catch (_) {}
@@ -105,10 +118,26 @@ export async function initializeDatabaseSchema(activePool: Pool): Promise<void> 
 }
 
 /**
- * Seeds initial demo patients if database is empty.
+ * Seeds initial demo patients and doctors if database is empty.
  */
 async function seedInitialData(activePool: Pool): Promise<void> {
   try {
+    // 1. Seed Demo Doctor
+    const [docRows]: any = await activePool.query('SELECT COUNT(*) as count FROM Doctors');
+    if (docRows[0]?.count === 0) {
+      console.log('🌱 [MySQL - PatientService] Seeding default doctor into MySQL...');
+      await activePool.execute(
+        `INSERT INTO Doctors (id, email, password) VALUES (?, ?, ?)`,
+        [
+          'usr_demo_001',
+          'doctor@suvarnacare.com',
+          hashPassword('Password@123'),
+        ]
+      );
+      console.log('✅ [MySQL - PatientService] Default doctor seeded successfully.');
+    }
+
+    // 2. Seed Demo Patients
     const [rows]: any = await activePool.query('SELECT COUNT(*) as count FROM Patients');
     if (rows[0]?.count === 0) {
       console.log('🌱 [MySQL - PatientService] Seeding default patients into MySQL...');
@@ -132,7 +161,7 @@ async function seedInitialData(activePool: Pool): Promise<void> {
           [p.id, '2026-06-21', '09:15 AM']
         );
       }
-      console.log('✅ [MySQL - PatientService] Seed data applied successfully in MySQL.');
+      console.log('✅ [MySQL - PatientService] Seed patients data applied successfully in MySQL.');
     }
   } catch (err: any) {
     console.warn('⚠️ [MySQL - PatientService] Seed check error:', err.message);

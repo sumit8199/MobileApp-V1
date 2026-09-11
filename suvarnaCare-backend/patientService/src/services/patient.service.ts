@@ -9,7 +9,7 @@ import {
   toPatientResponseDto,
   toPatientListResponseDto,
 } from '../dtos/patient.backend.dto.js';
-import { IPatientFilterQuery } from '../interfaces/patient.backend.interface.js';
+import { IPaginatedResult, IPatientFilterQuery } from '../interfaces/patient.backend.interface.js';
 
 export class PatientService {
   private repository: PatientRepository;
@@ -19,11 +19,14 @@ export class PatientService {
   }
 
   /**
-   * Retrieves all patients, optionally filtered by search text.
+   * Retrieves all patients, optionally filtered by search text and paginated.
    */
-  async getAllPatients(filter?: IPatientFilterQuery): Promise<PatientResponseDto[]> {
-    const entities = await this.repository.findAll(filter);
-    return toPatientListResponseDto(entities);
+  async getAllPatients(filter?: IPatientFilterQuery): Promise<IPaginatedResult<PatientResponseDto>> {
+    const result = await this.repository.findAll(filter);
+    return {
+      ...result,
+      items: toPatientListResponseDto(result.items),
+    };
   }
 
   /**

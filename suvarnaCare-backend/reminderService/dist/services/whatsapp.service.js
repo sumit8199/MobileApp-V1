@@ -11,47 +11,29 @@ export class WhatsAppService {
         return [
             {
                 stage: 1,
-                title: 'Stage 1: 3-Day Advance Pushya Alert',
-                description: 'Sent 3 days prior to the Pushya Nakshatra date to help parents plan their visit.',
-                timingDescription: '3 Days Before Pushya Date (Stage 1 Fire Date)',
-                template: '🌿 *SUVARNA PRASHAN ADVANCE REMINDER* 🌿\n\n' +
+                title: 'Pushyamrut Advance Alert (1 Day Before)',
+                description: 'Sent 1 day prior to the Pushya Nakshatra date to help parents prepare and bring their child tomorrow.',
+                timingDescription: '1 Day Before Pushya Date (Reminder Fire Date)',
+                template: '🌿 *SUVARNA PRASHAN REMINDER* 🌿\n\n' +
                     'Dear Parent / Guardian,\n\n' +
-                    'This is an advance reminder from *{clinicName}* that the sacred *Pushya Nakshatra* is in *3 days* on *{formattedDate}* ({pushyaDate}).\n\n' +
+                    'This is a reminder from *{clinicName}* that tomorrow (*{formattedDate}*) is the auspicious day of *Pushya Nakshatra*!\n\n' +
+                    'Please bring *{patientName}* to *{clinicName}* tomorrow to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n' +
                     '🧒 *Child Name*: *{patientName}*\n' +
-                    '🗓️ *Pushya Date*: *{formattedDate}*\n' +
-                    '⏰ *Timings*: {timings}\n' +
+                    '🗓️ *Pushya Date*: Tomorrow, *{formattedDate}*\n' +
+                    '⏰ *Clinic Timings*: {timings}\n' +
                     '📍 *Location*: {clinicName}, {address}\n\n' +
                     '✨ *Why Suvarna Prashan on Pushya Nakshatra?*\n' +
                     '• Boosts memory, intellect (Medha) & grasping power\n' +
                     '• Strengthens natural immunity (Vyadhikshamatva)\n' +
                     '• Improves digestion, vitality, physical strength & complexion\n\n' +
                     '📝 *Quick Instructions:*\n' +
-                    '1. Ensure child is not given heavy food right before drops.\n' +
-                    '2. Please bring your child’s Suvarna Prashan card.\n\n' +
+                    '1. Administer drops on an empty or light stomach for optimal absorption.\n' +
+                    '2. Avoid giving cold water or dairy for 30 minutes after drops.\n' +
+                    '3. Please bring your child’s Suvarna Prashan card.\n\n' +
                     'For appointments or queries:\n' +
                     '📞 Call / WhatsApp: {phone}\n' +
                     '🩺 Consult: *{doctorName}* ({doctorQualification})\n\n' +
-                    '_Wishing your child divine health and intellect!_ ✨',
-            },
-            {
-                stage: 2,
-                title: 'Stage 2: Day-of Pushya Nakshatra Alert',
-                description: 'Sent in the morning of Pushya Nakshatra reminding parents to visit clinic today.',
-                timingDescription: 'On Pushya Date (Stage 2 Fire Date)',
-                template: '🔔 *TODAY IS PUSHYA NAKSHATRA - SUVARNA PRASHAN DROPS* 🔔\n\n' +
-                    'Dear Parent / Guardian,\n\n' +
-                    'Today (*{formattedDate}*) is the auspicious day of *Pushya Nakshatra*!\n\n' +
-                    'Please bring *{patientName}* to *{clinicName}* today to administer the monthly dose of pure Ayurvedic *Suvarna Prashan Drops (24K Gold Bhasma + Medhya Herbs + Pure Cow Ghee & Honey)*.\n\n' +
-                    '🧒 *Child Name*: *{patientName}*\n' +
-                    '🗓️ *Date*: Today, *{formattedDate}*\n' +
-                    '⏰ *Clinic Timings*: {timings}\n' +
-                    '📍 *Address*: {clinicName}, {address}\n\n' +
-                    '⚠️ *Important Notes:*\n' +
-                    '• Administer drops on an empty or light stomach for optimal absorption.\n' +
-                    '• Avoid giving cold water or dairy for 30 minutes after drops.\n\n' +
-                    '📞 Helpline: {phone}\n' +
-                    '🩺 *{doctorName}* ({doctorQualification})\n\n' +
-                    '_Give your child the gift of golden immunity today!_ 🌿✨',
+                    '_Wishing your child divine health and golden immunity!_ 🌿✨',
             },
         ];
     }
@@ -115,7 +97,7 @@ export class WhatsAppService {
         const messageContent = this.generateMessage(options.stage, options.patientName, options.pushyaDate, options.clinicInfo);
         const scheduledDate = options.scheduledDate ||
             (options.stage === 1
-                ? this.calculateOffsetDate(options.pushyaDate, -3)
+                ? this.calculateOffsetDate(options.pushyaDate, -1)
                 : options.pushyaDate);
         const whatsAppUrl = this.generateWhatsAppLink(options.phone, messageContent);
         return {

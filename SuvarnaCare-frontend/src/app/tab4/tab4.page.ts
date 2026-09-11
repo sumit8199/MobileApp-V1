@@ -55,7 +55,7 @@ export class Tab4Page implements OnInit {
     if (user) {
       return {
         initials: user.initials || 'DR',
-        name: user.name,
+        name: user.name || (user.email ? `Dr. ${user.email.split('@')[0]}` : 'Dr. Meera Vaidya'),
         qualification: user.qualification || 'BAMS, MD (Ayurveda)',
         specialization: user.specialization || 'Suvarna Prashan Specialist',
         clinic: user.clinicName || 'Vaidya Ayurveda Clinic',

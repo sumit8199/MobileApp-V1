@@ -6,14 +6,15 @@ import {
   IPatientDbRow,
   IPatientFilterQuery,
   IPatientSessionRecord,
-} from '../interfaces/patient.backend.interface';
+  IPaginatedResult,
+} from '../interfaces/patient.backend.interface.js';
 import {
   CreatePatientRequestDto,
   UpdatePatientRequestDto,
   AddSessionHistoryRequestDto,
   calculateAge,
-} from '../dtos/patient.backend.dto';
-import { getSqlPool, isSqlConnected } from '../database/sql-connection';
+} from '../dtos/patient.backend.dto.js';
+import { getSqlPool, isSqlConnected } from '../database/sql-connection.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -105,49 +106,119 @@ export class PatientRepository {
   }
 
   /**
-   * Retrieves all patients from MySQL if online, else in-memory.
+   * Retrieves paginated and filtered patients from MySQL if online, else in-memory store.
    */
-  async findAll(query?: IPatientFilterQuery): Promise<IPatientEntity[]> {
+  async findAll(query?: IPatientFilterQuery): Promise<IPaginatedResult<IPatientEntity>> {
+    // Determine pagination options
+    let pageSize = query?.pageSize ?? query?.limit ?? 5;
+    let start = 0;
+
+    if (query?.start !== undefined) {
+      start = Math.max(0, query.start);
+    } else if (query?.offset !== undefined) {
+      start = Math.max(0, query.offset);
+    } else if (query?.page !== undefined) {
+      start = Math.max(0, (query.page - 1) * pageSize);
+    }
+
+    // Check if non-paginated request (e.g. caller passed no start/pageSize/page)
+    const isExplicitlyPaginated =
+      query?.start !== undefined ||
+      query?.pageSize !== undefined ||
+      query?.page !== undefined ||
+      query?.limit !== undefined ||
+      query?.offset !== undefined;
+
     const pool = getSqlPool();
 
     if (isSqlConnected() && pool) {
       try {
-        let sql = `
+        let countSql = `SELECT COUNT(DISTINCT p.id) as total FROM Patients p`;
+        let dataSql = `
           SELECT 
             p.id, p.name, p.birth_date, p.phone, p.registration_date,
             h.pushya_date, h.stage1_status, h.stage1_at, h.stage2_status, h.stage2_at,
             h.visited, h.visited_at, h.dose_administered, h.notes
-          FROM Patients p
-          LEFT JOIN PatientSessionHistory h ON p.id = h.patient_id
+          FROM (
+            SELECT id, name, birth_date, phone, registration_date
+            FROM Patients
         `;
         const params: any[] = [];
+        const countParams: any[] = [];
 
-        if (query?.search) {
-          sql += ` WHERE p.name LIKE ? OR p.phone LIKE ?`;
-          const term = `%${query.search}%`;
+        if (query?.search && query.search.trim()) {
+          const whereClause = ` WHERE name LIKE ? OR phone LIKE ?`;
+          countSql += whereClause;
+          dataSql += whereClause;
+          const term = `%${query.search.trim()}%`;
+          countParams.push(term, term);
           params.push(term, term);
         }
 
-        sql += ` ORDER BY p.name ASC`;
+        dataSql += ` ORDER BY name ASC`;
 
-        const [rows]: any = await pool.query(sql, params);
-        return this.mapSqlRowsToEntities(rows);
+        if (isExplicitlyPaginated) {
+          dataSql += ` LIMIT ? OFFSET ?`;
+          params.push(pageSize, start);
+        }
+
+        dataSql += `) p LEFT JOIN PatientSessionHistory h ON p.id = h.patient_id ORDER BY p.name ASC`;
+
+        const [countRows]: any = await pool.query(countSql, countParams);
+        const total = countRows?.[0]?.total || 0;
+
+        const [rows]: any = await pool.query(dataSql, params);
+        const items = this.mapSqlRowsToEntities(rows);
+        const page = Math.floor(start / pageSize) + 1;
+        const totalPages = Math.ceil(total / pageSize) || 1;
+
+        return {
+          items,
+          total,
+          start,
+          pageSize,
+          page,
+          totalPages,
+        };
       } catch (err: any) {
         console.warn('⚠️ [PatientRepository] MySQL query failed, using in-memory store:', err.message);
       }
     }
 
-    let list = [...this.inMemoryPatients];
-    if (query?.search) {
-      const q = query.search.toLowerCase();
-      list = list.filter(
+    // In-Memory Fallback with Search & Pagination
+    let filtered = [...this.inMemoryPatients];
+    if (query?.search && query.search.trim()) {
+      const q = query.search.trim().toLowerCase();
+      filtered = filtered.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.phone.includes(q)
       );
     }
-    return list.map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
+
+    const total = filtered.length;
+    let pagedItems = filtered;
+
+    if (isExplicitlyPaginated) {
+      pagedItems = filtered.slice(start, start + pageSize);
+    } else {
+      pageSize = total || 1;
+    }
+
+    const items = pagedItems.map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
+    const page = Math.floor(start / pageSize) + 1;
+    const totalPages = Math.ceil(total / pageSize) || 1;
+
+    return {
+      items,
+      total,
+      start,
+      pageSize,
+      page,
+      totalPages,
+    };
   }
+
 
   /**
    * Finds single patient by ID from MySQL.
