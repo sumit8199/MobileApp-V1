@@ -7,7 +7,7 @@
     "start": "node dist/main.js",
     "serve": "tsx src/main.ts",
     "start:dev": "nodemon --ext js,ts,json,env --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/main.ts",
-    "prepare": "husky install",
+    "prepare": "husky",
     "build": "tsc --project tsconfig.build.json",
     "build:clean": "rm -rf tsconfig.build.tsbuildinfo && rm -rf ./dist",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles",
@@ -27,7 +27,6 @@
     "@types/express": "^5.0.6",
     "@types/mssql": "^9.0.5",
     "@types/node": "^26.2.0",
-    "cors": "^2.8.6",
     "husky": "^9.1.7",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
@@ -35,6 +34,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "http": "^0.0.1-security",
