@@ -1,7 +1,7 @@
 # ----------------------------------------------------
 # 1. Build Stage
 # ----------------------------------------------------
-FROM node:22 AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /usr/src/app
 
@@ -10,7 +10,7 @@ COPY package*.json ./
 COPY tsconfig*.json ./
 
 # Install all dependencies (including devDependencies needed for TypeScript build)
-RUN npm ci
+RUN npm install
 
 # Copy source code
 COPY src/ ./src/
@@ -24,7 +24,7 @@ RUN npm prune --production
 # ----------------------------------------------------
 # 2. Production Stage
 # ----------------------------------------------------
-FROM node:22-alpine AS runner
+FROM node:18-alpine AS runner
 
 WORKDIR /usr/src/app
 
