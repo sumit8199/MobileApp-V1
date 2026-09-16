@@ -12,6 +12,8 @@ router.put('/pushya-dates/:oldDate', controller.updatePushyaDate);
 router.put('/pushya-dates', controller.updatePushyaDate);
 router.delete('/pushya-dates/:date', controller.deletePushyaDate);
 router.get('/statistics', controller.getStatistics);
+router.get('/scheduler/status', controller.getSchedulerStatus);
+router.post('/scheduler/trigger', controller.triggerScheduler);
 router.get('/whatsapp/templates', controller.getWhatsAppTemplates);
 router.post('/whatsapp/preview', controller.previewWhatsApp);
 router.post('/whatsapp/send-single', controller.sendSingleWhatsApp);

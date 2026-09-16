@@ -1,10 +1,13 @@
 import { ReminderService } from '../services/reminder.service.js';
+import { getSchedulerService } from '../services/scheduler.service.js';
 import { buildApiResponse } from '../dtos/reminder.backend.dto.js';
 import { isSqlConnected } from '../database/sql-connection.js';
 export class ReminderController {
     service;
-    constructor(service = new ReminderService()) {
+    scheduler;
+    constructor(service = new ReminderService(), scheduler) {
         this.service = service;
+        this.scheduler = scheduler || getSchedulerService(service);
     }
     getPushyaDates = async (_req, res) => {
         try {
@@ -178,6 +181,26 @@ export class ReminderController {
             res.status(400).json(buildApiResponse(null, error.message, false, isSqlConnected()));
         }
     };
+    getSchedulerStatus = async (_req, res) => {
+        try {
+            const status = this.scheduler.getStatus();
+            res.status(200).json(buildApiResponse(status, 'Scheduler status retrieved successfully.', true, isSqlConnected()));
+        }
+        catch (error) {
+            res.status(500).json(buildApiResponse(null, error.message, false, isSqlConnected()));
+        }
+    };
+    triggerScheduler = async (req, res) => {
+        try {
+            const targetDate = req.body?.targetDate;
+            const forceDispatch = req.body?.force === true || req.body?.forceDispatch === true;
+            const result = await this.scheduler.evaluateSchedules(targetDate, forceDispatch);
+            res.status(200).json(buildApiResponse(result, `Scheduler triggered for date ${result.dateEvaluated}. Messages sent: ${result.messagesSent}.`, true, isSqlConnected()));
+        }
+        catch (error) {
+            res.status(500).json(buildApiResponse(null, error.message, false, isSqlConnected()));
+        }
+    };
     healthCheck = async (_req, res) => {
         const connected = isSqlConnected();
         res.status(200).json({
@@ -186,6 +209,7 @@ export class ReminderController {
             whatsAppService: 'Active',
             database: 'MySQL',
             databaseConnected: connected,
+            scheduler: this.scheduler.getStatus(),
             timestamp: new Date().toISOString(),
         });
     };

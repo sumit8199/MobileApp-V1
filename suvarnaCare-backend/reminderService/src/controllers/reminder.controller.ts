@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
 import { ReminderService } from '../services/reminder.service.js';
+import { getSchedulerService, SchedulerService } from '../services/scheduler.service.js';
 import { buildApiResponse } from '../dtos/reminder.backend.dto.js';
 import { isSqlConnected } from '../database/sql-connection.js';
 
 export class ReminderController {
   private service: ReminderService;
+  private scheduler: SchedulerService;
 
-  constructor(service = new ReminderService()) {
+  constructor(service = new ReminderService(), scheduler?: SchedulerService) {
     this.service = service;
+    this.scheduler = scheduler || getSchedulerService(service);
   }
+
 
   /**
    * GET /api/reminders/pushya-dates
@@ -258,6 +262,39 @@ export class ReminderController {
   };
 
   /**
+   * GET /api/reminders/scheduler/status
+   */
+  getSchedulerStatus = async (_req: Request, res: Response): Promise<void> => {
+    try {
+      const status = this.scheduler.getStatus();
+      res.status(200).json(buildApiResponse(status, 'Scheduler status retrieved successfully.', true, isSqlConnected()));
+    } catch (error: any) {
+      res.status(500).json(buildApiResponse(null, error.message, false, isSqlConnected()));
+    }
+  };
+
+  /**
+   * POST /api/reminders/scheduler/trigger
+   */
+  triggerScheduler = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const targetDate = req.body?.targetDate;
+      const forceDispatch = req.body?.force === true || req.body?.forceDispatch === true;
+      const result = await this.scheduler.evaluateSchedules(targetDate, forceDispatch);
+      res.status(200).json(
+        buildApiResponse(
+          result,
+          `Scheduler triggered for date ${result.dateEvaluated}. Messages sent: ${result.messagesSent}.`,
+          true,
+          isSqlConnected()
+        )
+      );
+    } catch (error: any) {
+      res.status(500).json(buildApiResponse(null, error.message, false, isSqlConnected()));
+    }
+  };
+
+  /**
    * GET /api/reminders/health/db
    */
   healthCheck = async (_req: Request, res: Response): Promise<void> => {
@@ -268,7 +305,9 @@ export class ReminderController {
       whatsAppService: 'Active',
       database: 'MySQL',
       databaseConnected: connected,
+      scheduler: this.scheduler.getStatus(),
       timestamp: new Date().toISOString(),
     });
   };
 }
+

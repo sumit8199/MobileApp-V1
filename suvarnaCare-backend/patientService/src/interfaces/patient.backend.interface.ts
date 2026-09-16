@@ -25,6 +25,7 @@ export interface IPatientEntity {
   age?: string;
   phone: string;
   registrationDate: string;
+  doctorId?: string;
   history: IPatientHistoryMap;
   createdAt?: string;
   updatedAt?: string;
@@ -36,6 +37,7 @@ export interface IPatientDbRow {
   birth_date: string;
   phone: string;
   registration_date: string;
+  doctor_id?: string;
   pushya_date?: string;
   stage1_status?: string;
   stage1_at?: string;
@@ -80,10 +82,12 @@ export interface IPaginatedResult<T> {
 export interface IPatientFilterQuery {
   search?: string;
   pushyaDate?: string;
+  doctorId?: string;
   start?: number;
   pageSize?: number;
   page?: number;
   limit?: number;
   offset?: number;
 }
+
 

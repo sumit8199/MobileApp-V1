@@ -1,19 +1,10 @@
 import { Component, OnInit, OnDestroy, inject, signal, computed } from '@angular/core';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
-  IonFabButton,
-  IonFab,
-  IonIcon,
   IonRefresher,
   IonRefresherContent,
-  IonSpinner,
   ViewWillEnter,
 } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { HeaderComponent } from '../shared/components/header/header.component';
@@ -27,22 +18,16 @@ import { PatientApiService, ReminderApiService } from '@core/services';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
-    IonFabButton,
-    IonFab,
-    IonIcon,
     IonRefresher,
     IonRefresherContent,
-    IonSpinner,
     HeaderComponent,
     AddPatientComponent,
     PatientDirectoryComponent,
   ],
 })
 export class Tab3Page implements OnInit, OnDestroy, ViewWillEnter {
+
   private patientApiService = inject(PatientApiService);
   private reminderApiService = inject(ReminderApiService);
   private searchSubject = new Subject<string>();
@@ -71,9 +56,8 @@ export class Tab3Page implements OnInit, OnDestroy, ViewWillEnter {
   public isLoading = this.patientApiService.isLoading;
   public isDatabaseConnected = this.patientApiService.isDatabaseConnected;
 
-  constructor() {
-    addIcons({ add });
-  }
+  constructor() {}
+
 
   ngOnInit(): void {
     this.searchSubject

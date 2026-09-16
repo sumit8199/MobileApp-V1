@@ -6,6 +6,7 @@ export interface CreatePatientRequestDto {
   phone: string;
   registrationDate?: string;
   initialPushyaDate?: string;
+  doctorId?: string;
 }
 
 export interface UpdatePatientRequestDto {
@@ -13,6 +14,7 @@ export interface UpdatePatientRequestDto {
   birthDate?: string;
   phone?: string;
   registrationDate?: string;
+  doctorId?: string;
 }
 
 export interface AddSessionHistoryRequestDto {
@@ -37,12 +39,15 @@ export interface PatientResponseDto {
   age: string;
   phone: string;
   registrationDate: string;
+  doctorId?: string;
   history: Record<string, PatientHistoryRecord>;
 }
 
 export interface PatientFilterDto {
   search?: string;
   pushyaDate?: string;
+  doctorId?: string;
   limit?: number;
   offset?: number;
 }
+

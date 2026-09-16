@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input, OnInit } from '@angular/core';
 import { IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { pinOutline, callOutline, documentTextOutline } from 'ionicons/icons';
+import { pinOutline, callOutline, documentTextOutline, logoWhatsapp } from 'ionicons/icons';
 
 interface DoctorInfo {
   clinic: string;
@@ -24,9 +24,11 @@ export class ClinicInfoComponent  implements OnInit {
     addIcons({
       'pin-outline': pinOutline,
       'call-outline': callOutline,
-      'document-text-outline': documentTextOutline
+      'document-text-outline': documentTextOutline,
+      'logo-whatsapp': logoWhatsapp,
     });
    }
+
 
   ngOnInit() {}
 

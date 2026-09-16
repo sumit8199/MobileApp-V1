@@ -46,6 +46,7 @@ export interface CreatePatientRequestDto {
   phone: string;
   registrationDate?: string;
   initialPushyaDate?: string;
+  doctorId?: string;
 }
 
 export interface UpdatePatientRequestDto {
@@ -53,6 +54,7 @@ export interface UpdatePatientRequestDto {
   birthDate?: string;
   phone?: string;
   registrationDate?: string;
+  doctorId?: string;
 }
 
 export interface AddSessionHistoryRequestDto {
@@ -77,6 +79,7 @@ export interface PatientResponseDto {
   age: string;
   phone: string;
   registrationDate: string;
+  doctorId?: string;
   history: IPatientHistoryMap;
 }
 
@@ -98,7 +101,7 @@ export interface ApiResponse<T> {
   databaseConnected?: boolean;
 }
 
-export function buildCreatePatientDto(raw: any): CreatePatientRequestDto {
+export function buildCreatePatientDto(raw: any, doctorId?: string): CreatePatientRequestDto {
   // Support both birthDate and fallback if client sent age
   let birthDate = raw.birthDate || raw.birth_date || '';
   if (!birthDate && raw.age) {
@@ -115,6 +118,7 @@ export function buildCreatePatientDto(raw: any): CreatePatientRequestDto {
     phone: String(raw.phone || '').replace(/\D/g, '').slice(0, 10),
     registrationDate: raw.registrationDate || raw.registration_date || new Date().toISOString().split('T')[0],
     initialPushyaDate: raw.nextPushya || raw.initialPushyaDate,
+    doctorId: raw.doctorId || raw.doctor_id || doctorId,
   };
 }
 
@@ -128,6 +132,9 @@ export function buildUpdatePatientDto(raw: any): UpdatePatientRequestDto {
   if (raw.registrationDate !== undefined || raw.registration_date !== undefined) {
     dto.registrationDate = String(raw.registrationDate || raw.registration_date).trim();
   }
+  if (raw.doctorId !== undefined || raw.doctor_id !== undefined) {
+    dto.doctorId = String(raw.doctorId || raw.doctor_id).trim();
+  }
   return dto;
 }
 
@@ -140,6 +147,7 @@ export function toPatientResponseDto(entity: IPatientEntity): PatientResponseDto
     age: computedAge,
     phone: entity.phone,
     registrationDate: entity.registrationDate,
+    doctorId: entity.doctorId,
     history: entity.history || {},
   };
 }

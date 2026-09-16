@@ -64,10 +64,12 @@ export async function initializeDatabaseSchema(activePool: Pool): Promise<void> 
         birth_date VARCHAR(20) DEFAULT '',
         phone VARCHAR(20) NOT NULL,
         registration_date VARCHAR(50) NOT NULL,
+        doctor_id VARCHAR(64) DEFAULT 'usr_demo_001',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        updated_at DATETIME NULL,
         INDEX idx_patients_phone (phone),
-        INDEX idx_patients_name (name)
+        INDEX idx_patients_name (name),
+        INDEX idx_patients_doctor_id (doctor_id)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
@@ -97,14 +99,18 @@ export async function initializeDatabaseSchema(activePool: Pool): Promise<void> 
         email VARCHAR(150) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        updated_at DATETIME NULL,
         INDEX idx_doctors_email (email)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
+
     // Ensure columns and schema definitions exist on existing tables
     try { await activePool.query(`ALTER TABLE Patients MODIFY COLUMN birth_date VARCHAR(20) NULL DEFAULT '';`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE Patients DROP COLUMN parent_name;`); } catch (_) {}
+    try { await activePool.query(`ALTER TABLE Patients ADD COLUMN doctor_id VARCHAR(64) NULL DEFAULT 'usr_demo_001';`); } catch (_) {}
+    try { await activePool.query(`ALTER TABLE Patients ADD INDEX idx_patients_doctor_id (doctor_id);`); } catch (_) {}
+    try { await activePool.query(`UPDATE Patients SET doctor_id = 'usr_demo_001' WHERE doctor_id IS NULL OR doctor_id = '';`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE PatientSessionHistory ADD COLUMN visited TINYINT(1) DEFAULT 0;`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE PatientSessionHistory ADD COLUMN visited_at VARCHAR(50) NULL;`); } catch (_) {}
     try { await activePool.query(`ALTER TABLE PatientSessionHistory ADD COLUMN dose_administered TINYINT(1) DEFAULT 0;`); } catch (_) {}
@@ -152,8 +158,8 @@ async function seedInitialData(activePool: Pool): Promise<void> {
 
       for (const p of seedPatients) {
         await activePool.execute(
-          'INSERT INTO Patients (id, name, birth_date, phone, registration_date) VALUES (?, ?, ?, ?, ?)',
-          [p.id, p.name, p.birthDate, p.phone, p.reg]
+          'INSERT INTO Patients (id, name, birth_date, phone, registration_date, doctor_id) VALUES (?, ?, ?, ?, ?, ?)',
+          [p.id, p.name, p.birthDate, p.phone, p.reg, 'usr_demo_001']
         );
 
         await activePool.execute(

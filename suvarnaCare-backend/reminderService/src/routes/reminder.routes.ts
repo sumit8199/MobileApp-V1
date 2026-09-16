@@ -22,6 +22,11 @@ router.delete('/pushya-dates/:date', controller.deletePushyaDate);
 // Dashboard Statistics
 router.get('/statistics', controller.getStatistics);
 
+// Scheduler Status & Manual Trigger (11:00 AM Cron)
+router.get('/scheduler/status', controller.getSchedulerStatus);
+router.post('/scheduler/trigger', controller.triggerScheduler);
+
+
 // WhatsApp Messaging Endpoints
 router.get('/whatsapp/templates', controller.getWhatsAppTemplates);
 router.post('/whatsapp/preview', controller.previewWhatsApp);

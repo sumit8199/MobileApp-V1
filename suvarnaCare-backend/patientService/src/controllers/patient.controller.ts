@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PatientService } from '../services/patient.service.js';
 import { buildApiResponse, buildPaginatedApiResponse } from '../dtos/patient.backend.dto.js';
 import { isSqlConnected } from '../database/sql-connection.js';
+import { AuthenticatedRequest } from '../middlewares/auth.middleware.js';
 
 export class PatientController {
   private service: PatientService;
@@ -10,8 +11,14 @@ export class PatientController {
     this.service = service;
   }
 
+  private getDoctorId(req: Request): string {
+    const authReq = req as AuthenticatedRequest;
+    return authReq.user?.id || authReq.user?.email || 'usr_demo_001';
+  }
+
   getAll = async (req: Request, res: Response): Promise<void> => {
     try {
+      const doctorId = this.getDoctorId(req);
       const search = req.query.search as string | undefined;
       const start = req.query.start !== undefined ? parseInt(req.query.start as string, 10) : undefined;
       const pageSize = req.query.pageSize !== undefined ? parseInt(req.query.pageSize as string, 10) : undefined;
@@ -19,7 +26,7 @@ export class PatientController {
       const limit = req.query.limit !== undefined ? parseInt(req.query.limit as string, 10) : undefined;
       const offset = req.query.offset !== undefined ? parseInt(req.query.offset as string, 10) : undefined;
 
-      const result = await this.service.getAllPatients({ search, start, pageSize, page, limit, offset });
+      const result = await this.service.getAllPatients({ search, start, pageSize, page, limit, offset, doctorId });
       
       res.status(200).json(
         buildPaginatedApiResponse(
@@ -42,8 +49,9 @@ export class PatientController {
 
   getById = async (req: Request, res: Response): Promise<void> => {
     try {
+      const doctorId = this.getDoctorId(req);
       const id = req.params.id;
-      const patient = await this.service.getPatientById(id);
+      const patient = await this.service.getPatientById(id, doctorId);
       if (!patient) {
         res.status(404).json(buildApiResponse(null, `Patient with ID ${id} not found.`, isSqlConnected()));
         return;
@@ -56,7 +64,8 @@ export class PatientController {
 
   create = async (req: Request, res: Response): Promise<void> => {
     try {
-      const created = await this.service.registerPatient(req.body);
+      const doctorId = this.getDoctorId(req);
+      const created = await this.service.registerPatient(req.body, doctorId);
       res.status(201).json(buildApiResponse(created, 'Patient registered successfully in MySQL database.', isSqlConnected()));
     } catch (error: any) {
       res.status(400).json(buildApiResponse(null, error.message, isSqlConnected()));
@@ -65,8 +74,9 @@ export class PatientController {
 
   update = async (req: Request, res: Response): Promise<void> => {
     try {
+      const doctorId = this.getDoctorId(req);
       const id = req.params.id;
-      const updated = await this.service.updatePatient(id, req.body);
+      const updated = await this.service.updatePatient(id, req.body, doctorId);
       if (!updated) {
         res.status(404).json(buildApiResponse(null, `Patient with ID ${id} not found.`, isSqlConnected()));
         return;
@@ -79,8 +89,9 @@ export class PatientController {
 
   delete = async (req: Request, res: Response): Promise<void> => {
     try {
+      const doctorId = this.getDoctorId(req);
       const id = req.params.id;
-      const success = await this.service.deletePatient(id);
+      const success = await this.service.deletePatient(id, doctorId);
       if (!success) {
         res.status(404).json(buildApiResponse(null, `Patient with ID ${id} not found.`, isSqlConnected()));
         return;
@@ -93,8 +104,9 @@ export class PatientController {
 
   addHistory = async (req: Request, res: Response): Promise<void> => {
     try {
+      const doctorId = this.getDoctorId(req);
       const id = req.params.id;
-      const updated = await this.service.recordSessionHistory(id, req.body);
+      const updated = await this.service.recordSessionHistory(id, req.body, doctorId);
       if (!updated) {
         res.status(404).json(buildApiResponse(null, `Patient with ID ${id} not found.`, isSqlConnected()));
         return;
@@ -116,3 +128,4 @@ export class PatientController {
     });
   };
 }
+

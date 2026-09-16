@@ -23,6 +23,7 @@ export interface Patient {
   age?: string;
   phone: string;
   registrationDate: string;
+  doctorId?: string;
   history: PatientSessionMap;
 }
 
@@ -31,6 +32,7 @@ export interface PatientForm {
   birthDate?: string;
   phone: string;
   registrationDate?: string;
+  doctorId?: string;
 }
 
 export interface FormErrors {
@@ -44,5 +46,7 @@ export interface FormErrors {
 export interface PatientFilter {
   search?: string;
   pushyaDate?: string;
+  doctorId?: string;
   limit?: number;
 }
+

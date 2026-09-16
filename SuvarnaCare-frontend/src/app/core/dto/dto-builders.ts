@@ -74,6 +74,7 @@ export function buildCreatePatientDto(
     phone: sanitizedPhone,
     registrationDate: regDate,
     initialPushyaDate: nextPushyaDate,
+    doctorId: form.doctorId,
   };
 }
 
@@ -92,6 +93,9 @@ export function buildUpdatePatientDto(
   if (form.registrationDate !== undefined) {
     dto.registrationDate = form.registrationDate;
   }
+  if (form.doctorId !== undefined) {
+    dto.doctorId = form.doctorId;
+  }
   return dto;
 }
 
@@ -107,6 +111,7 @@ export function buildPatientViewModel(dto: PatientResponseDto): Patient {
     age: computedAge,
     phone: dto.phone,
     registrationDate: dto.registrationDate,
+    doctorId: dto.doctorId,
     history: dto.history || {},
   };
 }
@@ -128,8 +133,10 @@ export function buildPatientFormDto(patient: Patient): PatientForm {
     birthDate: patient.birthDate,
     phone: patient.phone,
     registrationDate: patient.registrationDate,
+    doctorId: patient.doctorId,
   };
 }
+
 
 /**
  * Builds an AddSessionHistoryRequestDto for recording a Pushya dose.

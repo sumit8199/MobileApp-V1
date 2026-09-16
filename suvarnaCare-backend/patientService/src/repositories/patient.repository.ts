@@ -27,6 +27,7 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     birthDate: '2024-06-15',
     phone: '9876543210',
     registrationDate: '2026-02-15',
+    doctorId: 'usr_demo_001',
     history: {
       '2026-06-21': { sessionDate: '2026-06-21', attended: true, attendedAt: '09:15 AM', visited: true, visitedAt: '09:15 AM', doseAdministered: true },
       '2026-07-18': { sessionDate: '2026-07-18', attended: true, attendedAt: '10:30 AM', visited: true, visitedAt: '10:30 AM', doseAdministered: true },
@@ -38,6 +39,7 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     birthDate: '2025-02-10',
     phone: '9876543211',
     registrationDate: '2026-04-10',
+    doctorId: 'usr_demo_001',
     history: {
       '2026-06-21': { sessionDate: '2026-06-21', attended: true, attendedAt: '09:45 AM', visited: true, visitedAt: '09:45 AM', doseAdministered: true },
     },
@@ -48,6 +50,7 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     birthDate: '2023-08-20',
     phone: '9876543212',
     registrationDate: '2026-03-20',
+    doctorId: 'usr_demo_001',
     history: {},
   },
   {
@@ -56,6 +59,7 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     birthDate: '2025-12-05',
     phone: '9876543213',
     registrationDate: '2026-05-05',
+    doctorId: 'usr_demo_001',
     history: {
       '2026-06-21': { sessionDate: '2026-06-21', attended: true, attendedAt: '11:10 AM', visited: true, visitedAt: '11:10 AM', doseAdministered: true },
       '2026-07-18': { sessionDate: '2026-07-18', attended: true, attendedAt: '10:05 AM', visited: true, visitedAt: '10:05 AM', doseAdministered: true },
@@ -67,6 +71,7 @@ const DEFAULT_PATIENTS: IPatientEntity[] = [
     birthDate: '2024-02-12',
     phone: '9876543214',
     registrationDate: '2026-06-12',
+    doctorId: 'usr_demo_001',
     history: {},
   },
 ];
@@ -82,7 +87,11 @@ export class PatientRepository {
     try {
       if (fs.existsSync(DB_FILE_PATH)) {
         const raw = fs.readFileSync(DB_FILE_PATH, 'utf-8');
-        this.inMemoryPatients = JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        this.inMemoryPatients = parsed.map((p: any) => ({
+          ...p,
+          doctorId: p.doctorId || p.doctor_id || 'usr_demo_001',
+        }));
       } else {
         this.inMemoryPatients = [...DEFAULT_PATIENTS];
         this.saveToDisk();
@@ -107,6 +116,7 @@ export class PatientRepository {
 
   /**
    * Retrieves paginated and filtered patients from MySQL if online, else in-memory store.
+   * Scoped to the specific doctor who created the patient.
    */
   async findAll(query?: IPatientFilterQuery): Promise<IPaginatedResult<IPatientEntity>> {
     // Determine pagination options
@@ -121,7 +131,7 @@ export class PatientRepository {
       start = Math.max(0, (query.page - 1) * pageSize);
     }
 
-    // Check if non-paginated request (e.g. caller passed no start/pageSize/page)
+    // Check if non-paginated request
     const isExplicitlyPaginated =
       query?.start !== undefined ||
       query?.pageSize !== undefined ||
@@ -133,29 +143,37 @@ export class PatientRepository {
 
     if (isSqlConnected() && pool) {
       try {
-        let countSql = `SELECT COUNT(DISTINCT p.id) as total FROM Patients p`;
-        let dataSql = `
-          SELECT 
-            p.id, p.name, p.birth_date, p.phone, p.registration_date,
-            h.pushya_date, h.stage1_status, h.stage1_at, h.stage2_status, h.stage2_at,
-            h.visited, h.visited_at, h.dose_administered, h.notes
-          FROM (
-            SELECT id, name, birth_date, phone, registration_date
-            FROM Patients
-        `;
+        const whereClauses: string[] = [];
         const params: any[] = [];
         const countParams: any[] = [];
 
+        if (query?.doctorId) {
+          whereClauses.push(`p.doctor_id = ?`);
+          countParams.push(query.doctorId);
+          params.push(query.doctorId);
+        }
+
         if (query?.search && query.search.trim()) {
-          const whereClause = ` WHERE name LIKE ? OR phone LIKE ?`;
-          countSql += whereClause;
-          dataSql += whereClause;
+          whereClauses.push(`(p.name LIKE ? OR p.phone LIKE ?)`);
           const term = `%${query.search.trim()}%`;
           countParams.push(term, term);
           params.push(term, term);
         }
 
-        dataSql += ` ORDER BY name ASC`;
+        const whereSql = whereClauses.length > 0 ? ` WHERE ${whereClauses.join(' AND ')}` : '';
+
+        const countSql = `SELECT COUNT(DISTINCT p.id) as total FROM Patients p${whereSql}`;
+        let dataSql = `
+          SELECT 
+            p.id, p.name, p.birth_date, p.phone, p.registration_date, p.doctor_id,
+            h.pushya_date, h.stage1_status, h.stage1_at, h.stage2_status, h.stage2_at,
+            h.visited, h.visited_at, h.dose_administered, h.notes
+          FROM (
+            SELECT id, name, birth_date, phone, registration_date, doctor_id
+            FROM Patients p
+            ${whereSql}
+            ORDER BY p.name ASC
+        `;
 
         if (isExplicitlyPaginated) {
           dataSql += ` LIMIT ? OFFSET ?`;
@@ -185,8 +203,15 @@ export class PatientRepository {
       }
     }
 
-    // In-Memory Fallback with Search & Pagination
+    // In-Memory Fallback with Doctor Filtering, Search & Pagination
     let filtered = [...this.inMemoryPatients];
+
+    if (query?.doctorId) {
+      filtered = filtered.filter(
+        (p) => p.doctorId === query.doctorId || (!p.doctorId && query.doctorId === 'usr_demo_001')
+      );
+    }
+
     if (query?.search && query.search.trim()) {
       const q = query.search.trim().toLowerCase();
       filtered = filtered.filter(
@@ -219,25 +244,29 @@ export class PatientRepository {
     };
   }
 
-
   /**
-   * Finds single patient by ID from MySQL.
+   * Finds single patient by ID from MySQL with optional doctor ownership check.
    */
-  async findById(id: string): Promise<IPatientEntity | null> {
+  async findById(id: string, doctorId?: string): Promise<IPatientEntity | null> {
     const pool = getSqlPool();
 
     if (isSqlConnected() && pool) {
       try {
-        const [rows]: any = await pool.query(
-          `SELECT 
-            p.id, p.name, p.birth_date, p.phone, p.registration_date,
+        let sql = `SELECT 
+            p.id, p.name, p.birth_date, p.phone, p.registration_date, p.doctor_id,
             h.pushya_date, h.stage1_status, h.stage1_at, h.stage2_status, h.stage2_at,
             h.visited, h.visited_at, h.dose_administered, h.notes
           FROM Patients p
           LEFT JOIN PatientSessionHistory h ON p.id = h.patient_id
-          WHERE p.id = ?`,
-          [id]
-        );
+          WHERE p.id = ?`;
+        const params: any[] = [id];
+
+        if (doctorId) {
+          sql += ` AND (p.doctor_id = ? OR (p.doctor_id IS NULL AND ? = 'usr_demo_001'))`;
+          params.push(doctorId, doctorId);
+        }
+
+        const [rows]: any = await pool.query(sql, params);
 
         if (rows.length === 0) return null;
         const entities = this.mapSqlRowsToEntities(rows);
@@ -247,18 +276,26 @@ export class PatientRepository {
       }
     }
 
-    const found = this.inMemoryPatients.find((p) => p.id === id);
+    const found = this.inMemoryPatients.find((p) => {
+      if (p.id !== id) return false;
+      if (doctorId && p.doctorId && p.doctorId !== doctorId && !(doctorId === 'usr_demo_001' && !p.doctorId)) {
+        return false;
+      }
+      return true;
+    });
+
     if (!found) return null;
     return { ...found, age: calculateAge(found.birthDate) };
   }
 
   /**
-   * Inserts new patient into store with empty history.
+   * Inserts new patient into store linked to the creating doctor.
    */
   async create(dto: CreatePatientRequestDto): Promise<IPatientEntity> {
     const id = Date.now().toString();
     const regDate = dto.registrationDate || new Date().toISOString().split('T')[0];
     const birthDate = dto.birthDate || '';
+    const doctorId = dto.doctorId || 'usr_demo_001';
 
     const newPatient: IPatientEntity = {
       id,
@@ -267,6 +304,7 @@ export class PatientRepository {
       age: calculateAge(birthDate),
       phone: dto.phone,
       registrationDate: regDate,
+      doctorId,
       history: {},
     };
 
@@ -274,9 +312,9 @@ export class PatientRepository {
     if (isSqlConnected() && pool) {
       try {
         await pool.execute(
-          `INSERT INTO Patients (id, name, birth_date, phone, registration_date)
-           VALUES (?, ?, ?, ?, ?)`,
-          [id, dto.name, birthDate, dto.phone, regDate]
+          `INSERT INTO Patients (id, name, birth_date, phone, registration_date, doctor_id)
+           VALUES (?, ?, ?, ?, ?, ?)`,
+          [id, dto.name, birthDate, dto.phone, regDate, doctorId]
         );
       } catch (err: any) {
         console.warn('⚠️ [PatientRepository] MySQL patient insert error:', err.message);
@@ -291,7 +329,10 @@ export class PatientRepository {
   /**
    * Updates patient details.
    */
-  async update(id: string, dto: UpdatePatientRequestDto): Promise<IPatientEntity | null> {
+  async update(id: string, dto: UpdatePatientRequestDto, doctorId?: string): Promise<IPatientEntity | null> {
+    const existing = await this.findById(id, doctorId);
+    if (!existing) return null;
+
     const pool = getSqlPool();
 
     if (isSqlConnected() && pool) {
@@ -306,12 +347,14 @@ export class PatientRepository {
 
         if (fields.length > 0) {
           values.push(id);
-          await pool.execute(
-            `UPDATE Patients SET ${fields.join(', ')} WHERE id = ?`,
-            values
-          );
+          let updateSql = `UPDATE Patients SET ${fields.join(', ')} WHERE id = ?`;
+          if (doctorId) {
+            updateSql += ` AND (doctor_id = ? OR (doctor_id IS NULL AND ? = 'usr_demo_001'))`;
+            values.push(doctorId, doctorId);
+          }
+          await pool.execute(updateSql, values);
         }
-        return this.findById(id);
+        return this.findById(id, doctorId);
       } catch (err: any) {
         console.warn('⚠️ [PatientRepository] MySQL update error:', err.message);
       }
@@ -319,6 +362,7 @@ export class PatientRepository {
 
     const patient = this.inMemoryPatients.find((p) => p.id === id);
     if (!patient) return null;
+    if (doctorId && patient.doctorId && patient.doctorId !== doctorId) return null;
 
     if (dto.name) patient.name = dto.name;
     if (dto.birthDate) {
@@ -335,20 +379,33 @@ export class PatientRepository {
   /**
    * Deletes patient and their session history.
    */
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, doctorId?: string): Promise<boolean> {
+    const existing = await this.findById(id, doctorId);
+    if (!existing) return false;
+
     const pool = getSqlPool();
 
     if (isSqlConnected() && pool) {
       try {
         await pool.execute(`DELETE FROM PatientSessionHistory WHERE patient_id = ?`, [id]);
-        const [res]: any = await pool.execute(`DELETE FROM Patients WHERE id = ?`, [id]);
+        let deleteSql = `DELETE FROM Patients WHERE id = ?`;
+        const params: any[] = [id];
+        if (doctorId) {
+          deleteSql += ` AND (doctor_id = ? OR (doctor_id IS NULL AND ? = 'usr_demo_001'))`;
+          params.push(doctorId, doctorId);
+        }
+        const [res]: any = await pool.execute(deleteSql, params);
         return res.affectedRows > 0;
       } catch (err: any) {
         console.warn('⚠️ [PatientRepository] MySQL delete error:', err.message);
       }
     }
 
-    const idx = this.inMemoryPatients.findIndex((p) => p.id === id);
+    const idx = this.inMemoryPatients.findIndex((p) => {
+      if (p.id !== id) return false;
+      if (doctorId && p.doctorId && p.doctorId !== doctorId) return false;
+      return true;
+    });
     if (idx === -1) return false;
 
     this.inMemoryPatients.splice(idx, 1);
@@ -359,9 +416,12 @@ export class PatientRepository {
   /**
    * Saves or updates session attendance in patient.history.
    */
-  async saveHistory(id: string, history: AddSessionHistoryRequestDto): Promise<IPatientEntity | null> {
+  async saveHistory(id: string, history: AddSessionHistoryRequestDto, doctorId?: string): Promise<IPatientEntity | null> {
+    const existing = await this.findById(id, doctorId);
+    if (!existing) return null;
+
     const sessionDate = history.pushyaDate || history.sessionDate;
-    if (!sessionDate) return this.findById(id);
+    if (!sessionDate) return this.findById(id, doctorId);
 
     const isAttended = history.attended !== undefined
       ? Boolean(history.attended)
@@ -389,7 +449,7 @@ export class PatientRepository {
             history.notes || null,
           ] as any[]
         );
-        return this.findById(id);
+        return this.findById(id, doctorId);
       } catch (err: any) {
         console.warn('⚠️ [PatientRepository] MySQL saveHistory error:', err.message);
       }
@@ -397,6 +457,7 @@ export class PatientRepository {
 
     const patient = this.inMemoryPatients.find((p) => p.id === id);
     if (!patient) return null;
+    if (doctorId && patient.doctorId && patient.doctorId !== doctorId) return null;
 
     if (!patient.history) {
       patient.history = {};
@@ -429,6 +490,7 @@ export class PatientRepository {
           age: calculateAge(birthDate),
           phone: r.phone,
           registrationDate: r.registration_date,
+          doctorId: r.doctor_id || 'usr_demo_001',
           history: {},
         });
       }

@@ -19,7 +19,7 @@ export class PatientService {
   }
 
   /**
-   * Retrieves all patients, optionally filtered by search text and paginated.
+   * Retrieves all patients, optionally filtered by search text, doctor, and paginated.
    */
   async getAllPatients(filter?: IPatientFilterQuery): Promise<IPaginatedResult<PatientResponseDto>> {
     const result = await this.repository.findAll(filter);
@@ -30,19 +30,19 @@ export class PatientService {
   }
 
   /**
-   * Retrieves a single patient by ID.
+   * Retrieves a single patient by ID (scoped to doctor if provided).
    */
-  async getPatientById(id: string): Promise<PatientResponseDto | null> {
-    const entity = await this.repository.findById(id);
+  async getPatientById(id: string, doctorId?: string): Promise<PatientResponseDto | null> {
+    const entity = await this.repository.findById(id, doctorId);
     if (!entity) return null;
     return toPatientResponseDto(entity);
   }
 
   /**
-   * Creates a new patient with sanitized validation and DTO mapping.
+   * Creates a new patient with sanitized validation, doctor association, and DTO mapping.
    */
-  async registerPatient(rawInput: any): Promise<PatientResponseDto> {
-    const dto: CreatePatientRequestDto = buildCreatePatientDto(rawInput);
+  async registerPatient(rawInput: any, doctorId?: string): Promise<PatientResponseDto> {
+    const dto: CreatePatientRequestDto = buildCreatePatientDto(rawInput, doctorId);
 
     if (!dto.name) {
       throw new Error('Validation Error: Patient name is required.');
@@ -56,34 +56,39 @@ export class PatientService {
   }
 
   /**
-   * Updates patient details.
+   * Updates patient details (scoped to doctor if provided).
    */
-  async updatePatient(id: string, rawInput: any): Promise<PatientResponseDto | null> {
+  async updatePatient(id: string, rawInput: any, doctorId?: string): Promise<PatientResponseDto | null> {
     const dto: UpdatePatientRequestDto = buildUpdatePatientDto(rawInput);
-    const updated = await this.repository.update(id, dto);
+    if (doctorId && !dto.doctorId) {
+      dto.doctorId = doctorId;
+    }
+    const updated = await this.repository.update(id, dto, doctorId);
     if (!updated) return null;
     return toPatientResponseDto(updated);
   }
 
   /**
-   * Deletes a patient.
+   * Deletes a patient (scoped to doctor if provided).
    */
-  async deletePatient(id: string): Promise<boolean> {
-    return this.repository.delete(id);
+  async deletePatient(id: string, doctorId?: string): Promise<boolean> {
+    return this.repository.delete(id, doctorId);
   }
 
   /**
-   * Adds or updates session history for a Pushya date.
+   * Adds or updates session history for a Pushya date (scoped to doctor if provided).
    */
   async recordSessionHistory(
     id: string,
-    history: AddSessionHistoryRequestDto
+    history: AddSessionHistoryRequestDto,
+    doctorId?: string
   ): Promise<PatientResponseDto | null> {
     if (!history.pushyaDate) {
       throw new Error('Validation Error: pushyaDate is required.');
     }
-    const updated = await this.repository.saveHistory(id, history);
+    const updated = await this.repository.saveHistory(id, history, doctorId);
     if (!updated) return null;
     return toPatientResponseDto(updated);
   }
 }
+
