@@ -19,9 +19,6 @@ import { PatientApiService, ReminderApiService } from '@core/services';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonDatetime,
     FormsModule,
@@ -56,7 +53,7 @@ export class Tab2Page implements OnInit, ViewWillEnter {
     }))
   );
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.refreshData();

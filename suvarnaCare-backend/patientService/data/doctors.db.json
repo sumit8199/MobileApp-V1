@@ -16,5 +16,17 @@
     "email": "ayush.doc@clinic.org",
     "password": "8bd147d73b569ff9d9311a3fb40902dd:807605a6b9b2c031db940b73c0ba6f4b209e527bfb984a8ba4e9a85db354b1215cc8f7c10bf69d0c048a257c96a9ac32ca3a5982b2c52290f10aa6eaa761599b",
     "createdAt": "2026-09-09T21:13:43.425Z"
+  },
+  {
+    "id": "usr_1789569842798_38jdb",
+    "email": "doctor.test1789569842@gmail.com",
+    "password": "48ff7bd4859ec827cf9150e16e649cb0:b77ba4854d3abe7a02b10c70672eae067e66c75c4f5126b30eab4fdd20b6cb197e311354648cb8da7b1ab486502559a963b95a9cbc2e18ca9230070384c31704",
+    "createdAt": "2026-09-16T14:44:02.798Z"
+  },
+  {
+    "id": "usr_1789573059169_r4dqn",
+    "email": "doc.subhash@mauli.com",
+    "password": "1b405b63ada2ac9c9dad5d5b60daa3f6:38852f84ca4ba32548b99f48723731e797c5a888bfcf56200057c300011e2b237e79454d1e957989008cc2449d17c86efe0396bafcfba7de95701650959514e4",
+    "createdAt": "2026-09-16T15:37:39.169Z"
   }
 ]

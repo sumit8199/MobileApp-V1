@@ -106,7 +106,7 @@
       "pushyaDate": "2026-07-18",
       "stage": 1,
       "scheduledDate": "2026-07-15",
-      "status": "scheduled"
+      "status": "failed"
     },
     {
       "id": "rem-1-20260718-s2",
@@ -231,7 +231,7 @@
       "pushyaDate": "2026-07-18",
       "stage": 1,
       "scheduledDate": "2026-07-15",
-      "status": "scheduled"
+      "status": "failed"
     },
     {
       "id": "rem-2-20260718-s2",
@@ -354,7 +354,7 @@
       "pushyaDate": "2026-07-18",
       "stage": 1,
       "scheduledDate": "2026-07-15",
-      "status": "scheduled"
+      "status": "failed"
     },
     {
       "id": "rem-3-20260718-s2",
@@ -480,7 +480,7 @@
       "pushyaDate": "2026-07-18",
       "stage": 1,
       "scheduledDate": "2026-07-15",
-      "status": "scheduled"
+      "status": "failed"
     },
     {
       "id": "rem-4-20260718-s2",
@@ -602,7 +602,7 @@
       "pushyaDate": "2026-07-18",
       "stage": 1,
       "scheduledDate": "2026-07-15",
-      "status": "scheduled"
+      "status": "failed"
     },
     {
       "id": "rem-5-20260718-s2",
@@ -1192,6 +1192,475 @@
     }
   ],
   "logs": [
+    {
+      "reminderId": "rem-5-20260718-s1",
+      "eventType": "WHATSAPP_BATCH_FAILED",
+      "status": "WHATSAPP_BATCH_FAILED",
+      "details": "Failed dispatch to 9876543214: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-14T21:05:51.728Z"
+    },
+    {
+      "reminderId": "rem-5-20260718-s1",
+      "eventType": "WHATSAPP_STATUS_FAILED",
+      "status": "WHATSAPP_STATUS_FAILED",
+      "details": "Changed to failed at 2:35 AM",
+      "eventTime": "2026-09-14T21:05:51.726Z"
+    },
+    {
+      "reminderId": "rem-4-20260718-s1",
+      "eventType": "WHATSAPP_BATCH_FAILED",
+      "status": "WHATSAPP_BATCH_FAILED",
+      "details": "Failed dispatch to 9876543213: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-14T21:05:51.498Z"
+    },
+    {
+      "reminderId": "rem-4-20260718-s1",
+      "eventType": "WHATSAPP_STATUS_FAILED",
+      "status": "WHATSAPP_STATUS_FAILED",
+      "details": "Changed to failed at 2:35 AM",
+      "eventTime": "2026-09-14T21:05:51.496Z"
+    },
+    {
+      "reminderId": "rem-3-20260718-s1",
+      "eventType": "WHATSAPP_BATCH_FAILED",
+      "status": "WHATSAPP_BATCH_FAILED",
+      "details": "Failed dispatch to 9876543212: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-14T21:05:51.269Z"
+    },
+    {
+      "reminderId": "rem-3-20260718-s1",
+      "eventType": "WHATSAPP_STATUS_FAILED",
+      "status": "WHATSAPP_STATUS_FAILED",
+      "details": "Changed to failed at 2:35 AM",
+      "eventTime": "2026-09-14T21:05:51.267Z"
+    },
+    {
+      "reminderId": "rem-2-20260718-s1",
+      "eventType": "WHATSAPP_BATCH_FAILED",
+      "status": "WHATSAPP_BATCH_FAILED",
+      "details": "Failed dispatch to 9876543211: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-14T21:05:51.038Z"
+    },
+    {
+      "reminderId": "rem-2-20260718-s1",
+      "eventType": "WHATSAPP_STATUS_FAILED",
+      "status": "WHATSAPP_STATUS_FAILED",
+      "details": "Changed to failed at 2:35 AM",
+      "eventTime": "2026-09-14T21:05:51.037Z"
+    },
+    {
+      "reminderId": "rem-1-20260718-s1",
+      "eventType": "WHATSAPP_BATCH_FAILED",
+      "status": "WHATSAPP_BATCH_FAILED",
+      "details": "Failed dispatch to 9876543210: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-14T21:05:50.775Z"
+    },
+    {
+      "reminderId": "rem-1-20260718-s1",
+      "eventType": "WHATSAPP_STATUS_FAILED",
+      "status": "WHATSAPP_STATUS_FAILED",
+      "details": "Changed to failed at 2:35 AM",
+      "eventTime": "2026-09-14T21:05:50.772Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T22:00:29.972Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Raju Sharma (8087273866)",
+      "eventTime": "2026-09-13T22:00:29.714Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T22:00:29.456Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T22:00:29.175Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T22:00:28.917Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T22:00:28.662Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T21:00:29.060Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Raju Sharma (8087273866)",
+      "eventTime": "2026-09-13T21:00:28.832Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T21:00:28.602Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T21:00:28.375Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T21:00:28.144Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T21:00:27.908Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T20:00:33.809Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Raju Sharma (8087273866)",
+      "eventTime": "2026-09-13T20:00:33.629Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T20:00:33.450Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T20:00:33.269Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T20:00:33.085Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T20:00:32.905Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: (#132000) Number of parameters does not match the expected number of params",
+      "eventTime": "2026-09-13T19:59:24.082Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: (#132000) Number of parameters does not match the expected number of params",
+      "eventTime": "2026-09-13T19:54:00.351Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-13T19:52:47.127Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-13T19:51:45.369Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-13T19:51:16.512Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T16:02:17.964Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: (#132001) Template name does not exist in the translation",
+      "eventTime": "2026-09-13T15:41:03.466Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T15:19:43.880Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_MESSAGE_FAILED",
+      "status": "WHATSAPP_MESSAGE_FAILED",
+      "details": "Failed to send WhatsApp message to 8087273866: Meta API Error: Authentication Error",
+      "eventTime": "2026-09-13T15:18:03.226Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T14:32:02.811Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T14:32:02.631Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T14:32:02.447Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T14:32:02.267Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T14:32:02.088Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-2110",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Raju Sharma (8087273866)",
+      "eventTime": "2026-09-13T14:32:01.909Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T13:32:02.760Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T13:32:02.537Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T13:32:02.311Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T13:32:02.087Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T13:32:01.863Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T12:32:07.330Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T12:32:07.131Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T12:32:06.935Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T12:32:06.740Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T12:32:06.542Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T12:29:33.866Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T12:26:00.042Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T12:20:48.224Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T12:19:25.944Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T12:15:26.862Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Raju Sharma)",
+      "eventTime": "2026-09-13T12:11:08.824Z"
+    },
+    {
+      "reminderId": "rem-4-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Rohan Desai (9876543213)",
+      "eventTime": "2026-09-13T12:08:54.036Z"
+    },
+    {
+      "reminderId": "rem-2-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Priya Patel (9876543211)",
+      "eventTime": "2026-09-13T12:08:53.862Z"
+    },
+    {
+      "reminderId": "rem-3-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Kavya Nair (9876543212)",
+      "eventTime": "2026-09-13T12:08:53.428Z"
+    },
+    {
+      "reminderId": "rem-1-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Arjun Sharma (9876543210)",
+      "eventTime": "2026-09-13T12:08:53.250Z"
+    },
+    {
+      "reminderId": "rem-5-2026-10-07-s1",
+      "eventType": "WHATSAPP_BATCH_SENT",
+      "status": "WHATSAPP_BATCH_SENT",
+      "details": "Batch WhatsApp Stage 1 sent to Ananya Joshi (9876543214)",
+      "eventTime": "2026-09-13T12:08:53.076Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Shambhu Sharma)",
+      "eventTime": "2026-09-13T12:06:25.094Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Aarav Sharma)",
+      "eventTime": "2026-09-13T11:07:12.012Z"
+    },
+    {
+      "reminderId": "rem-pat-001-s1-1071",
+      "eventType": "WHATSAPP_MESSAGE_SENT",
+      "status": "WHATSAPP_MESSAGE_SENT",
+      "details": "WhatsApp Stage 1 message dispatched to 8087273866 (Aarav Sharma)",
+      "eventTime": "2026-09-13T10:59:05.838Z"
+    },
     {
       "reminderId": "rem-pat-001-s1-7234",
       "eventType": "WHATSAPP_MESSAGE_SENT",

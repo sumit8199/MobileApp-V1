@@ -165,7 +165,7 @@ export class WhatsAppService {
   }
 
   /**
-   * Sends or simulates sending a WhatsApp message.
+   * Sends a WhatsApp message using Meta WhatsApp Cloud API (if configured) or generates Click-to-Chat URL.
    */
   async sendWhatsApp(params: {
     reminderId: string;
@@ -191,12 +191,128 @@ export class WhatsAppService {
       hour12: true,
     });
 
-    // In a live production environment with WhatsApp Cloud API:
-    // We would make an HTTP POST request to https://graph.facebook.com/v19.0/{PHONE_NUMBER_ID}/messages
-    // with Bearer token.
-    // For local and offline support, we validate and return a rich success result with deep-link:
-    const success = Boolean(params.phone && params.phone.length >= 10);
+    const apiUrl = process.env.WHATSAPP_API_URL || 'https://graph.facebook.com/v25.0';
+    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID?.trim();
+    const accessToken = process.env.WHATSAPP_ACCESS_TOKEN?.trim();
 
+    const isLiveConfigured = Boolean(
+      phoneNumberId &&
+      accessToken &&
+      phoneNumberId !== 'your_meta_phone_number_id_here' &&
+      accessToken !== 'your_meta_access_token_here'
+    );
+
+    // If simulateDelivery is explicitly true, or phone is invalid
+    const isPhoneValid = Boolean(params.phone && params.phone.replace(/\D/g, '').length >= 10);
+    if (!isPhoneValid) {
+      return {
+        reminderId: params.reminderId,
+        patientId: params.patientId,
+        patientName: params.patientName,
+        phone: params.phone,
+        pushyaDate: params.pushyaDate,
+        stage: params.stage,
+        status: 'failed',
+        sentAt: sentTime,
+        messageContent: message,
+        whatsAppUrl,
+        success: false,
+        error: 'Invalid phone number format for WhatsApp delivery.',
+      };
+    }
+
+    // Live Meta Cloud API Dispatch
+    if (!params.simulateDelivery && isLiveConfigured) {
+      try {
+        const cleanDigits = params.phone.replace(/\D/g, '');
+        const nationalNumber = cleanDigits.slice(-10);
+        const countryCode = cleanDigits.length > 10 ? cleanDigits.slice(0, cleanDigits.length - 10) : '91';
+        const fullRecipient = `${countryCode}${nationalNumber}`;
+
+        console.log(`📡 [WhatsAppService] Dispatching Meta Cloud API message to +${fullRecipient}...`);
+
+        const templateName = process.env.WHATSAPP_TEMPLATE_NAME?.trim() || 'hello_world';
+        const templateLang = process.env.WHATSAPP_TEMPLATE_LANG?.trim() || 'en_US';
+
+        console.log(`📋 [WhatsAppService] Using Meta template: ${templateName} (${templateLang})`);
+        const requestBody = {
+          messaging_product: 'whatsapp',
+          recipient_type: 'individual',
+          to: fullRecipient,
+          type: 'template',
+          template: {
+            name: templateName,
+            language: { code: templateLang },
+          },
+        };
+
+        const response = await fetch(`${apiUrl}/${phoneNumberId}/messages`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        const data: any = await response.json();
+
+        if (!response.ok) {
+          const metaError = data?.error?.message || JSON.stringify(data);
+          console.error(`❌ [WhatsAppService] Meta API Error (${response.status}):`, metaError);
+          return {
+            reminderId: params.reminderId,
+            patientId: params.patientId,
+            patientName: params.patientName,
+            phone: params.phone,
+            pushyaDate: params.pushyaDate,
+            stage: params.stage,
+            status: 'failed',
+            sentAt: sentTime,
+            messageContent: message,
+            whatsAppUrl,
+            success: false,
+            error: `Meta API Error: ${metaError}`,
+          };
+        }
+
+        const messageId = data?.messages?.[0]?.id || 'unknown';
+        console.log(`✅ [WhatsAppService] Meta message dispatched successfully (ID: ${messageId})`);
+
+        return {
+          reminderId: params.reminderId,
+          patientId: params.patientId,
+          patientName: params.patientName,
+          phone: params.phone,
+          pushyaDate: params.pushyaDate,
+          stage: params.stage,
+          status: 'sent',
+          sentAt: sentTime,
+          messageContent: message,
+          whatsAppUrl,
+          success: true,
+        };
+      } catch (err: any) {
+        console.error(`💥 [WhatsAppService] Network error during Meta dispatch:`, err.message);
+        return {
+          reminderId: params.reminderId,
+          patientId: params.patientId,
+          patientName: params.patientName,
+          phone: params.phone,
+          pushyaDate: params.pushyaDate,
+          stage: params.stage,
+          status: 'failed',
+          sentAt: sentTime,
+          messageContent: message,
+          whatsAppUrl,
+          success: false,
+          error: `Network error: ${err.message}`,
+        };
+      }
+    }
+
+    // Default / Simulated / Deep Link mode (when credentials are placeholders or simulateDelivery is true)
+    console.log(`💬 [WhatsAppService] Click-to-Chat / Simulated delivery for ${params.patientName} (${params.phone})`);
     return {
       reminderId: params.reminderId,
       patientId: params.patientId,
@@ -204,12 +320,11 @@ export class WhatsAppService {
       phone: params.phone,
       pushyaDate: params.pushyaDate,
       stage: params.stage,
-      status: success ? 'sent' : 'failed',
+      status: 'sent',
       sentAt: sentTime,
       messageContent: message,
       whatsAppUrl,
-      success,
-      error: success ? undefined : 'Invalid phone number format for WhatsApp delivery.',
+      success: true,
     };
   }
 

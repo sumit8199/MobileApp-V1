@@ -55,9 +55,6 @@ export class ReminderService {
     }
     async createReminder(rawInput) {
         const dto = buildCreateReminderDto(rawInput);
-        if (!dto.messageContent) {
-            dto.messageContent = this.whatsAppService.generateMessage(dto.stage, dto.patientName, dto.pushyaDate);
-        }
         const created = await this.repository.createReminder(dto);
         await this.repository.addLog(created.id, 'REMINDER_CREATED', `Stage ${dto.stage} reminder created for ${dto.patientName} on ${dto.pushyaDate}`);
         return toReminderResponseDto(created);
@@ -79,7 +76,7 @@ export class ReminderService {
         const dto = buildWhatsAppPreviewDto(rawInput);
         return this.whatsAppService.previewMessage({
             patientName: dto.patientName || 'Reyansh Sharma',
-            phone: dto.phone || '9876543210',
+            phone: dto.phone || '8745234567',
             pushyaDate: dto.pushyaDate || '2026-07-18',
             stage: dto.stage || 1,
             clinicInfo: dto.clinicInfo,
@@ -94,8 +91,6 @@ export class ReminderService {
             const scheduledDate = dto.stage === 1
                 ? this.whatsAppService.calculateOffsetDate(dto.pushyaDate, -3)
                 : dto.pushyaDate;
-            const messageContent = dto.customMessage ||
-                this.whatsAppService.generateMessage(dto.stage, dto.patientName, dto.pushyaDate);
             reminder = await this.repository.createReminder({
                 patientId: dto.patientId,
                 patientName: dto.patientName,
@@ -103,7 +98,6 @@ export class ReminderService {
                 pushyaDate: dto.pushyaDate,
                 stage: dto.stage,
                 scheduledDate,
-                messageContent,
             });
         }
         const sendResult = await this.whatsAppService.sendWhatsApp({
@@ -227,7 +221,6 @@ export class ReminderService {
             for (const p of dto.patients) {
                 const existingStage1 = await this.repository.findByPatientDateStage(p.id, pDate, 1);
                 if (!existingStage1) {
-                    const msg1 = this.whatsAppService.generateMessage(1, p.name, pDate);
                     await this.repository.createReminder({
                         patientId: p.id,
                         patientName: p.name,
@@ -235,7 +228,6 @@ export class ReminderService {
                         pushyaDate: pDate,
                         stage: 1,
                         scheduledDate: stage1Date,
-                        messageContent: msg1,
                     });
                     createdCount++;
                 }

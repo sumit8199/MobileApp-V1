@@ -54,3 +54,17 @@ export interface WhatsAppTemplate {
   timingDescription: string;
   template: string;
 }
+
+export interface SchedulerStatus {
+  isRunning: boolean;
+  dispatchTime: string;
+  dispatchHour: number;
+  dispatchMinute: number;
+  cronExpression: string;
+  timezone: string;
+  lastRunAt: string | null;
+  lastDispatchedDate: string | null;
+  lastRunStatus: string;
+  currentTimeInZone: string;
+}
+

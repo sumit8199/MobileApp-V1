@@ -33,12 +33,39 @@
   }
 }
 
+.header-titles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .title {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
+
+.schedule-time-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: rgba(200, 161, 59, 0.2);
+  color: #785a1a;
+  border: 1px solid rgba(200, 161, 59, 0.4);
+
+  ion-icon {
+    font-size: 11px;
+    color: inherit;
+  }
+}
+
 
 .date {
   margin-left: auto;

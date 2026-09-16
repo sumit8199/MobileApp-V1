@@ -89,7 +89,7 @@ export class ReminderService {
           patients: Array.from(patientMap.values()),
         });
       }
-    } catch {}
+    } catch { }
 
     return toPushyaScheduleDto(created);
   }
@@ -122,15 +122,6 @@ export class ReminderService {
    */
   async createReminder(rawInput: any): Promise<ReminderResponseDto> {
     const dto: CreateReminderRequestDto = buildCreateReminderDto(rawInput);
-    
-    // Auto-generate WhatsApp message content if not provided
-    if (!dto.messageContent) {
-      dto.messageContent = this.whatsAppService.generateMessage(
-        dto.stage,
-        dto.patientName,
-        dto.pushyaDate
-      );
-    }
 
     const created = await this.repository.createReminder(dto);
     await this.repository.addLog(
@@ -173,7 +164,7 @@ export class ReminderService {
     const dto: WhatsAppPreviewRequestDto = buildWhatsAppPreviewDto(rawInput);
     return this.whatsAppService.previewMessage({
       patientName: dto.patientName || 'Reyansh Sharma',
-      phone: dto.phone || '9876543210',
+      phone: dto.phone || '8745234567',
       pushyaDate: dto.pushyaDate || '2026-07-18',
       stage: dto.stage || 1,
       clinicInfo: dto.clinicInfo,
@@ -197,10 +188,6 @@ export class ReminderService {
           ? this.whatsAppService.calculateOffsetDate(dto.pushyaDate, -3)
           : dto.pushyaDate;
 
-      const messageContent =
-        dto.customMessage ||
-        this.whatsAppService.generateMessage(dto.stage, dto.patientName, dto.pushyaDate);
-
       reminder = await this.repository.createReminder({
         patientId: dto.patientId,
         patientName: dto.patientName,
@@ -208,7 +195,6 @@ export class ReminderService {
         pushyaDate: dto.pushyaDate,
         stage: dto.stage,
         scheduledDate,
-        messageContent,
       });
     }
 
@@ -256,7 +242,7 @@ export class ReminderService {
    */
   async sendBulkWhatsAppReminders(rawInput: any): Promise<IWhatsAppBatchDispatchResult> {
     const dto: SendBulkWhatsAppRequestDto = buildSendBulkWhatsAppDto(rawInput);
-    
+
     // Retrieve existing scheduled reminders for this Pushya date & stage
     let reminders = await this.repository.findReminders({
       pushyaDate: dto.pushyaDate,
@@ -383,7 +369,7 @@ export class ReminderService {
    */
   async syncPatientsForPushya(dto: SyncPatientsDto): Promise<{ createdCount: number; pushyaDate: string }> {
     const pushyaList = await this.repository.getPushyaDates();
-    
+
     // If pushyaDate is 'all' or empty, enroll across all active Pushya dates
     const targetDates =
       dto.pushyaDate && dto.pushyaDate !== 'all'
@@ -400,7 +386,6 @@ export class ReminderService {
         // WhatsApp Reminder (1 day before Pushya Date)
         const existingStage1 = await this.repository.findByPatientDateStage(p.id, pDate, 1);
         if (!existingStage1) {
-          const msg1 = this.whatsAppService.generateMessage(1, p.name, pDate);
           await this.repository.createReminder({
             patientId: p.id,
             patientName: p.name,
@@ -408,7 +393,6 @@ export class ReminderService {
             pushyaDate: pDate,
             stage: 1,
             scheduledDate: stage1Date,
-            messageContent: msg1,
           });
           createdCount++;
         }

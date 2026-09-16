@@ -3,12 +3,18 @@
   <div class="header" [class.header-stage1]="isStage1" [class.header-stage2]="!isStage1">
     <ion-icon name="flash"> </ion-icon>
 
-    <p class="title">
-      {{ label() }}
-    </p>
+    <div class="header-titles">
+      <p class="title">
+        {{ label() }}
+      </p>
+      <span class="schedule-time-pill" title="Automated WhatsApp reminder fires daily at 11:00 AM">
+        <ion-icon name="time-outline"></ion-icon> 11:00 AM
+      </span>
+    </div>
 
     <span class="date"> {{ formatDate(fireDate()) }} </span>
   </div>
+
 
   <!-- List -->
   <div class="body">

@@ -10,7 +10,9 @@ import {
   ReminderStats,
   WhatsAppPreview,
   WhatsAppTemplate,
+  SchedulerStatus,
 } from '../interfaces/reminder.interface';
+
 import { ApiResponse } from '../interfaces/api-response.interface';
 import {
   ReminderResponseDto,
@@ -45,6 +47,19 @@ export class ReminderApiService {
   });
   public isLoading = signal<boolean>(false);
   public isDatabaseConnected = signal<boolean>(false);
+  public schedulerStatus = signal<SchedulerStatus | null>({
+    isRunning: true,
+    dispatchTime: '11:00 AM',
+    dispatchHour: 11,
+    dispatchMinute: 0,
+    cronExpression: '0 11 * * *',
+    timezone: 'Asia/Kolkata',
+    lastRunAt: null,
+    lastDispatchedDate: null,
+    lastRunStatus: 'Active (Scheduled daily at 11:00 AM Asia/Kolkata)',
+    currentTimeInZone: '',
+  });
+
 
   // Dynamic next upcoming Pushya schedule based on current date
   public upcomingPushya = computed<PushyaSchedule | null>(() => {
@@ -412,4 +427,35 @@ export class ReminderApiService {
         catchError(() => of([]))
       );
   }
+
+  /**
+   * Loads the current 11:00 AM WhatsApp scheduler status from backend.
+   */
+  public loadSchedulerStatus(): Observable<SchedulerStatus | null> {
+    return this.http
+      .get<ApiResponse<SchedulerStatus>>(`${this.apiUrl}/scheduler/status`)
+      .pipe(
+        map((res) => {
+          if (res.data) {
+            this.schedulerStatus.set(res.data);
+            return res.data;
+          }
+          return this.schedulerStatus();
+        }),
+        catchError(() => of(this.schedulerStatus()))
+      );
+  }
+
+  /**
+   * Triggers the scheduler evaluation manually for today (or a specific date).
+   */
+  public triggerScheduler(targetDate?: string, force = true): Observable<any> {
+    return this.http
+      .post<ApiResponse<any>>(`${this.apiUrl}/scheduler/trigger`, { targetDate, force })
+      .pipe(
+        map((res) => res.data),
+        catchError(() => of(null))
+      );
+  }
 }
+

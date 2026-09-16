@@ -5,13 +5,14 @@ import app from './app.js';
 import { appConfig } from './config/db.config.js';
 import { connectSqlServer, closeSqlServer } from './database/sql-connection.js';
 import { ReminderService } from './services/reminder.service.js';
-import { SchedulerService } from './services/scheduler.service.js';
+import { SchedulerService, getSchedulerService } from './services/scheduler.service.js';
 
 const PORT = appConfig.port || 5002;
 const server = http.createServer(app);
 
 const reminderService = new ReminderService();
-const schedulerService = new SchedulerService(reminderService);
+const schedulerService = getSchedulerService(reminderService);
+
 
 export default function main(port: number = PORT) {
   server.listen(port, () => {

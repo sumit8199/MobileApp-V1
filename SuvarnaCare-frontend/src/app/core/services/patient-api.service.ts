@@ -18,6 +18,7 @@ import {
   buildAddSessionHistoryDto,
   calculateAge,
 } from '../dto/dto-builders';
+import { AuthService } from './auth.service';
 
 export interface PatientQueryOptions {
   search?: string;
@@ -31,6 +32,7 @@ export interface PatientQueryOptions {
 })
 export class PatientApiService {
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
   private apiUrl = environment.patientApiUrl || 'http://localhost:5001/api/patients';
 
   // Reactive State Signals
@@ -43,7 +45,11 @@ export class PatientApiService {
   public isDatabaseConnected = signal<boolean>(false);
   public lastError = signal<string | null>(null);
 
-  // Initial clean fallback mock data
+  public get currentDoctorId(): string {
+    return this.authService.currentUser()?.id || 'usr_demo_001';
+  }
+
+  // Initial clean fallback mock data (assigned to default demo doctor)
   private mockPatients: Patient[] = [
     {
       id: '1',
@@ -52,6 +58,7 @@ export class PatientApiService {
       age: '2 yrs',
       phone: '9876543210',
       registrationDate: '2026-02-15',
+      doctorId: 'usr_demo_001',
       history: {
         '2026-06-21': {
           sessionDate: '2026-06-21',
@@ -78,6 +85,7 @@ export class PatientApiService {
       age: '18 mo',
       phone: '9876543211',
       registrationDate: '2026-04-10',
+      doctorId: 'usr_demo_001',
       history: {
         '2026-06-21': {
           sessionDate: '2026-06-21',
@@ -96,6 +104,7 @@ export class PatientApiService {
       age: '3 yrs',
       phone: '9876543212',
       registrationDate: '2026-03-20',
+      doctorId: 'usr_demo_001',
       history: {},
     },
     {
@@ -105,6 +114,7 @@ export class PatientApiService {
       age: '8 mo',
       phone: '9876543213',
       registrationDate: '2026-05-05',
+      doctorId: 'usr_demo_001',
       history: {
         '2026-06-21': {
           sessionDate: '2026-06-21',
@@ -131,16 +141,26 @@ export class PatientApiService {
       age: '2.5 yrs',
       phone: '9876543214',
       registrationDate: '2026-06-12',
+      doctorId: 'usr_demo_001',
       history: {},
     },
   ];
 
   constructor() {
-    const initial = this.mockPatients.map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
+    this.resetForDoctor();
+  }
+
+  public resetForDoctor(): void {
+    const docId = this.currentDoctorId;
+    const initial = this.mockPatients
+      .filter((p) => p.doctorId === docId || (!p.doctorId && docId === 'usr_demo_001'))
+      .map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
     this.patients.set(initial);
     this.totalPatients.set(initial.length);
     this.totalPages.set(Math.ceil(initial.length / 5) || 1);
+    this.currentPage.set(1);
   }
+
 
   /**
    * Loads all patients via HTTP GET /api/patients with optional search filter and server-side pagination.
@@ -213,7 +233,11 @@ export class PatientApiService {
         this.isLoading.set(false);
         this.lastError.set(err.message);
 
-        let filtered = [...this.mockPatients].map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
+        const docId = this.currentDoctorId;
+        let filtered = this.mockPatients
+          .filter((p) => p.doctorId === docId || (!p.doctorId && docId === 'usr_demo_001'))
+          .map((p) => ({ ...p, age: calculateAge(p.birthDate) }));
+
         if (query.search && query.search.trim()) {
           const q = query.search.toLowerCase().trim();
           filtered = filtered.filter(
@@ -263,7 +287,12 @@ export class PatientApiService {
    */
   public createPatient(form: PatientForm, nextPushyaDate?: string): Observable<Patient> {
     this.isLoading.set(true);
-    const dto: CreatePatientRequestDto = buildCreatePatientDto(form, nextPushyaDate);
+    const docId = this.currentDoctorId;
+    const formWithDoctor: PatientForm = {
+      ...form,
+      doctorId: form.doctorId || docId,
+    };
+    const dto: CreatePatientRequestDto = buildCreatePatientDto(formWithDoctor, nextPushyaDate);
 
     return this.http.post<ApiResponse<PatientResponseDto>>(this.apiUrl, dto).pipe(
       map((res) => {
@@ -283,6 +312,7 @@ export class PatientApiService {
           age: calculateAge(dto.birthDate || ''),
           phone: dto.phone,
           registrationDate: dto.registrationDate || new Date().toISOString().split('T')[0],
+          doctorId: docId,
           history: {},
         };
         this.mockPatients.unshift(fallbackPatient);
@@ -291,6 +321,7 @@ export class PatientApiService {
       })
     );
   }
+
 
   /**
    * Updates patient details via HTTP PUT /api/patients/:id.
