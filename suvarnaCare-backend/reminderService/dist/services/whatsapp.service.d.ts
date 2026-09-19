@@ -26,4 +26,9 @@ export declare class WhatsAppService {
         clinicInfo?: Partial<IClinicInfo>;
     }): Promise<IWhatsAppSendResult>;
     calculateOffsetDate(dateStr: string, offsetDays: number): string;
+    verifyWebhook(mode?: string, token?: string, challenge?: string): {
+        success: boolean;
+        challenge?: string;
+    };
+    processWebhookEvent(body: any, repository?: any): Promise<void>;
 }

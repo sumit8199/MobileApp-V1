@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import reminderRoutes from './routes/reminder.routes.js';
+import { ReminderController } from './controllers/reminder.controller.js';
 import { isSqlConnected } from './database/sql-connection.js';
 const app = express();
+const reminderController = new ReminderController();
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -30,6 +32,8 @@ app.get('/health', (_req, res) => {
     });
 });
 app.use('/api/reminders', reminderRoutes);
+app.get('/webhook', reminderController.verifyWhatsAppWebhook);
+app.post('/webhook', reminderController.handleWhatsAppWebhook);
 app.use((_req, res) => {
     res.status(404).json({
         success: false,

@@ -3,6 +3,8 @@ import { ReminderController } from '../controllers/reminder.controller.js';
 import { authenticateJwt } from '../middlewares/auth.middleware.js';
 const router = Router();
 const controller = new ReminderController();
+router.get('/webhook', controller.verifyWhatsAppWebhook);
+router.post('/webhook', controller.handleWhatsAppWebhook);
 router.use(authenticateJwt);
 router.get('/health/db', controller.healthCheck);
 router.get('/pushya-dates', controller.getPushyaDates);

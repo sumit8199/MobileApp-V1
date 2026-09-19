@@ -23,5 +23,7 @@ export declare class ReminderController {
     syncPatients: (req: Request, res: Response) => Promise<void>;
     getSchedulerStatus: (_req: Request, res: Response) => Promise<void>;
     triggerScheduler: (req: Request, res: Response) => Promise<void>;
+    verifyWhatsAppWebhook: (req: Request, res: Response) => void;
+    handleWhatsAppWebhook: (req: Request, res: Response) => Promise<void>;
     healthCheck: (_req: Request, res: Response) => Promise<void>;
 }

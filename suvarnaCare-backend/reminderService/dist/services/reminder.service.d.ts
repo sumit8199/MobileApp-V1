@@ -33,5 +33,10 @@ export declare class ReminderService {
         createdCount: number;
         pushyaDate: string;
     }>;
+    verifyWhatsAppWebhook(mode?: string, token?: string, challenge?: string): {
+        success: boolean;
+        challenge?: string;
+    };
+    processWhatsAppWebhook(body: any): Promise<void>;
     private getTodayDateString;
 }

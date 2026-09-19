@@ -5,8 +5,16 @@ import { authenticateJwt } from '../middlewares/auth.middleware.js';
 const router = Router();
 const controller = new ReminderController();
 
-// Protect every API endpoint with JWT verification middleware
+// =========================================================================
+// Meta WhatsApp Webhook Endpoints (PUBLIC - NO JWT REQUIRED)
+// Meta sends GET for subscription verification and POST for delivery events
+// =========================================================================
+router.get('/webhook', controller.verifyWhatsAppWebhook);
+router.post('/webhook', controller.handleWhatsAppWebhook);
+
+// Protect subsequent API endpoints with JWT verification middleware
 router.use(authenticateJwt);
+
 
 // Health Check
 router.get('/health/db', controller.healthCheck);
