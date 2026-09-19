@@ -235,6 +235,12 @@ export class ReminderService {
         }
         return { createdCount, pushyaDate: dto.pushyaDate || 'all' };
     }
+    verifyWhatsAppWebhook(mode, token, challenge) {
+        return this.whatsAppService.verifyWebhook(mode, token, challenge);
+    }
+    async processWhatsAppWebhook(body) {
+        await this.whatsAppService.processWebhookEvent(body, this.repository);
+    }
     getTodayDateString() {
         const now = new Date();
         const yyyy = now.getFullYear();

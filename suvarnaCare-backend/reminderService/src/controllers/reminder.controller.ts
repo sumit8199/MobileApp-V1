@@ -295,6 +295,48 @@ export class ReminderController {
   };
 
   /**
+   * GET /api/reminders/webhook
+   * Meta WhatsApp Webhook Verification Handshake
+   */
+  verifyWhatsAppWebhook = (req: Request, res: Response): void => {
+    try {
+      const mode = req.query['hub.mode'] as string | undefined;
+      const token = req.query['hub.verify_token'] as string | undefined;
+      const challenge = req.query['hub.challenge'] as string | undefined;
+
+      const result = this.service.verifyWhatsAppWebhook(mode, token, challenge);
+      if (result.success && result.challenge) {
+        console.log('✅ [Meta Webhook] Webhook verified successfully by Meta challenge!');
+        res.status(200).send(result.challenge);
+      } else {
+        console.warn('❌ [Meta Webhook] Verification failed. Token or mode mismatch.');
+        res.sendStatus(403);
+      }
+    } catch (error: any) {
+      console.error('💥 [Meta Webhook Verification Error]:', error.message);
+      res.sendStatus(500);
+    }
+  };
+
+  /**
+   * POST /api/reminders/webhook
+   * Meta WhatsApp Webhook Event Receiver (Status Updates & Messages)
+   */
+  handleWhatsAppWebhook = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const body = req.body;
+      console.log('📩 [Meta Webhook] Received event notification');
+      await this.service.processWhatsAppWebhook(body);
+      // Meta requires immediate 200 OK response
+      res.status(200).send('EVENT_RECEIVED');
+    } catch (error: any) {
+      console.error('💥 [Meta Webhook Event Error]:', error.message);
+      // Return 200 to acknowledge receipt and prevent endless webhook retries from Meta
+      res.status(200).send('EVENT_RECEIVED');
+    }
+  };
+
+  /**
    * GET /api/reminders/health/db
    */
   healthCheck = async (_req: Request, res: Response): Promise<void> => {
@@ -310,4 +352,5 @@ export class ReminderController {
     });
   };
 }
+
 

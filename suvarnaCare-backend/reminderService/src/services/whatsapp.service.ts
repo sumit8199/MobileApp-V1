@@ -345,4 +345,76 @@ export class WhatsAppService {
     } catch { }
     return dateStr;
   }
+
+  /**
+   * Verifies Meta Cloud API Webhook handshake challenge.
+   */
+  verifyWebhook(mode?: string, token?: string, challenge?: string): { success: boolean; challenge?: string } {
+    const expectedToken = (process.env.WHATSAPP_VERIFY_TOKEN || 'suvarnacare_webhook_secret_2026').trim();
+    if (mode === 'subscribe' && token && token.trim() === expectedToken) {
+      return { success: true, challenge };
+    }
+    return { success: false };
+  }
+
+  /**
+   * Handles incoming Meta WhatsApp Webhook events (delivery receipts, message status, and user replies).
+   */
+  async processWebhookEvent(body: any, repository?: any): Promise<void> {
+    if (!body || body.object !== 'whatsapp_business_account') {
+      return;
+    }
+
+    const entries = body.entry || [];
+    for (const entry of entries) {
+      const changes = entry.changes || [];
+      for (const change of changes) {
+        const value = change.value;
+        if (!value) continue;
+
+        // 1. Message Status Updates (sent, delivered, read, failed)
+        if (Array.isArray(value.statuses)) {
+          for (const statusObj of value.statuses) {
+            const { id: messageId, status, recipient_id, timestamp, errors } = statusObj;
+            console.log(`📊 [Meta Webhook Status] Message ${messageId} to ${recipient_id} -> ${status?.toUpperCase()} (timestamp: ${timestamp})`);
+            if (errors && errors.length > 0) {
+              console.warn(`⚠️ [Meta Webhook Status Error]:`, JSON.stringify(errors));
+            }
+            if (repository && typeof repository.addLog === 'function') {
+              try {
+                await repository.addLog(
+                  'SYSTEM',
+                  `WHATSAPP_MSG_${(status || 'UNKNOWN').toUpperCase()}`,
+                  `Recipient: ${recipient_id}, Status: ${status}, MsgId: ${messageId}`
+                );
+              } catch (logErr: any) {
+                console.warn('⚠️ [WhatsAppService] Failed to record webhook audit log:', logErr.message);
+              }
+            }
+          }
+        }
+
+        // 2. Incoming messages from users
+        if (Array.isArray(value.messages)) {
+          for (const msg of value.messages) {
+            const { from, id: messageId, type, text, timestamp } = msg;
+            const messageBody = type === 'text' ? text?.body : `[${type} message]`;
+            console.log(`💬 [Meta Webhook Incoming Message] From ${from} (MsgId: ${messageId}): "${messageBody}" at ${timestamp}`);
+            if (repository && typeof repository.addLog === 'function') {
+              try {
+                await repository.addLog(
+                  'SYSTEM',
+                  'WHATSAPP_INCOMING_MESSAGE',
+                  `From: ${from}, Content: ${messageBody}, MsgId: ${messageId}`
+                );
+              } catch (logErr: any) {
+                console.warn('⚠️ [WhatsAppService] Failed to record incoming message log:', logErr.message);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
+

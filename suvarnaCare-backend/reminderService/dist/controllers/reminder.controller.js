@@ -201,6 +201,38 @@ export class ReminderController {
             res.status(500).json(buildApiResponse(null, error.message, false, isSqlConnected()));
         }
     };
+    verifyWhatsAppWebhook = (req, res) => {
+        try {
+            const mode = req.query['hub.mode'];
+            const token = req.query['hub.verify_token'];
+            const challenge = req.query['hub.challenge'];
+            const result = this.service.verifyWhatsAppWebhook(mode, token, challenge);
+            if (result.success && result.challenge) {
+                console.log('✅ [Meta Webhook] Webhook verified successfully by Meta challenge!');
+                res.status(200).send(result.challenge);
+            }
+            else {
+                console.warn('❌ [Meta Webhook] Verification failed. Token or mode mismatch.');
+                res.sendStatus(403);
+            }
+        }
+        catch (error) {
+            console.error('💥 [Meta Webhook Verification Error]:', error.message);
+            res.sendStatus(500);
+        }
+    };
+    handleWhatsAppWebhook = async (req, res) => {
+        try {
+            const body = req.body;
+            console.log('📩 [Meta Webhook] Received event notification');
+            await this.service.processWhatsAppWebhook(body);
+            res.status(200).send('EVENT_RECEIVED');
+        }
+        catch (error) {
+            console.error('💥 [Meta Webhook Event Error]:', error.message);
+            res.status(200).send('EVENT_RECEIVED');
+        }
+    };
     healthCheck = async (_req, res) => {
         const connected = isSqlConnected();
         res.status(200).json({

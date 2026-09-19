@@ -1193,6 +1193,20 @@
   ],
   "logs": [
     {
+      "reminderId": "SYSTEM",
+      "eventType": "WHATSAPP_INCOMING_MESSAGE",
+      "status": "WHATSAPP_INCOMING_MESSAGE",
+      "details": "From: 919876543210, Content: Yes, we will visit tomorrow at 10 AM for Suvarna Prashan drops., MsgId: wamid.HBgLMzkxOTg3NjU0MzIxMBICABEYEjA4MjcwMzg5RDA4RDg5MjAA",
+      "eventTime": "2026-09-19T10:25:12.301Z"
+    },
+    {
+      "reminderId": "SYSTEM",
+      "eventType": "WHATSAPP_MSG_DELIVERED",
+      "status": "WHATSAPP_MSG_DELIVERED",
+      "details": "Recipient: 919876543210, Status: delivered, MsgId: wamid.HBgLMzkxOTc2Nzk3NjEzNhUCABEYEkVBQVR6b1ZGMjRQVUJTZUpvWgA=",
+      "eventTime": "2026-09-19T10:22:14.233Z"
+    },
+    {
       "reminderId": "rem-5-20260718-s1",
       "eventType": "WHATSAPP_BATCH_FAILED",
       "status": "WHATSAPP_BATCH_FAILED",

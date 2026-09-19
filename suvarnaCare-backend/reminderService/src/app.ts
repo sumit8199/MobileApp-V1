@@ -2,9 +2,12 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import reminderRoutes from './routes/reminder.routes.js';
+import { ReminderController } from './controllers/reminder.controller.js';
 import { isSqlConnected } from './database/sql-connection.js';
 
 const app: Application = express();
+const reminderController = new ReminderController();
+
 
 // Comprehensive CORS setup allowing any local development port
 app.use(
@@ -41,6 +44,13 @@ app.get('/health', (_req: Request, res: Response): void => {
 
 // Modular endpoint groups
 app.use('/api/reminders', reminderRoutes);
+
+// Meta Webhook root-level aliases (supports both /webhook and /api/reminders/webhook)
+app.get('/webhook', reminderController.verifyWhatsAppWebhook);
+app.post('/webhook', reminderController.handleWhatsAppWebhook);
+
+
+
 
 // 404 Handler
 app.use((_req: Request, res: Response): void => {

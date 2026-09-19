@@ -402,6 +402,20 @@ export class ReminderService {
     return { createdCount, pushyaDate: dto.pushyaDate || 'all' };
   }
 
+  /**
+   * Verifies incoming webhook challenge token from Meta Cloud API.
+   */
+  verifyWhatsAppWebhook(mode?: string, token?: string, challenge?: string): { success: boolean; challenge?: string } {
+    return this.whatsAppService.verifyWebhook(mode, token, challenge);
+  }
+
+  /**
+   * Processes incoming webhook payload from Meta WhatsApp Cloud API.
+   */
+  async processWhatsAppWebhook(body: any): Promise<void> {
+    await this.whatsAppService.processWebhookEvent(body, this.repository);
+  }
+
   private getTodayDateString(): string {
     const now = new Date();
     const yyyy = now.getFullYear();
@@ -410,3 +424,4 @@ export class ReminderService {
     return `${yyyy}-${mm}-${dd}`;
   }
 }
+
